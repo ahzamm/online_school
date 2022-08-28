@@ -1,4 +1,7 @@
 """create our models here."""
+# TODO
+# create seperate proxy model for admin
+
 
 from django.contrib.auth.models import (AbstractBaseUser, AbstractUser,
                                         BaseUserManager)
@@ -6,14 +9,19 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
+from django.db import models
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+
+#  Custom User Manager
+
+
 class UserManager(BaseUserManager):
-    def create_user(self, email, name, password=None, **kwargs):
+    def create_user(self, email, name, password=None, password2=None):
         """
-        Creates and saves a User with the given email, date of
-        birth and password.
+        Creates and saves a User with the given email, name, tc and password.
         """
         if not email:
-            raise ValueError('Users must have an email address')
+            raise ValueError('User must have an email address')
 
         user = self.model(
             email=self.normalize_email(email),
@@ -26,8 +34,7 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, email, name, password=None):
         """
-        Creates and saves a superuser with the given email, date of
-        birth and password.
+        Creates and saves a superuser with the given email, name, tc and password.
         """
         user = self.create_user(
             email,
@@ -40,14 +47,23 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
+
+    class Type(models.TextChoices):
+        STUDENT = "STUDENT", 'Student'
+        TEACHER = "TEACHER", 'Teacher'
+        ADMIN = "ADMIN", 'Admin'
+
+    type = models.CharField(_('Type'), max_length=50,
+                            choices=Type.choices, default=Type.ADMIN)
+
     email = models.EmailField(
-        verbose_name='email address',
+        verbose_name='Email',
         max_length=255,
         unique=True,
     )
     name = models.CharField(max_length=200)
     is_active = models.BooleanField(default=True)
-    # is_admin = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -76,55 +92,19 @@ class User(AbstractBaseUser):
         return self.is_admin
 
 
-class User(AbstractUser):
-    """Create custom User model."""
-
-    class Type(models.TextChoices):
-        """Choices for our user default: Admin."""
-
-        STUDENT = "STUDENT", 'Student'
-        TEACHER = "TEACHER", 'Teacher'
-        ADMIN = "ADMIN", 'Admin'
-
-    type = models.CharField(_('Type'), max_length=50,
-                            choices=Type.choices, default=Type.ADMIN)
-
-    name = models.CharField(_("Name of User"), blank=True, max_length=255)
-
-    # def get_absolute_url(self):
-    #     return reverse("user:detail", kwargs={"username": self.username})
-
-    # def user_greet(self):
-    #     return "Hi from USER"
-
-
-class AdminManager(models.Manager):
-
-    def get_queryset(self, *args, **kwargs):
-        return super().get_queryset(*args, **kwargs).filter(type=User.Type.ADMIN)
-
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.type = User.Type.ADMIN
-
-
 class TeacherManager(models.Manager):
 
     def get_queryset(self, *args, **kwargs):
         return super().get_queryset(*args, **kwargs).filter(type=User.Type.TEACHER)
-
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.type = User.Type.TEACHER
 
 
 class StudentManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
         return super().get_queryset(*args, **kwargs).filter(type=User.Type.STUDENT)
 
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.type = User.Type.STUDENT
+
+class TeacherMore(models.Model):
+    salary = models.IntegerField()
 
 
 class StudentMore(models.Model):
@@ -140,18 +120,6 @@ class StudentMore(models.Model):
                              choices=Grade.choices)
 
 
-class Admin(User):
-    """Model for our database admin."""
-
-    objects = AdminManager()
-
-    class Meta:
-        proxy = True
-
-    def admin_greet(self):
-        return "Hi from ADMIN"
-
-
 class Teacher(User):
     """Model for our Teachers."""
 
@@ -160,14 +128,29 @@ class Teacher(User):
     class Meta:
         proxy = True
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.type = User.Type.TEACHER
+        return super().save(*args, **kwargs)
+
+    @property
+    def more(self):
+        return self.teachermore
+
 
 class Student(User):
+
     """Model for our Students."""
 
     objects = StudentManager()
 
     class Meta:
         proxy = True
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.type = User.Type.STUDENT
+        return super().save(*args, **kwargs)
 
     @property
     def more(self):
