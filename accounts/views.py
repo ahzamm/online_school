@@ -3,12 +3,30 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from accounts.serializers import UserRegisterationSerializer
+from accounts.serializers import (AdminRegisterationSerializer,
+                                  StudentRegisterationSerializer,
+                                  TeacherRegisterationSerializer)
 
 
-class UserRegisterationView(APIView):
+class AdminRegisterationView(APIView):
     def post(self, request):
-        serializer = UserRegisterationSerializer(data=request.data)
+        serializer = AdminRegisterationSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'msg': 'Registeration Success'}, status=201)
+
+
+class TeacherRegisterationView(APIView):
+    def post(self, request):
+        serializer = TeacherRegisterationSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'msg': 'Registeration Success'}, status=201)
+
+
+class StudentRegisterationView(APIView):
+    def post(self, request):
+        serializer = StudentRegisterationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'msg': 'Registeration Success'}, status=201)

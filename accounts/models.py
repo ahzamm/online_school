@@ -14,7 +14,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, name, password=None, **kwargs):
+    def create_user(self, email, name, password=None, password2=None):
         """
         Creates and saves a User with the given email, name, tc and password.
         """
@@ -94,25 +94,67 @@ class User(AbstractBaseUser):
         return self.is_admin
 
 
-class AdminManager(models.Manager):
+class AdminManager(BaseUserManager):
 
     def get_queryset(self, *args, **kwargs):
         return super().get_queryset(*args, **kwargs).filter(
             type=User.Type.ADMIN)
 
+    def create_user(self, email, name, password=None, **kwargs):
+        if not email:
+            raise ValueError('User must have an email address')
 
-class TeacherManager(models.Manager):
+        user = self.model(
+            email=self.normalize_email(email),
+            name=name,
+            type=User.Type.ADMIN
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+
+class TeacherManager(BaseUserManager):
 
     def get_queryset(self, *args, **kwargs):
         return super().get_queryset(*args, **kwargs).filter(
             type=User.Type.TEACHER)
 
+    def create_user(self, email, name, password=None, **kwargs):
+        if not email:
+            raise ValueError('User must have an email address')
 
-class StudentManager(models.Manager):
+        user = self.model(
+            email=self.normalize_email(email),
+            name=name,
+            type=User.Type.TEACHER
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+
+class StudentManager(BaseUserManager):
 
     def get_queryset(self, *args, **kwargs):
         return super().get_queryset(*args, **kwargs).filter(
             type=User.Type.STUDENT)
+
+    def create_user(self, email, name, password=None, **kwargs):
+        if not email:
+            raise ValueError('User must have an email address')
+
+        user = self.model(
+            email=self.normalize_email(email),
+            name=name,
+            type=User.Type.STUDENT
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
 
 class TeacherMore(models.Model):
