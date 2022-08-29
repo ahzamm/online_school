@@ -14,7 +14,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class UserManager(BaseUserManager):
-    def create(self, email, name, password=None, **kwargs):
+    def create_user(self, email, name, password=None, **kwargs):
         """
         Creates and saves a User with the given email, name, tc and password.
         """
@@ -39,7 +39,6 @@ class UserManager(BaseUserManager):
             password=password,
             name=name,
         )
-        user.type = User.Type.SUPER
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -57,7 +56,7 @@ class User(AbstractBaseUser):
                           editable=False, unique=True)
 
     type = models.CharField(_('Type'), max_length=50,
-                            choices=Type.choices, default=Type.SUPER)
+                            choices=Type.choices)
 
     email = models.EmailField(
         verbose_name='Email',
@@ -134,7 +133,8 @@ class StudentMore(models.Model):
 
 
 class Admin(User):
-    """Model for our Teachers."""
+
+    objects = AdminManager()
 
     class Meta:
         proxy = True
@@ -164,8 +164,6 @@ class Teacher(User):
 
 
 class Student(User):
-
-    """Model for our Students."""
 
     objects = StudentManager()
 

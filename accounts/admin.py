@@ -100,7 +100,7 @@ class StudentModelAdmin(BaseUserAdmin):
 
 
 # Now register the new UserModelAdmin...
-admin.site.register(User, UserModelAdmin)
+admin.site.register(User)
 admin.site.register(Admin, AdminModelAdmin)
-admin.site.register(Teacher, TeacherModelAdmin)
+admin.site.register(Teacher)
 admin.site.register(Student, StudentModelAdmin)
