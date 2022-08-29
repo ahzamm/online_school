@@ -1,9 +1,9 @@
 {
-    "python.linting.enabled": false,
-    "python.linting.pylintEnabled": true,
-    "python.linting.banditEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.banditEnabled": false,
     "python.linting.flake8Enabled": true,
-    "python.linting.pydocstyleEnabled": true,
-    "python.linting.pycodestyleEnabled": true,
-    "python.linting.mypyEnabled": true
+    "python.linting.pydocstyleEnabled": false,
+    "python.linting.pycodestyleEnabled": false,
+    "python.linting.mypyEnabled": false
 }

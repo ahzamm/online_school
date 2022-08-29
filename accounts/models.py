@@ -1,22 +1,20 @@
 """create our models here."""
 # TODO
 # create seperate proxy model for admin
+# make password compalsory for every user type
 
 
-from django.contrib.auth.models import (AbstractBaseUser, AbstractUser,
-                                        BaseUserManager)
+import uuid
+
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-
-from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 #  Custom User Manager
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, name, password=None, password2=None):
+    def create(self, email, name, password=None, **kwargs):
         """
         Creates and saves a User with the given email, name, tc and password.
         """
@@ -32,15 +30,16 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, name, password=None):
+    def create_superuser(self, email, name, password=None, **kwargs):
         """
-        Creates and saves a superuser with the given email, name, tc and password.
+        Creates and saves a superuser with the given email, name and password.
         """
-        user = self.create_user(
+        user = self.create(
             email,
             password=password,
             name=name,
         )
+        user.type = User.Type.SUPER
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -52,9 +51,13 @@ class User(AbstractBaseUser):
         STUDENT = "STUDENT", 'Student'
         TEACHER = "TEACHER", 'Teacher'
         ADMIN = "ADMIN", 'Admin'
+        SUPER = "SUPER", 'Super'
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+                          editable=False, unique=True)
 
     type = models.CharField(_('Type'), max_length=50,
-                            choices=Type.choices, default=Type.ADMIN)
+                            choices=Type.choices, default=Type.SUPER)
 
     email = models.EmailField(
         verbose_name='Email',
@@ -92,15 +95,25 @@ class User(AbstractBaseUser):
         return self.is_admin
 
 
+class AdminManager(models.Manager):
+
+    def get_queryset(self, *args, **kwargs):
+        return super().get_queryset(*args, **kwargs).filter(
+            type=User.Type.ADMIN)
+
+
 class TeacherManager(models.Manager):
 
     def get_queryset(self, *args, **kwargs):
-        return super().get_queryset(*args, **kwargs).filter(type=User.Type.TEACHER)
+        return super().get_queryset(*args, **kwargs).filter(
+            type=User.Type.TEACHER)
 
 
 class StudentManager(models.Manager):
+
     def get_queryset(self, *args, **kwargs):
-        return super().get_queryset(*args, **kwargs).filter(type=User.Type.STUDENT)
+        return super().get_queryset(*args, **kwargs).filter(
+            type=User.Type.STUDENT)
 
 
 class TeacherMore(models.Model):
@@ -118,6 +131,18 @@ class StudentMore(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     grade = models.CharField(_('Grade'), max_length=50,
                              choices=Grade.choices)
+
+
+class Admin(User):
+    """Model for our Teachers."""
+
+    class Meta:
+        proxy = True
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.type = User.Type.ADMIN
+        return super().save(*args, **kwargs)
 
 
 class Teacher(User):
