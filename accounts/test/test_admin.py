@@ -99,3 +99,7 @@ def test_admin_registeration_success(client):
     assert response_content == {
         "msg": "Registeration Success"
     }
+
+
+def test_failed():
+    assert 1 == 2
