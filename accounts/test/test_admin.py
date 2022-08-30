@@ -84,3 +84,18 @@ def test_create_account():
     assert data.email == 'admin@test.com'
     assert data.check_password('1234')
     assert data.type == 'ADMIN'
+
+
+def test_admin_registeration_success(client):
+    data = {
+        'name': 'Admin',
+        'email': 'admin@example.com',
+        'password': '1234',
+        'password2': '1234'
+    }
+    response = client.post(url, data)
+    response_content = json.loads(response.content)
+    assert response.status_code == 201
+    assert response_content == {
+        "msg": "Registeration Success"
+    }
