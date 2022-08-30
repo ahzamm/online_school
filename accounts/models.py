@@ -136,7 +136,7 @@ class StudentManager(BaseUserManager):
         return super().get_queryset(*args, **kwargs).filter(
             type=User.Type.STUDENT)
 
-    def create_user(self, email, name, password=None, **kwargs):
+    def create_user(self, email=None, name=None, password=None, **kwargs):
         if not email:
             raise ValueError('User must have an email address')
 
