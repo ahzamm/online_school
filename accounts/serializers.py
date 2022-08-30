@@ -1,5 +1,4 @@
 from rest_framework import serializers
-import datetime
 from accounts.models import Admin, Student, Teacher, User
 
 
