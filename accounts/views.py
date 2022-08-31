@@ -1,9 +1,11 @@
 
 
+from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from accounts.serializers import (AdminRegisterationSerializer,
+from accounts.serializers import (AdminLoginSerializer,
+                                  AdminRegisterationSerializer,
                                   StudentRegisterationSerializer,
                                   TeacherRegisterationSerializer)
 
@@ -32,6 +34,14 @@ class StudentRegisterationView(APIView):
         return Response({'msg': 'Registeration Success'}, status=201)
 
 
-class UserLoginView(APIView):
+class AdminLoginView(APIView):
     def post(self, request):
-        return Response({'msg': 'Login Success'}, status=200)
+        serializer = AdminLoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.data.get('email')
+        password = serializer.data.get('password')
+        user = authenticate(email=email, password=password)
+        if user is not None:
+            return Response({'msg': 'Login Success'}, status=200)
+        return Response({'error': {'non_field_error': ['Email or Password is not Valid']}},
+                        status=400)
