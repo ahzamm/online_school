@@ -23,11 +23,11 @@ urlpatterns = [
          name='Student_Login'),
 
     path('admin-profile/', AdminProfileView.as_view(),
-         name='Admin_Login'),
+         name='Admin_Profile'),
     path('teacher-profile/', AdminProfileView.as_view(),
-         name='Teacher_Login'),
+         name='Teacher_Profile'),
     path('student-profile/', AdminProfileView.as_view(),
-         name='Student_Login'),
+         name='Student_Profile'),
 
 
     path('admin-change-password/', AdminChangePasswordView.as_view(),
