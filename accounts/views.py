@@ -1,15 +1,18 @@
 
 
 from django.contrib.auth import authenticate
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from accounts.serializers import (AdminLoginSerializer,
+from accounts.serializers import (AdminLoginSerializer, AdminProfileSerializer,
                                   AdminRegisterationSerializer,
                                   StudentLoginSerializer,
+                                  StudentProfileSerializer,
                                   StudentRegisterationSerializer,
                                   TeacherLoginSerializer,
+                                  TeacherProfileSerializer,
                                   TeacherRegisterationSerializer)
 
 
@@ -96,3 +99,30 @@ class StudentLoginView(APIView):
             return Response({'msg': 'Login Success', 'token': token}, status=200)
         return Response({'error': {'non_field_error': ['Email or Password is not Valid']}},
                         status=400)
+
+
+# ======================= Profile view =======================
+
+
+class AdminProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = AdminProfileSerializer(request.user)
+        return Response(serializer.data, status=200)
+
+
+class TeacherProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = TeacherProfileSerializer(request.user)
+        return Response(serializer.data, status=200)
+
+
+class StudentProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = StudentProfileSerializer(request.user)
+        return Response(serializer.data, status=200)
