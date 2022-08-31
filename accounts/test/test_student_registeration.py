@@ -1,9 +1,9 @@
 import json
+from unittest.mock import patch
 
 import pytest
 from accounts.models import Student
 from django.urls import reverse
-
 
 url = reverse('Student_Register')
 pytestmark = pytest.mark.django_db
@@ -71,7 +71,12 @@ def test_with_wrong_data(client):
     }
 
 
-def test_registeration_success(client):
+@patch('accounts.views.get_tokens_for_user')
+def test_registeration_success(patch_token, client):
+    patch_token.return_value = {
+        "refresh": "DummyRefreshToken",
+        "access": "DummyAccessToken"
+    }
     data = {
         'name': 'Student',
         'email': 'student@example.com',
@@ -82,5 +87,9 @@ def test_registeration_success(client):
     response_content = json.loads(response.content)
     assert response.status_code == 201
     assert response_content == {
-        "msg": "Registeration Success"
+        "msg": "Registeration Success",
+        "token": {
+            "refresh": "DummyRefreshToken",
+            "access": "DummyAccessToken"
+        }
     }

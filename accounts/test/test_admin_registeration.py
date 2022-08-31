@@ -1,9 +1,9 @@
 import json
+from unittest.mock import patch
 
 import pytest
 from accounts.models import Admin
 from django.urls import reverse
-
 
 url = reverse('Admin_Register')
 pytestmark = pytest.mark.django_db
@@ -74,7 +74,12 @@ def test_admin_with_wrong_data(client):
     }
 
 
-def test_admin_registeration_success(client):
+@patch('accounts.views.get_tokens_for_user')
+def test_admin_registeration_success(patch_token, client):
+    patch_token.return_value = {
+        "refresh": "DummyRefreshToken",
+        "access": "DummyAccessToken"
+    }
     data = {
         'name': 'Admin',
         'email': 'admin@example.com',
@@ -85,5 +90,9 @@ def test_admin_registeration_success(client):
     response_content = json.loads(response.content)
     assert response.status_code == 201
     assert response_content == {
-        "msg": "Registeration Success"
+        "msg": "Registeration Success",
+        "token": {
+            "refresh": "DummyRefreshToken",
+            "access": "DummyAccessToken"
+        }
     }
