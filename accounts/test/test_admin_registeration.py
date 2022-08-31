@@ -21,8 +21,7 @@ FIELD_REQUIRED_MESSAGE = {
         ],
         "password2": [
             "This field is required."
-        ]
-    }
+        ]}
 }
 
 
@@ -40,21 +39,20 @@ def test_wrong_confirm_password(client):
     response = client.post(url, data)
     response_content = json.loads(response.content)
     assert response.status_code == 400
-    assert response_content == {
-        'errors': {
-            "non_field_errors": [
-                "Password and Confirm Password doesn't match"
-            ]}
+    assert response_content == {"errors": {
+        "non_field_errors": [
+            "Password and Confirm Password doesn't match"
+        ]}
     }
 
 
 def test_admin_with_same_email(client):
-    Admin.objects.create(name='Admin', email='admin@test.com')
+    Admin.objects.create_user(name='Admin', email='admin@test.com')
     response = client.post(url, {'name': 'Admin', 'email': 'admin@test.com',
                                  'password': '1234', 'password2': '1234'})
     response_content = json.loads(response.content)
     assert response.status_code == 400
-    assert response_content == {'errors': {
+    assert response_content == {"errors": {
         "email": [
             "user with this Email already exists."
         ]
@@ -67,7 +65,7 @@ def test_admin_with_wrong_data(client):
                                  'password': '1234', 'password2': '1234'})
     response_content = json.loads(response.content)
     assert response.status_code == 400
-    assert response_content == {'errors': {
+    assert response_content == {"errors": {
         "email": [
             "Enter a valid email address."
         ]}
