@@ -111,3 +111,63 @@ class StudentProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ['id', 'email', 'name']
+
+
+class AdminChangePasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(
+        style={'input_type': 'password'}, write_only=True)
+
+    password2 = serializers.CharField(
+        style={'input_type': 'password'}, write_only=True)
+
+    def validate(self, data):
+        password = data.get('password')
+        password2 = data.get('password2')
+
+        if password != password2:
+            raise serializers.ValidationError(
+                "Password and Confirm Password doesn't match")
+        user = self.context.get('user')
+        user.set_password(password)
+        user.save()
+        return data
+
+
+class TeacherChangePasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(
+        style={'input_type': 'password'}, write_only=True)
+
+    password2 = serializers.CharField(
+        style={'input_type': 'password'}, write_only=True)
+
+    def validate(self, data):
+        password = data.get('password')
+        password2 = data.get('password2')
+
+        if password != password2:
+            raise serializers.ValidationError(
+                "Password and Confirm Password doesn't match")
+        user = self.context.get('user')
+        user.set_password(password)
+        user.save()
+        return data
+
+
+class StudentChangePasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(
+        style={'input_type': 'password'}, write_only=True)
+
+    password2 = serializers.CharField(
+        style={'input_type': 'password'}, write_only=True)
+
+    def validate(self, data):
+        password = data.get('password')
+        password2 = data.get('password2')
+
+        if password != password2:
+            raise serializers.ValidationError(
+                "Password and Confirm Password doesn't match")
+        user = self.context.get('user')
+        user.set_password(password)
+        user.save()
+        return data

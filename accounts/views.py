@@ -6,11 +6,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from accounts.serializers import (AdminLoginSerializer, AdminProfileSerializer,
+from accounts.serializers import (AdminChangePasswordSerializer,
+                                  AdminLoginSerializer, AdminProfileSerializer,
                                   AdminRegisterationSerializer,
+                                  StudentChangePasswordSerializer,
                                   StudentLoginSerializer,
                                   StudentProfileSerializer,
                                   StudentRegisterationSerializer,
+                                  TeacherChangePasswordSerializer,
                                   TeacherLoginSerializer,
                                   TeacherProfileSerializer,
                                   TeacherRegisterationSerializer)
@@ -126,3 +129,35 @@ class StudentProfileView(APIView):
     def get(self, request):
         serializer = StudentProfileSerializer(request.user)
         return Response(serializer.data, status=200)
+
+
+# ======================= Change Password view =======================
+
+class AdminChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        seriaizer = AdminChangePasswordSerializer(
+            data=request.data, context={'user': request.user})
+        seriaizer.is_valid(raise_exception=True)
+        return Response({'msg': 'password changed successfully'}, status=200)
+
+
+class TeacherChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        seriaizer = TeacherChangePasswordSerializer(
+            data=request.data, context={'user': request.user})
+        seriaizer.is_valid(raise_exception=True)
+        return Response({'msg': 'password changed successfully'}, status=200)
+
+
+class StudentChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        seriaizer = StudentChangePasswordSerializer(
+            data=request.data, context={'user': request.user})
+        seriaizer.is_valid(raise_exception=True)
+        return Response({'msg': 'password changed successfully'}, status=200)
