@@ -72,3 +72,21 @@ class AdminLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = Admin
         fields = ['email', 'password']
+
+
+class TeacherLoginSerializer(serializers.ModelSerializer):
+    # serializer only see that we are sending post request so it throw "email is already register" thats why we have to initilize extra email field
+    email = serializers.EmailField(max_length=255)
+
+    class Meta:
+        model = Teacher
+        fields = ['email', 'password']
+
+
+class StudentLoginSerializer(serializers.ModelSerializer):
+    # serializer only see that we are sending post request so it throw "email is already register" thats why we have to initilize extra email field
+    email = serializers.EmailField(max_length=255)
+
+    class Meta:
+        model = Student
+        fields = ['email', 'password']
