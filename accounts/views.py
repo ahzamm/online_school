@@ -1,5 +1,4 @@
 
-
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -17,6 +16,8 @@ from accounts.serializers import (AdminChangePasswordSerializer,
                                   TeacherLoginSerializer,
                                   TeacherProfileSerializer,
                                   TeacherRegisterationSerializer)
+
+from .custom_permissions import RegisterationPermission
 
 
 def get_tokens_for_user(user):
@@ -41,6 +42,8 @@ class AdminRegisterationView(APIView):
 
 
 class TeacherRegisterationView(APIView):
+    permission_classes = [IsAuthenticated, RegisterationPermission]
+
     def post(self, request):
         serializer = TeacherRegisterationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -51,6 +54,8 @@ class TeacherRegisterationView(APIView):
 
 
 class StudentRegisterationView(APIView):
+    permission_classes = [IsAuthenticated, RegisterationPermission]
+
     def post(self, request):
         serializer = StudentRegisterationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
