@@ -110,10 +110,11 @@ class StudentLoginView(APIView):
 
 
 # ======================= Profile view =======================
-
+# TODO
+# we can make single profile view
 
 class AdminProfileView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAdmin]
 
     def get(self, request):
         serializer = AdminProfileSerializer(request.user)
@@ -121,7 +122,7 @@ class AdminProfileView(APIView):
 
 
 class TeacherProfileView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsTeacher]
 
     def get(self, request):
         serializer = TeacherProfileSerializer(request.user)
@@ -129,7 +130,7 @@ class TeacherProfileView(APIView):
 
 
 class StudentProfileView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsStudent]
 
     def get(self, request):
         serializer = StudentProfileSerializer(request.user)

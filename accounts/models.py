@@ -4,7 +4,7 @@
 # make password compalsory for every user type
 
 
-import uuid
+from uuid import uuid4
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
@@ -52,7 +52,7 @@ class User(AbstractBaseUser):
         ADMIN = "ADMIN", 'Admin'
         SUPER = "SUPER", 'Super'
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+    id = models.UUIDField(primary_key=True, default=uuid4,
                           editable=False, unique=True)
 
     type = models.CharField(_('Type'), max_length=50,

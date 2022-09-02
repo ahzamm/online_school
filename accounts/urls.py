@@ -1,11 +1,13 @@
 
 from django.urls import path
 
-from .views import (AdminChangePasswordView, AdminChangeTeacherStudentPasswordView, AdminLoginView, AdminProfileView,
-                    AdminRegisterationView, StudentChangePasswordView,
-                    StudentLoginView, StudentRegisterationView,
+from .views import (AdminChangePasswordView,
+                    AdminChangeTeacherStudentPasswordView, AdminLoginView,
+                    AdminProfileView, AdminRegisterationView,
+                    StudentChangePasswordView, StudentLoginView,
+                    StudentProfileView, StudentRegisterationView,
                     TeacherChangePasswordView, TeacherLoginView,
-                    TeacherRegisterationView)
+                    TeacherProfileView, TeacherRegisterationView)
 
 urlpatterns = [
     path('admin-register/', AdminRegisterationView.as_view(),
@@ -24,9 +26,9 @@ urlpatterns = [
 
     path('admin-profile/', AdminProfileView.as_view(),
          name='Admin_Profile'),
-    path('teacher-profile/', AdminProfileView.as_view(),
+    path('teacher-profile/', TeacherProfileView.as_view(),
          name='Teacher_Profile'),
-    path('student-profile/', AdminProfileView.as_view(),
+    path('student-profile/', StudentProfileView.as_view(),
          name='Student_Profile'),
 
 
