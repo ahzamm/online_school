@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accounts.models import Admin, Student, Teacher
+from accounts.models import Admin, Student, Teacher, User
 
 
 class AdminRegisterationSerializer(serializers.ModelSerializer):
@@ -168,6 +168,33 @@ class StudentChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 "Password and Confirm Password doesn't match")
         user = self.context.get('user')
+        user.set_password(password)
+        user.save()
+        return data
+
+
+class AdminChangeTeacherStudentPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField(max_length=255)
+    password = serializers.CharField(
+        style={'input_type': 'password'}, write_only=True)
+
+    password2 = serializers.CharField(
+        style={'input_type': 'password'}, write_only=True)
+
+    def validate(self, data):
+        email = data.get('email')
+        password = data.get('password')
+        password2 = data.get('password2')
+
+        user = User.objects.filter(email=email).first()
+        if user is None:
+            raise serializers.ValidationError(
+                "Password and Confirm Password doesn't match")
+
+        if password != password2:
+            raise serializers.ValidationError(
+                "Password and Confirm Password doesn't match")
+
         user.set_password(password)
         user.save()
         return data
