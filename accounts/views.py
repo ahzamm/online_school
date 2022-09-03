@@ -1,4 +1,4 @@
-
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -7,7 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from accounts.serializers import (AdminChangePasswordSerializer, AdminChangeTeacherStudentPasswordSerializer,
                                   AdminLoginSerializer, AdminProfileSerializer,
-                                  AdminRegisterationSerializer,
+                                  AdminRegisterationSerializer, SendPasswordResetEmailSerializer,
                                   StudentChangePasswordSerializer,
                                   StudentLoginSerializer,
                                   StudentProfileSerializer,
@@ -15,7 +15,7 @@ from accounts.serializers import (AdminChangePasswordSerializer, AdminChangeTeac
                                   TeacherChangePasswordSerializer,
                                   TeacherLoginSerializer,
                                   TeacherProfileSerializer,
-                                  TeacherRegisterationSerializer)
+                                  TeacherRegisterationSerializer, UserPasswordResetSerializer)
 
 from .custom_permissions import IsAdmin, IsStudent, IsTeacher
 
@@ -177,3 +177,21 @@ class AdminChangeTeacherStudentPasswordView(APIView):
             data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response({'msg': 'password changed successfully'}, status=200)
+
+
+# ======================= Change Password view =======================
+
+class SendPasswordResetEmailView(APIView):
+    def post(self, request):
+        serializer = SendPasswordResetEmailSerializer(
+            data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response({"msg": "Email sent successfully"}, status=200)
+
+
+class UserPasswordResetView(APIView):
+    def post(self, request, uid, token, format=None):
+        serializer = UserPasswordResetSerializer(
+            data=request.data, context={'uid': uid, 'token': token})
+        serializer.is_valid(raise_exception=True)
+        return Response({'msg': 'Password Reset Successfully'}, status=200)

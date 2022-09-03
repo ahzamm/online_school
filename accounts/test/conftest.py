@@ -17,7 +17,6 @@ def create_test_admin(client):
     }
     response = client.post(reverse("Admin_Register"), data)
     response_content = json.loads(response.content)
-    print("=====>", response_content)
     return response_content['token']['access']
 
 
