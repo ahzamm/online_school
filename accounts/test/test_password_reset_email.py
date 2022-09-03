@@ -74,3 +74,28 @@ def test_reset_password_mail(patch_encode, make_token, client, create_test_stude
     reset_link = "http://localhost:8000/api/account/reset/thisispatchencode/thisispatchtoken"
     mail_message = mailoutbox[0]
     assert mail_message.body.split(' ')[-1] == reset_link
+
+
+@patch('accounts.views.get_tokens_for_user')
+def test_reset_password(patch_token, client, create_test_student_with_legit_email, student_login, mailoutbox):
+    response = client.post(reverse("Admin_Reset_Password"), data={
+        "email": "ahzamahmed6@gmail.com"})
+    mail_message = mailoutbox[0]
+    reset_link = mail_message.body.split(' ')[-1] + '/'
+    data = {"password": "changed_password", "password2": "changed_password"}
+    response = client.post(reset_link, data=data)
+    response_content = json.loads(response.content)
+    assert response_content == {'msg': 'Password Reset Successfully'}
+
+    response = student_login(patch_token=patch_token, client=client,
+                             email="ahzamahmed6@gmail.com", password="changed_password")
+
+    response.status_code == 200
+    response_content = json.loads(response.content)
+    assert response_content == {
+        "msg": "Login Success",
+        "token": {
+            "refresh": "DummyRefreshToken",
+            "access": "DummyAccessToken"
+        }
+    }
