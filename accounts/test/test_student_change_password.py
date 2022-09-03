@@ -1,6 +1,7 @@
 
 from distutils.log import error
 import json
+from unittest.mock import patch
 
 import jwt
 import pytest
@@ -57,7 +58,9 @@ def test_wrong_confirm_password(client, create_test_student):
     assert response_content == error_message
 
 
-def test_change_password_success(client, create_test_student):
+@patch('accounts.views.get_tokens_for_user')
+def test_change_password_success(patch_token, client, create_test_student, student_login):
+    # == == == == == == == == Test Change Password == == == == == == == ==
     token = create_test_student
 
     data = {
@@ -74,3 +77,17 @@ def test_change_password_success(client, create_test_student):
 
     assert response.status_code == 200
     assert response_content == message
+
+    # == == == == == == == == Test Login With Changed Password == == == == == == == ==
+
+    response = student_login(patch_token=patch_token,
+                             client=client, email="student@test.com", password="12345")
+    response.status_code == 200
+    response_content = json.loads(response.content)
+    assert response_content == {
+        "msg": "Login Success",
+        "token": {
+            "refresh": "DummyRefreshToken",
+            "access": "DummyAccessToken"
+        }
+    }
