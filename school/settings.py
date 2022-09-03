@@ -1,12 +1,13 @@
 
 
+import os
 from datetime import timedelta
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = 'django-insecure-tusa=z@z6ltz1eill^(wqlii$x*681^wxt(4lee20mh*q$h1n8'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = True
 
@@ -151,8 +152,8 @@ CORS_ALLOWED_ORIGINS = [
 
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'usaid529@gmail.com'
+EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_PASSWORD = 'lkhurkjglpqpcrco'
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASS")
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
