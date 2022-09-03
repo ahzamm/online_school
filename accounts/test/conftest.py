@@ -35,7 +35,7 @@ def create_test_teacher(client, create_test_admin):
     return response_content['token']['access']
 
 
-@ pytest.fixture
+@pytest.fixture
 def create_test_student(client, create_test_admin):
     data = {
         "email": "student@test.com",
