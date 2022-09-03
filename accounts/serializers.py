@@ -114,6 +114,9 @@ class StudentProfileSerializer(serializers.ModelSerializer):
 
 
 class AdminChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(
+        style={'input_type': 'password'}, write_only=True)
+
     password = serializers.CharField(
         style={'input_type': 'password'}, write_only=True)
 
@@ -121,6 +124,7 @@ class AdminChangePasswordSerializer(serializers.Serializer):
         style={'input_type': 'password'}, write_only=True)
 
     def validate(self, data):
+        old_password = data.get('old_password')
         password = data.get('password')
         password2 = data.get('password2')
 
@@ -128,12 +132,18 @@ class AdminChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 "Password and Confirm Password doesn't match")
         user = self.context.get('user')
+        if not user.check_password(old_password):
+            raise serializers.ValidationError(
+                "Wrong old Password")
         user.set_password(password)
         user.save()
         return data
 
 
 class TeacherChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(
+        style={'input_type': 'password'}, write_only=True)
+
     password = serializers.CharField(
         style={'input_type': 'password'}, write_only=True)
 
@@ -141,6 +151,7 @@ class TeacherChangePasswordSerializer(serializers.Serializer):
         style={'input_type': 'password'}, write_only=True)
 
     def validate(self, data):
+        old_password = data.get('old_password')
         password = data.get('password')
         password2 = data.get('password2')
 
@@ -148,12 +159,18 @@ class TeacherChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 "Password and Confirm Password doesn't match")
         user = self.context.get('user')
+        if not user.check_password(old_password):
+            raise serializers.ValidationError(
+                "Wrong old Password")
         user.set_password(password)
         user.save()
         return data
 
 
 class StudentChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(
+        style={'input_type': 'password'}, write_only=True)
+
     password = serializers.CharField(
         style={'input_type': 'password'}, write_only=True)
 
@@ -161,6 +178,7 @@ class StudentChangePasswordSerializer(serializers.Serializer):
         style={'input_type': 'password'}, write_only=True)
 
     def validate(self, data):
+        old_password = data.get('old_password')
         password = data.get('password')
         password2 = data.get('password2')
 
@@ -168,6 +186,9 @@ class StudentChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 "Password and Confirm Password doesn't match")
         user = self.context.get('user')
+        if not user.check_password(old_password):
+            raise serializers.ValidationError(
+                "Wrong old Password")
         user.set_password(password)
         user.save()
         return data
