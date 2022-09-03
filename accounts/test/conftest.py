@@ -49,3 +49,22 @@ def create_test_student(client, create_test_admin):
                            data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
     return response_content['token']['access']
+
+
+@pytest.fixture
+@patch('accounts.views.get_tokens_for_user')
+def admin_login(patch_token, client, **kwargs):
+    def _admin_login(client, patch_token, **kwargs):
+        email = kwargs.pop("email")
+        password = kwargs.pop("password")
+        patch_token.return_value = patch_token.return_value = {
+            "refresh": "DummyRefreshToken",
+            "access": "DummyAccessToken"
+        }
+        data = {
+            "email": email,
+            "password": password
+        }
+        response = client.post(reverse('Admin_Login'), data)
+        return response
+    return _admin_login
