@@ -22,11 +22,11 @@ pipeline{
                 bat "docker-compose run --rm my_awsome_app pytest"
             }
         }
-        // stage("STAGE 4 : Run Django App"){
-        //     steps{.
-        //         bat "docker-compose run --rm my_awsome_app flake8"
-        //     }
-        // }
+        stage("STAGE 4 : Flake8 Test"){
+            steps{.
+                bat "docker-compose run --rm my_awsome_app flake8"
+            }
+        }
         
     }
 }
