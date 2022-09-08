@@ -27,14 +27,6 @@ pipeline{
                 bat "docker-compose run --rm my_awsome_app flake8"
             }
         }
-        post{
-            always{
-                mail to: "ahzamahmed6@gmail.com",
-                subject: "Jenkins Pipeline Build",
-                body: "Jenkins Pipeline Build body"
-            }
-        }
-    
         
     }
 }
