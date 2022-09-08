@@ -27,14 +27,7 @@ pipeline{
                 bat "docker-compose run --rm my_awsome_app flake8"
             }
         }
-        stage("STAGE 5 : EMAIL NOTIFICATION"){
-            mail bcc: '', body: 'Build success' , cc: '', subject: 'Build Success', to: 'ahzamahmed6@gmail.com'
-        }
+        
         
     }
 }
-// $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!
-
-// $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
-
-// Check console output at $BUILD_URL to view the results.
