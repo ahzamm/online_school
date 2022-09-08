@@ -27,7 +27,7 @@ pipeline{
                 bat "docker-compose run --rm my_awsome_app flake8"
             }
         }
-        
+    
         
     }
 }
