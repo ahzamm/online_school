@@ -28,7 +28,7 @@ pipeline{
             }
         }
         stage("STAGE 5 : EMAIL NOTIFICATION"){
-            mail bcc: '', body: '''Build success''' , cc: '', subject: 'Build Success', to: 'ahzamahmed6@gmail.com'
+            mail bcc: '', body: 'Build success' , cc: '', subject: 'Build Success', to: 'ahzamahmed6@gmail.com'
         }
         
     }
