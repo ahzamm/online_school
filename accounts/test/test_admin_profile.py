@@ -15,7 +15,7 @@ def test_admin_profile(client, create_test_admin):
     token = create_test_admin
 
     payload = jwt.decode(
-        token, settings.SECRET_KEY,  algorithms=['HS256'])
+        token, settings.SECRET_KEY, algorithms=['HS256'])
 
     user_id = payload.get('user_id')
 

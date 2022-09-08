@@ -15,7 +15,7 @@ def test_teacher_profile(client, create_test_teacher):
     token = create_test_teacher
 
     payload = jwt.decode(
-        token, settings.SECRET_KEY,  algorithms=['HS256'])
+        token, settings.SECRET_KEY, algorithms=['HS256'])
 
     user_id = payload.get('user_id')
 
