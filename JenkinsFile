@@ -23,7 +23,7 @@ pipeline{
             }
         }
         stage("STAGE 4 : Flake8 Test"){
-            steps{.
+            steps{
                 bat "docker-compose run --rm my_awsome_app flake8"
             }
         }
