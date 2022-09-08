@@ -3,8 +3,9 @@ from django.utils.encoding import (DjangoUnicodeDecodeError, force_bytes,
                                    smart_str)
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import serializers
-from accounts.utils import Util
+
 from accounts.models import Admin, Student, Teacher, User
+from accounts.utils import Util
 
 
 class AdminRegisterationSerializer(serializers.ModelSerializer):
@@ -236,7 +237,7 @@ class SendPasswordResetEmailSerializer(serializers.Serializer):
             uid = urlsafe_base64_encode(force_bytes(user.id))
             token = PasswordResetTokenGenerator().make_token(user=user)
             link = f"http://localhost:8000/api/account/reset/{uid}/{token}"
-            body = 'Click Following Link to Reset Your Password '+link
+            body = 'Click Following Link to Reset Your Password ' + link
             data = {
                 'subject': 'Reset Your Password',
                 'body': body,

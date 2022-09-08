@@ -24,7 +24,7 @@ pipeline{
         }
         stage("STAGE 4 : Flake8 Test"){
             steps{
-                bat "docker-compose run --rm my_awsome_app flake8"
+                bat "docker-compose run --rm my_awsome_app flake8 --ignore=E402,F841,F403,F405,E501"
             }
         }
         

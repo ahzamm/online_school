@@ -1,21 +1,11 @@
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from accounts.serializers import (AdminChangePasswordSerializer, AdminChangeTeacherStudentPasswordSerializer,
-                                  AdminLoginSerializer, AdminProfileSerializer,
-                                  AdminRegisterationSerializer, SendPasswordResetEmailSerializer,
-                                  StudentChangePasswordSerializer,
-                                  StudentLoginSerializer,
-                                  StudentProfileSerializer,
-                                  StudentRegisterationSerializer,
-                                  TeacherChangePasswordSerializer,
-                                  TeacherLoginSerializer,
-                                  TeacherProfileSerializer,
-                                  TeacherRegisterationSerializer, UserPasswordResetSerializer)
+from accounts.serializers import *
 
 from .custom_permissions import IsAdmin, IsStudent, IsTeacher
 

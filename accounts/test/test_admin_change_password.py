@@ -1,12 +1,9 @@
 
-from distutils.log import error
 import json
 from unittest.mock import patch
 
-import jwt
 import pytest
 from django.urls import reverse
-from school import settings
 
 url = reverse('Admin_Change_Password')
 pytestmark = pytest.mark.django_db
