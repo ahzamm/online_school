@@ -1,5 +1,5 @@
 {
-    "python.linting.enabled": true,
+    "python.linting.enabled": false,
     "python.linting.pylintEnabled": false,
     "python.linting.banditEnabled": false,
     "python.linting.flake8Enabled": true,
@@ -15,4 +15,9 @@
     "--max-line-length=120",
     // "--ignore=E402,F841,F401,E302,E305",
 ],
+"gitlens.currentLine.enabled": true,
+"gitlens.hovers.currentLine.over": "line",
+"gitlens.currentLine.format": "${author, }${agoOrDate}${' via 'pullRequest}${ • message|50?}",
+"gitlens.codeLens.enabled": false,
+"gitlens.hovers.enabled": false,
 }
