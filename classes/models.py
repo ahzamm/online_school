@@ -1,4 +1,5 @@
-from re import S
+
+from calendar import FRIDAY, THURSDAY, TUESDAY, WEDNESDAY
 from uuid import uuid4
 
 from accounts.models import Student, Teacher
@@ -53,3 +54,28 @@ class Attendence(models.Model):
 
     def __str__(self):
         return str(self._class)
+
+
+class TimeTable(models.Model):
+
+    class ROOM_NO(models.TextChoices):
+        ROOM_1 = "ROOM_1"
+        ROOM_2 = "ROOM_2"
+        ROOM_3 = "ROOM_3"
+        ROOM_4 = "ROOM_4"
+        NOT_ANNOUNCED = "Not Announced Yet"
+
+    class DAYS(models.TextChoices):
+        MONDAY = "MONDAY"
+        TUESDAY = "TUESDAY"
+        WEDNESDAY = "WEDNESDAY"
+        THURSDAY = "THURSDAY"
+        FRIDAY = "FRIDAY"
+
+    days = models.CharField(max_length=50,
+                            choices=DAYS.choices)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    room_no = models.CharField(max_length=50,
+                               choices=ROOM_NO.choices, default=ROOM_NO.NOT_ANNOUNCED)
+    _class = models.ForeignKey(Classes, on_delete=models.CASCADE)

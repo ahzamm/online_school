@@ -15,3 +15,4 @@ class AttendenceAdmin(admin.ModelAdmin):
 admin.site.register(Course)
 admin.site.register(Classes)
 admin.site.register(Attendence)
+admin.site.register(TimeTable)
