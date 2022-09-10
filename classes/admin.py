@@ -4,15 +4,23 @@ from .models import *
 # Register your models here.
 
 
-class ClassAdmin(admin.ModelAdmin):
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ('name', 'course_code', 'ch', 'teacher')
+
+
+class ClassesAdmin(admin.ModelAdmin):
     list_display = ('course',)
 
 
 class AttendenceAdmin(admin.ModelAdmin):
-    list_display = ('_class',)
+    list_display = ('date', 'start_time', 'end_time', '_class')
 
 
-admin.site.register(Course)
-admin.site.register(Classes)
-admin.site.register(Attendence)
-admin.site.register(TimeTable)
+class TimeTableAdmin(admin.ModelAdmin):
+    list_display = ('days', 'start_time', 'end_time', 'room_no', '_class')
+
+
+admin.site.register(Course, CourseAdmin)
+admin.site.register(Classes, ClassesAdmin)
+admin.site.register(Attendence, AttendenceAdmin)
+admin.site.register(TimeTable, TimeTableAdmin)

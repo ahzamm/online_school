@@ -79,3 +79,6 @@ class TimeTable(models.Model):
     room_no = models.CharField(max_length=50,
                                choices=ROOM_NO.choices, default=ROOM_NO.NOT_ANNOUNCED)
     _class = models.ForeignKey(Classes, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self._class) + "....." + str(self.days)

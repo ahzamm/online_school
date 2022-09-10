@@ -35,14 +35,23 @@ echo Course.objects.create(name="Arabic",course_code="ARB123",teacher=Teacher.ob
 
 @REM CREATE 4 CLASSES
 echo from datetime import date; classes=Classes.objects.create(course=Course.objects.get(course_code="PF123"),enrollment_start_date=date.today(),enrollment_end_date=date.today()); classes.student.set(Student.objects.all()); classes.save() | python manage.py shell_plus
-
 echo from datetime import date; classes=Classes.objects.create(course=Course.objects.get(course_code="ICT123"),enrollment_start_date=date.today(),enrollment_end_date=date.today()); classes.student.set(Student.objects.all()); classes.save() | python manage.py shell_plus
-
 echo from datetime import date; classes=Classes.objects.create(course=Course.objects.get(course_code="DBMS123"),enrollment_start_date=date.today(),enrollment_end_date=date.today()); classes.student.set(Student.objects.all()); classes.save() | python manage.py shell_plus
-
 echo from datetime import date; classes=Classes.objects.create(course=Course.objects.get(course_code="ARB123"),enrollment_start_date=date.today(),enrollment_end_date=date.today()); classes.student.set(Student.objects.all()); classes.save() | python manage.py shell_plus
 
 
+@REM CREATE 4 ATTENDENCES
+echo import datetime; attendence=Attendence.objects.create(date=datetime.date.today(),start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),_class=Classes.objects.get(course=Course.objects.get(course_code="PF123")),status=Attendence.Status.PRESENT); attendence.student.set(Student.objects.all()); attendence.save() | python manage.py shell_plus
+echo import datetime; attendence=Attendence.objects.create(date=datetime.date.today(),start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),_class=Classes.objects.get(course=Course.objects.get(course_code="ICT123")),status=Attendence.Status.PRESENT); attendence.student.set(Student.objects.all()); attendence.save() | python manage.py shell_plus
+echo import datetime; attendence=Attendence.objects.create(date=datetime.date.today(),start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),_class=Classes.objects.get(course=Course.objects.get(course_code="DBMS123")),status=Attendence.Status.PRESENT); attendence.student.set(Student.objects.all()); attendence.save() | python manage.py shell_plus
+echo import datetime; attendence=Attendence.objects.create(date=datetime.date.today(),start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),_class=Classes.objects.get(course=Course.objects.get(course_code="ARB123")),status=Attendence.Status.PRESENT); attendence.student.set(Student.objects.all()); attendence.save() | python manage.py shell_plus
+
+
+@REM CREATE 4 TimeTables
+echo import datetime; TimeTable.objects.create(days=TimeTable.DAYS.MONDAY,start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),room_no=TimeTable.ROOM_NO.ROOM_1,_class=Classes.objects.get(course=Course.objects.get(course_code="PF123"))) | python manage.py shell_plus
+echo import datetime; TimeTable.objects.create(days=TimeTable.DAYS.MONDAY,start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),room_no=TimeTable.ROOM_NO.ROOM_1,_class=Classes.objects.get(course=Course.objects.get(course_code="ICT123"))) | python manage.py shell_plus
+echo import datetime; TimeTable.objects.create(days=TimeTable.DAYS.MONDAY,start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),room_no=TimeTable.ROOM_NO.ROOM_1,_class=Classes.objects.get(course=Course.objects.get(course_code="DBMS123"))) | python manage.py shell_plus
+echo import datetime; TimeTable.objects.create(days=TimeTable.DAYS.MONDAY,start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),room_no=TimeTable.ROOM_NO.ROOM_1,_class=Classes.objects.get(course=Course.objects.get(course_code="ARB123"))) | python manage.py shell_plus
 
 @REM RUN SERVER
 python manage.py runserver
