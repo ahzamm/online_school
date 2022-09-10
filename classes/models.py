@@ -1,5 +1,4 @@
 
-from calendar import FRIDAY, THURSDAY, TUESDAY, WEDNESDAY
 from uuid import uuid4
 
 from accounts.models import Student, Teacher
