@@ -1,1 +1,0 @@
-echo import datetime; TimeTable.objects.create(days=TimeTable.DAYS.MONDAY,start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),room_no=TimeTable.ROOM_NO.ROOM_1,_class=Classes.objects.get(course=Course.objects.get(course_code="PF123"))) | python manage.py shell_plus
