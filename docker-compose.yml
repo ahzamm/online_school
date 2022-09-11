@@ -1,16 +1,11 @@
-version: '3.9'
-
+version: '3.8'
 services:
-  app:
-    build:
-      context: .
-      args:
-        - DEV=true
-    ports:
-      - "8000:8000"
+  my_awsome_app:
+    build: .
     volumes:
-      - ./app:/app
-    command: >
-      sh -c "python manage.py wait_for_db &&
-             python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+      - .:/online_school_project
+    ports:
+      - 8000:8000
+    image: myapp:latest
+    container_name: django_container
+    command: python manage.py runserver 0000:8000

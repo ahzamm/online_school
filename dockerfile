@@ -1,34 +1,5 @@
-
 FROM python:3.9-alpine3.13
-LABEL maintainer="ahzamahmed6@gmail.com"
-
-ENV PYTHONUNBUFFERED 1
-
-COPY ./requirements.txt /tmp/requirements.txt
-COPY ./requirements.dev.txt /tmp/requirements.dev.txt
-COPY ./app /app
-WORKDIR /app
-EXPOSE 8000 
-
-ARG DEV=flase
-RUN python -m venv /py && \
-    /py/bin/pip install --upgrade pip && \
-    apk add --upddate --no-cache --virtual .tmp-build-deps \
-    /py/bin/pip install -r /tmp/requirements.txt && \
-    if [ $DEV = 'true' ]; \
-    then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
-    fi && \
-    rm -rf /tmp && \
-    apk del .tmp-build-deps && \
-    adduser \
-    --disabled-password \
-    --no-create-home \
-    django-user
-
-
-ENV PATH="/py/bin:$PATH"
-
-USER django-user
-
-
-
+ENV PYTHONUNBUFFERED=1
+WORKDIR /online_school_project
+COPY . .
+RUN pip install -r requirements.txt && rm requirements.txt
