@@ -8,7 +8,7 @@
 # - Teacher can create class
 # - Teacher can create and insert Attendence
 
-from accounts.custom_permissions import IsAdmin, IsStudent, IsTeacher
+from accounts.custom_permissions import IsAdmin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
