@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Course
+from .models import Classes, Course, TimeTable
 from accounts.models import Teacher
 
 
@@ -22,6 +22,31 @@ class CourseSerializer(serializers.ModelSerializer):
                 name=name, course_code=course_code, ch=ch, teacher=Teacher.objects.get(email=email))
 
             course.save()
+            return data
+        else:
+            raise serializers.ValidationError(
+                'No teacher with this email found')
+
+
+class TimeTableSerializer(serializers.ModelSerializer):
+    _class_ = serializers.UUIDField()
+
+    class Meta:
+        model = TimeTable
+        exclude = ['_class']
+
+    def validate(self, data):
+        days = data.get('days')
+        start_time = data.get('start_time')
+        end_time = data.get('end_time')
+        _class = data.get('_class_')
+        is_class_exists = Classes.objects.filter(id=_class)
+
+        if is_class_exists:
+            timetable: TimeTable = TimeTable.objects.create(
+                days=days, start_time=start_time, end_time=end_time, _class=Classes.objects.get(id=_class))
+
+            timetable.save()
             return data
         else:
             raise serializers.ValidationError(

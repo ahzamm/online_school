@@ -8,3 +8,4 @@ exclude =
     app.py
     tests.py
     
+addopts = --ignore E402,F841,F403,F405,E501
