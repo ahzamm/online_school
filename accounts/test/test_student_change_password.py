@@ -1,10 +1,12 @@
 
 import json
 from unittest.mock import patch
-from accounts.messages import *
+
 import pytest
+from accounts.messages import *
 from django.urls import reverse
-from .extra import non_field_error
+
+from .extra import DUMMY_TOKEN, non_field_error
 
 url = reverse('Student_Change_Password')
 pytestmark = pytest.mark.django_db
@@ -13,11 +15,6 @@ DATA = {
     "old_password": "1234",
     "password": "12345",
     "password2": "12345",
-}
-
-DUMMY_TOKEN = {
-    "refresh": "DummyRefreshToken",
-    "access": "DummyAccessToken"
 }
 
 

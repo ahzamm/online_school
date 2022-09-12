@@ -1,20 +1,17 @@
 import json
 from unittest.mock import patch
-from accounts.messages import *
+
 import pytest
+from accounts.messages import *
 from accounts.models import Admin
 from django.urls import reverse
-from .extra import non_field_error
+
+from .extra import DUMMY_TOKEN, non_field_error
 
 url = reverse('Admin_Login')
 pytestmark = pytest.mark.django_db
 
 DATA = {'email': 'admin@test.com', 'password': '1234'}
-
-DUMMY_TOKEN = {
-    "refresh": "DummyRefreshToken",
-    "access": "DummyAccessToken"
-}
 
 
 def test_login_with_no_data(client):

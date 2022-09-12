@@ -5,7 +5,8 @@ import pytest
 from accounts.messages import *
 from accounts.models import Admin
 from django.urls import reverse
-from .extra import non_field_error
+
+from .extra import DUMMY_TOKEN, non_field_error
 
 url = reverse('Admin_Register')
 pytestmark = pytest.mark.django_db
@@ -28,11 +29,6 @@ FIELD_REQUIRED_MESSAGE = {
 
 DATA = {'name': 'Admin', 'email': 'admin@test.com', 'password': '1234',
         'password2': '1234'}
-
-DUMMY_TOKEN = {
-    "refresh": "DummyRefreshToken",
-    "access": "DummyAccessToken"
-}
 
 
 def test_admin_get_zero_content(client):

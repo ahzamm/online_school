@@ -5,6 +5,7 @@ import pytest
 from accounts.messages import *
 from accounts.models import Student
 from django.urls import reverse
+
 from .extra import non_field_error
 
 url = reverse('Student_Register')
