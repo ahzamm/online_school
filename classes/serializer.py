@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Classes, Course, TimeTable
 from accounts.models import Teacher
+from .messages import *
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -24,8 +25,7 @@ class CourseSerializer(serializers.ModelSerializer):
             course.save()
             return data
         else:
-            raise serializers.ValidationError(
-                'No teacher with this email found')
+            raise serializers.ValidationError(NO_TEACHER_FOUND_MESSAGE)
 
 
 class TimeTableSerializer(serializers.ModelSerializer):
@@ -49,5 +49,4 @@ class TimeTableSerializer(serializers.ModelSerializer):
             timetable.save()
             return data
         else:
-            raise serializers.ValidationError(
-                'No teacher with this email found')
+            raise serializers.ValidationError(NO_COURSE_FOUND_MESSAGE)

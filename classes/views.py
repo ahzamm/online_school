@@ -7,7 +7,7 @@
 # - admin can create TimeTable
 # - Teacher can create class
 # - Teacher can create and insert Attendence
-
+from .messages import *
 from accounts.custom_permissions import IsAdmin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -22,7 +22,7 @@ class AdminCreateCourse(APIView):
     def post(self, request):
         serializer = CourseSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        return Response({'msg': 'COURSE ADDED SUCCESSFULLY'}, status=201)
+        return Response({'msg': COURSE_REGISTER_SUCCESS_MESSAGE}, status=COURSE_REGISTER_SUCCESS_STATUS)
 
 
 class AdminCreateTimeTable(APIView):
@@ -31,4 +31,4 @@ class AdminCreateTimeTable(APIView):
     def post(self, request):
         serializer = TimeTableSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        return Response({'msg': 'TIMETABLE ADDED SUCCESSFULLY'}, status=201)
+        return Response({'msg': TIMETABLE_REGISTER_SUCCESS_MESSAGE}, status=TIMETABLE_REGISTER_SUCCESS_STATUS)
