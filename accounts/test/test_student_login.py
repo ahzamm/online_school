@@ -5,6 +5,7 @@ import pytest
 from accounts.messages import *
 from accounts.models import Student
 from django.urls import reverse
+from .extra import non_field_error
 
 url = reverse('Student_Login')
 pytestmark = pytest.mark.django_db
@@ -29,8 +30,8 @@ def test_wrong_email_password(client):
     response = client.post(url, data)
     response_content = json.loads(response.content)
     assert response.status_code == 400
-    assert response_content == {
-        'error': {'non_field_error': [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}}
+    assert response_content == non_field_error(
+        EMAIL_PASSWORD_NOT_VALID_MESSAGE)
 
 
 @patch('accounts.views.get_tokens_for_user')

@@ -5,6 +5,7 @@ import pytest
 from accounts.messages import *
 from accounts.models import Admin
 from django.urls import reverse
+from .extra import non_field_error
 
 url = reverse('Admin_Register')
 pytestmark = pytest.mark.django_db
@@ -46,11 +47,8 @@ def test_wrong_confirm_password(client):
     response = client.post(url, DATA)
     response_content = json.loads(response.content)
     assert response.status_code == 400
-    assert response_content == {"errors": {
-        "non_field_errors": [
-            PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
-        ]}
-    }
+    assert response_content == non_field_error(
+        PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
 
 
 def test_admin_with_same_email(client):

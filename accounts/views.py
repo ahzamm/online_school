@@ -67,7 +67,7 @@ class AdminLoginView(APIView):
         if user is not None:
             token = get_tokens_for_user(user)
             return Response({'msg': LOGIN_SUCCESS_MESSAGE, 'token': token}, status=LOGIN_SUCCESS_STATUS)
-        return Response({'error': {'non_field_error': [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
+        return Response({'errors': {'non_field_errors': [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
                         status=EMAIL_PASSWORD_NOT_VALID_STATUS)
 
 
@@ -81,7 +81,7 @@ class TeacherLoginView(APIView):
         if user is not None:
             token = get_tokens_for_user(user)
             return Response({'msg': LOGIN_SUCCESS_MESSAGE, 'token': token}, status=LOGIN_SUCCESS_STATUS)
-        return Response({'error': {'non_field_error': [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
+        return Response({'errors': {'non_field_errors': [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
                         status=EMAIL_PASSWORD_NOT_VALID_STATUS)
 
 
@@ -95,7 +95,7 @@ class StudentLoginView(APIView):
         if user is not None:
             token = get_tokens_for_user(user)
             return Response({'msg': LOGIN_SUCCESS_MESSAGE, 'token': token}, status=LOGIN_SUCCESS_STATUS)
-        return Response({'error': {'non_field_error': [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
+        return Response({'errors': {'non_field_errors': [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
                         status=EMAIL_PASSWORD_NOT_VALID_STATUS)
 
 

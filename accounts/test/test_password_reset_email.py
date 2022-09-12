@@ -5,6 +5,7 @@ import pytest
 from accounts.messages import *
 from django.core import mail
 from django.urls import reverse
+from .extra import non_field_error
 
 pytestmark = pytest.mark.django_db
 
@@ -40,14 +41,8 @@ def test_reset_password_with_wrong_email(client):
     response = client.post(reverse("Admin_Reset_Password"), data={
                            "email": "ahzamahmed6@gmail.com"})
     response_content = json.loads(response.content)
-    error_message = {
-        "errors": {
-            "non_field_errors": [
-                USER_WITH_EMAIL_DOESNT_EXIST
-            ]
-        }
-    }
-    assert response_content == error_message
+
+    assert response_content == non_field_error(USER_WITH_EMAIL_DOESNT_EXIST)
 
 
 @pytest.fixture

@@ -5,6 +5,7 @@ from unittest.mock import patch
 import pytest
 from accounts.messages import *
 from django.urls import reverse
+from .extra import non_field_error
 
 url = reverse('Teacher_Change_Password')
 pytestmark = pytest.mark.django_db
@@ -25,38 +26,27 @@ def test_teacher_change_wrong_old_password(client, create_test_teacher):
     token = create_test_teacher
 
     DATA["old_password"] = "123"
-    error_message = {
-        "errors": {
-            "non_field_errors": [
-                WRONG_OLD_PASSWORD
-            ]
-        }
-    }
+
     response = client.post(
         url, DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
     assert response.status_code == 400
-    assert response_content == error_message
+    assert response_content == non_field_error(WRONG_OLD_PASSWORD)
 
 
 def test_wrong_confirm_password(client, create_test_teacher):
     token = create_test_teacher
 
     DATA["password2"] = "123456"
-    error_message = {
-        "errors": {
-            "non_field_errors": [
-                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
-            ]
-        }
-    }
+
     response = client.post(
         url, DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
     assert response.status_code == 400
-    assert response_content == error_message
+    assert response_content == non_field_error(
+        PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
 
 
 @pytest.mark.xfail
