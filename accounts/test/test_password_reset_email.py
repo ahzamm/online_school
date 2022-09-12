@@ -2,10 +2,23 @@ import json
 from unittest.mock import patch
 
 import pytest
+from accounts.messages import *
 from django.core import mail
 from django.urls import reverse
 
 pytestmark = pytest.mark.django_db
+
+DATA = {
+    "email": "ahzamahmed6@gmail.com",
+    "name": "Student",
+    "password": "1234",
+    "password2": "1234"
+}
+
+DUMMY_TOKEN = {
+    "refresh": "DummyRefreshToken",
+    "access": "DummyAccessToken"
+}
 
 
 def test_ending_emails(mailoutbox):
@@ -30,7 +43,7 @@ def test_reset_password_with_wrong_email(client):
     error_message = {
         "errors": {
             "non_field_errors": [
-                "User with this email doesnot exist"
+                USER_WITH_EMAIL_DOESNT_EXIST
             ]
         }
     }
@@ -39,15 +52,10 @@ def test_reset_password_with_wrong_email(client):
 
 @pytest.fixture
 def create_test_student_with_legit_email(client, create_test_admin):
-    data = {
-        "email": "ahzamahmed6@gmail.com",
-        "name": "Student",
-        "password": "1234",
-        "password2": "1234"
-    }
+
     token = create_test_admin
     response = client.post(reverse("Student_Register"),
-                           data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+                           DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
     return response_content['token']['access']
 
@@ -58,7 +66,7 @@ def test_reset_password_response(client, create_test_student_with_legit_email):
     response_content = json.loads(response.content)
 
     assert response_content == {
-        "msg": "Email sent successfully"
+        "msg": PASSWORD_RESET_EMAIL_MESSAGE
     }
 
 
@@ -92,8 +100,5 @@ def test_reset_password(patch_token, client, create_test_student_with_legit_emai
     response_content = json.loads(response.content)
     assert response_content == {
         "msg": "Login Success",
-        "token": {
-            "refresh": "DummyRefreshToken",
-            "access": "DummyAccessToken"
-        }
+        "token": DUMMY_TOKEN
     }

@@ -1,12 +1,19 @@
 import json
 from unittest.mock import patch
-
+from accounts.messages import *
 import pytest
 from accounts.models import Admin
 from django.urls import reverse
 
 url = reverse('Admin_Login')
 pytestmark = pytest.mark.django_db
+
+DATA = {'email': 'admin@test.com', 'password': '1234'}
+
+DUMMY_TOKEN = {
+    "refresh": "DummyRefreshToken",
+    "access": "DummyAccessToken"
+}
 
 
 def test_login_with_no_data(client):
@@ -18,32 +25,26 @@ def test_login_with_no_data(client):
 
 
 def test_wrong_email_password(client):
-    data = {
-        'email': 'admin@test.com', 'password': '1234'}
-    response = client.post(url, data)
+
+    response = client.post(url, DATA)
     response_content = json.loads(response.content)
     assert response.status_code == 400
     assert response_content == {
-        'error': {'non_field_error': ['Email or Password is not Valid']}}
+        'error': {'non_field_error': [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}}
 
 
 @patch('accounts.views.get_tokens_for_user')
 def test_login_success(patch_token, client):
-    patch_token.return_value = {
-        "refresh": "DummyRefreshToken",
-        "access": "DummyAccessToken"
-    }
+    patch_token.return_value = DUMMY_TOKEN
+
     Admin.objects.create_user(
         name="Admin", email="admin@test.com", password="1234")
-    data = {"email": "admin@test.com", "password": "1234"}
-    response = client.post(url, data)
+
+    response = client.post(url, DATA)
     response_content = json.loads(response.content)
 
     assert response.status_code == 200
     assert response_content == {
-        "msg": "Login Success",
-        "token": {
-            "refresh": "DummyRefreshToken",
-            "access": "DummyAccessToken"
-        }
+        "msg": LOGIN_SUCCESS_MESSAGE,
+        "token": DUMMY_TOKEN
     }

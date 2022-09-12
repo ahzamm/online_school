@@ -2,6 +2,7 @@ import json
 from unittest.mock import patch
 
 import pytest
+from accounts.messages import *
 from accounts.models import Student
 from django.urls import reverse
 
@@ -24,6 +25,9 @@ FIELD_REQUIRED_MESSAGE = {
         ]}
 }
 
+DATA = {'name': 'Student', 'email': 'student@test.com', 'password': '1234',
+        'password2': '12345'}
+
 
 def test_get_zero_content(client, create_test_admin):
     token = create_test_admin
@@ -39,28 +43,25 @@ def test_get_zero_content(client, create_test_admin):
 
 
 def test_wrong_confirm_password(client, create_test_admin):
-    data = {
-        'name': 'Student', 'email': 'student@test.com', 'password': '1234',
-        'password2': '12345'}
+    DATA['password2'] = "123456"
     token = create_test_admin
     response = client.post(
-        url, data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+        url, DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
     assert response.status_code == 400
     assert response_content == {'errors': {
         "non_field_errors": [
-            "Password and Confirm Password doesn't match"
+            PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
         ]}
     }
 
 
 def test_with_same_email(client, create_test_admin):
     Student.objects.create(name='Admin', email='student@test.com')
-    data = {'name': 'Student', 'email': 'student@test.com',
-            'password': '1234', 'password2': '1234'}
+
     token = create_test_admin
     response = client.post(
-        url, data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+        url, DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
     assert response.status_code == 400
     assert response_content == {'errors': {
@@ -71,11 +72,10 @@ def test_with_same_email(client, create_test_admin):
 
 
 def test_with_wrong_data(client, create_test_admin):
-    data = {'name': 'Admin', 'email': 'studenttest.com',
-            'password': '1234', 'password2': '1234'}
+    DATA['email'] = "studenttest.com"
     token = create_test_admin
     response = client.post(
-        url, data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+        url, DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
     assert response.status_code == 400
     assert response_content == {'errors': {

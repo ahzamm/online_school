@@ -9,6 +9,12 @@ from school import settings
 url = reverse('Student_Profile')
 pytestmark = pytest.mark.django_db
 
+DATA = {
+    "id": "user_id",
+    "email": "student@test.com",
+    "name": "Student"
+}
+
 
 def test_student_profile(client, create_test_student):
 
@@ -19,17 +25,13 @@ def test_student_profile(client, create_test_student):
 
     user_id = payload.get('user_id')
 
-    data = {
-        "id": user_id,
-        "email": "student@test.com",
-        "name": "Student"
-    }
+    DATA["id"] = user_id
     response = client.get(
         url, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
     assert response.status_code == 200
-    assert response_content == data
+    assert response_content == DATA
 
 
 def test_no_student_profile(client, create_test_admin):

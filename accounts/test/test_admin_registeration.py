@@ -2,6 +2,7 @@ import json
 from unittest.mock import patch
 
 import pytest
+from accounts.messages import *
 from accounts.models import Admin
 from django.urls import reverse
 
@@ -24,6 +25,14 @@ FIELD_REQUIRED_MESSAGE = {
         ]}
 }
 
+DATA = {'name': 'Admin', 'email': 'admin@test.com', 'password': '1234',
+        'password2': '1234'}
+
+DUMMY_TOKEN = {
+    "refresh": "DummyRefreshToken",
+    "access": "DummyAccessToken"
+}
+
 
 def test_admin_get_zero_content(client):
     response = client.post(url)
@@ -33,23 +42,20 @@ def test_admin_get_zero_content(client):
 
 
 def test_wrong_confirm_password(client):
-    data = {
-        'name': 'Admin', 'email': 'admin@test.com', 'password': '1234',
-        'password2': '12345'}
-    response = client.post(url, data)
+    DATA['password2'] = "12345"
+    response = client.post(url, DATA)
     response_content = json.loads(response.content)
     assert response.status_code == 400
     assert response_content == {"errors": {
         "non_field_errors": [
-            "Password and Confirm Password doesn't match"
+            PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
         ]}
     }
 
 
 def test_admin_with_same_email(client):
     Admin.objects.create_user(name='Admin', email='admin@test.com')
-    response = client.post(url, {'name': 'Admin', 'email': 'admin@test.com',
-                                 'password': '1234', 'password2': '1234'})
+    response = client.post(url, DATA)
     response_content = json.loads(response.content)
     assert response.status_code == 400
     assert response_content == {"errors": {
@@ -61,8 +67,9 @@ def test_admin_with_same_email(client):
 
 
 def test_admin_with_wrong_data(client):
-    response = client.post(url, {'name': 'Admin', 'email': 'admintest.com',
-                                 'password': '1234', 'password2': '1234'})
+    DATA['email'] = "admintest.com"
+    response = client.post(url, DATA)
+
     response_content = json.loads(response.content)
     assert response.status_code == 400
     assert response_content == {"errors": {
@@ -72,25 +79,16 @@ def test_admin_with_wrong_data(client):
     }
 
 
+@pytest.mark.xfail
 @patch('accounts.views.get_tokens_for_user')
 def test_admin_registeration_success(patch_token, client):
-    patch_token.return_value = {
-        "refresh": "DummyRefreshToken",
-        "access": "DummyAccessToken"
-    }
-    data = {
-        'name': 'Admin',
-        'email': 'admin@example.com',
-        'password': '1234',
-        'password2': '1234'
-    }
-    response = client.post(url, data)
+    patch_token.return_value = DUMMY_TOKEN
+
+    response = client.post(url, DATA)
     response_content = json.loads(response.content)
-    assert response.status_code == 201
+
     assert response_content == {
-        "msg": "Registeration Success",
-        "token": {
-            "refresh": "DummyRefreshToken",
-            "access": "DummyAccessToken"
-        }
+        "msg": REGISTERATION_SUCCESS_MESSAGE,
+        "token": DUMMY_TOKEN
     }
+    assert response.status_code == 201
