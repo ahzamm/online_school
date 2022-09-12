@@ -6,26 +6,11 @@ from accounts.messages import *
 from accounts.models import Admin
 from django.urls import reverse
 
-from .extra import DUMMY_TOKEN, non_field_error
+from .extra import DUMMY_TOKEN, FIELD_REQUIRED_MESSAGE, non_field_error
 
 url = reverse('Admin_Register')
 pytestmark = pytest.mark.django_db
 
-FIELD_REQUIRED_MESSAGE = {
-    "errors": {
-        "email": [
-            "This field is required."
-        ],
-        "name": [
-            "This field is required."
-        ],
-        "password": [
-            "This field is required."
-        ],
-        "password2": [
-            "This field is required."
-        ]}
-}
 
 DATA = {'name': 'Admin', 'email': 'admin@test.com', 'password': '1234',
         'password2': '1234'}
