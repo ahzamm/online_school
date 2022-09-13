@@ -39,12 +39,22 @@ class TimeTableSerializer(serializers.ModelSerializer):
         days = data.get('days')
         start_time = data.get('start_time')
         end_time = data.get('end_time')
+        room_no = data.get('room_no')
         _class = data.get('_class_')
         is_class_exists = Classes.objects.filter(id=_class)
 
         if is_class_exists:
+
+            previous_time = TimeTable.objects.all().values(
+                'start_time', 'end_time', 'room_no')
+            for i in previous_time:
+                clash = end_time > i['start_time'] and i['end_time'] > start_time and i['room_no'] == room_no
+                if clash:
+                    raise serializers.ValidationError(
+                        f"There is already a class on this time in room no {room_no}")
+
             timetable: TimeTable = TimeTable.objects.create(
-                days=days, start_time=start_time, end_time=end_time, _class=Classes.objects.get(id=_class))
+                days=days, start_time=start_time, end_time=end_time, room_no=room_no, _class=Classes.objects.get(id=_class))
 
             timetable.save()
             return data
