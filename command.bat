@@ -48,10 +48,10 @@ echo import datetime; attendence=Attendence.objects.create(date=datetime.date.to
 
 
 @REM CREATE 4 TimeTables
-echo import datetime; TimeTable.objects.create(days=TimeTable.DAYS.MONDAY,start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),room_no=TimeTable.ROOM_NO.ROOM_1,_class=Classes.objects.get(course=Course.objects.get(course_code="PF123"))) | python manage.py shell_plus
-echo import datetime; TimeTable.objects.create(days=TimeTable.DAYS.MONDAY,start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),room_no=TimeTable.ROOM_NO.ROOM_1,_class=Classes.objects.get(course=Course.objects.get(course_code="ICT123"))) | python manage.py shell_plus
-echo import datetime; TimeTable.objects.create(days=TimeTable.DAYS.MONDAY,start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),room_no=TimeTable.ROOM_NO.ROOM_1,_class=Classes.objects.get(course=Course.objects.get(course_code="DBMS123"))) | python manage.py shell_plus
-echo import datetime; TimeTable.objects.create(days=TimeTable.DAYS.MONDAY,start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),room_no=TimeTable.ROOM_NO.ROOM_1,_class=Classes.objects.get(course=Course.objects.get(course_code="ARB123"))) | python manage.py shell_plus
+@REM echo import datetime; TimeTable.objects.create(days=TimeTable.DAYS.MONDAY,start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),room_no=TimeTable.ROOM_NO.ROOM_1,_class=Classes.objects.get(course=Course.objects.get(course_code="PF123"))) | python manage.py shell_plus
+@REM echo import datetime; TimeTable.objects.create(days=TimeTable.DAYS.MONDAY,start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),room_no=TimeTable.ROOM_NO.ROOM_1,_class=Classes.objects.get(course=Course.objects.get(course_code="ICT123"))) | python manage.py shell_plus
+@REM echo import datetime; TimeTable.objects.create(days=TimeTable.DAYS.MONDAY,start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),room_no=TimeTable.ROOM_NO.ROOM_1,_class=Classes.objects.get(course=Course.objects.get(course_code="DBMS123"))) | python manage.py shell_plus
+@REM echo import datetime; TimeTable.objects.create(days=TimeTable.DAYS.MONDAY,start_time=datetime.datetime.now(),end_time=datetime.datetime.now(),room_no=TimeTable.ROOM_NO.ROOM_1,_class=Classes.objects.get(course=Course.objects.get(course_code="ARB123"))) | python manage.py shell_plus
 
 @REM RUN SERVER
 python manage.py runserver

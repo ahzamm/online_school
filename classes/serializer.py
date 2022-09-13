@@ -46,9 +46,9 @@ class TimeTableSerializer(serializers.ModelSerializer):
         if is_class_exists:
 
             previous_time = TimeTable.objects.all().values(
-                'start_time', 'end_time', 'room_no')
+                'start_time', 'end_time', 'room_no', 'days')
             for i in previous_time:
-                clash = end_time > i['start_time'] and i['end_time'] > start_time and i['room_no'] == room_no
+                clash = end_time > i['start_time'] and i['end_time'] > start_time and i['room_no'] == room_no and i['days'] == days
                 if clash:
                     raise serializers.ValidationError(
                         f"There is already a class on this time in room no {room_no}")
