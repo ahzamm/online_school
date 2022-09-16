@@ -1,7 +1,7 @@
 import pytest
 from django.urls import reverse
-import json
-from classes.messages import *
+# import json
+# from classes.messages import *
 
 url = reverse('TimeTableRegisteration')
 pytestmark = pytest.mark.django_db
