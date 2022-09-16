@@ -25,6 +25,11 @@ class AdminCreateCourse(APIView):
         return Response({'msg': COURSE_REGISTER_SUCCESS_MESSAGE}, status=COURSE_REGISTER_SUCCESS_STATUS)
 
 
+# TODO
+# Teacher create class view
+# create course fixture complete
+# i just have to complete create class fixture
+
 class AdminCreateTimeTable(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 

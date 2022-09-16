@@ -105,3 +105,29 @@ def student_login(patch_token, client, **kwargs):
         response = client.post(reverse('Student_Login'), data)
         return response
     return _student_login
+
+
+@pytest.fixture
+def create_test_course(client, create_test_teacher):
+    data = {
+        "name": "Test Course",
+        "course_code": "TC123",
+        "teacher": "teacher@test.com",
+        "ch": "4"
+    }
+    response = client.post(reverse("CourseRegisteration"), data)
+    response_content = json.loads(response.content)
+    return response_content
+
+
+@pytest.fixture
+def create_test_class(client, create_test_course):
+    data = {
+        "course": "Test Course",
+        "student": "TC123",
+        "enrollment_start_date": "teacher@test.com",
+        "enrollment_end_date": "4"
+    }
+    response = client.post(reverse("CourseRegisteration"), data)
+    response_content = json.loads(response.content)
+    return response_content
