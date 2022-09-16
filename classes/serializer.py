@@ -98,8 +98,7 @@ class ClassSerializer(serializers.ModelSerializer):
             )
 
             classes.save()
+            return data
 
         else:
             raise serializers.ValidationError(NO_COURSE_ERROR_MESSAGE)
-
-        return data

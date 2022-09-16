@@ -25,7 +25,8 @@ class AdminCreateCourse(APIView):
     def post(self, request):
         serializer = CourseSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        return Response({'msg': COURSE_REGISTER_SUCCESS_MESSAGE}, status=COURSE_REGISTER_SUCCESS_STATUS)
+        return Response({'msg': COURSE_REGISTER_SUCCESS_MESSAGE},
+                        status=COURSE_REGISTER_SUCCESS_STATUS)
 
 
 # TODO
