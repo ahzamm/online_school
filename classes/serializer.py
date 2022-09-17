@@ -94,9 +94,11 @@ class ClassSerializer(serializers.ModelSerializer):
         course = Course.objects.filter(course_code=course_code)
 
         if course:
+            teacher = self.context.get('teacher')
             classes: Classes = Classes.objects.create(
                 enrollment_start_date=enrollment_start_date,
                 enrollment_end_date=enrollment_end_date,
+                teacher=teacher,
                 course=Course.objects.get(course_code=course_code)
             )
 

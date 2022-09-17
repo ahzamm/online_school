@@ -30,6 +30,21 @@ class AdminCreateCourse(APIView):
                         status=COURSE_REGISTER_SUCCESS_STATUS)
 
 
+class TeacherCreateClassView(APIView):
+    permission_classes = [IsAuthenticated, IsTeacher]
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        # teacher_email = request.user.email
+        teacher = request.user
+
+        serializer = ClassSerializer(data=request.data, context={
+                                     'teacher': teacher})
+        serializer.is_valid(raise_exception=True)
+
+        return Response({'msg': CLASS_CREATE_SUCCESS_MESSAGE},
+                        status=CLASS_CREATE_SUCCESS_STATUS)
+
+
 # TODO
 # Teacher create class view
 # create course fixture complete
@@ -45,16 +60,3 @@ class AdminCreateTimeTable(APIView):
 
         return Response({'msg': TIMETABLE_REGISTER_SUCCESS_MESSAGE},
                         status=TIMETABLE_REGISTER_SUCCESS_STATUS)
-
-
-class TeacherCreateClassView(APIView):
-    permission_classes = [IsAuthenticated, IsTeacher]
-
-    def post(self, request: HttpRequest) -> HttpResponse:
-        teacher_email = request.user.email
-        serializer = ClassSerializer(data=request.data, context={
-                                     'teacher_email': teacher_email})
-        serializer.is_valid(raise_exception=True)
-
-        return Response({'msg': CLASS_CREATE_SUCCESS_MESSAGE},
-                        status=CLASS_CREATE_SUCCESS_STATUS)

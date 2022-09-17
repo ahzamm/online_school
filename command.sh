@@ -27,10 +27,10 @@ echo "Student.objects.create_user(email='student3@test.com', name='Student3', pa
 
 
 # @REM CREATE 4 COURSES
-echo "Course.objects.create(name='Programming Fundamental',course_code='PF123',teacher=Teacher.objects.get(name='Teacher1'),ch=Course.CH.FOUR)" | python3 manage.py shell_plus
-echo "Course.objects.create(name='Information and Communication Technology',course_code='ICT123',teacher=Teacher.objects.get(name='Teacher2'),ch=Course.CH.FOUR)" | python3 manage.py shell_plus
-echo "Course.objects.create(name='Data Base Management System',course_code='DBMS123',teacher=Teacher.objects.get(name='Teacher1'),ch=Course.CH.FOUR)" | python3 manage.py shell_plus
-echo "Course.objects.create(name='Arabic',course_code='ARB123',teacher=Teacher.objects.get(name='Teacher3'),ch=Course.CH.FOUR)" | python3 manage.py shell_plus
+echo "Course.objects.create(name='Programming Fundamental',course_code='PF123',ch=Course.CH.FOUR)" | python3 manage.py shell_plus
+echo "Course.objects.create(name='Information and Communication Technology',course_code='ICT123',ch=Course.CH.FOUR)" | python3 manage.py shell_plus
+echo "Course.objects.create(name='Data Base Management System',course_code='DBMS123',ch=Course.CH.FOUR)" | python3 manage.py shell_plus
+echo "Course.objects.create(name='Arabic',course_code='ARB123',ch=Course.CH.FOUR)" | python3 manage.py shell_plus
 
 
 # @REM CREATE 4 CLASSES

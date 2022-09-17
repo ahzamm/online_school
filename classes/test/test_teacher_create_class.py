@@ -9,7 +9,7 @@ from .extra import non_field_error
 url = reverse('ClassRegister')
 pytestmark = pytest.mark.django_db
 
-DATA = {
+_DATA = {
     "course_code": "TC123",
     "enrollment_start_date": "2022-04-14",
     "enrollment_end_date": "2022-04-18"
@@ -17,6 +17,7 @@ DATA = {
 
 
 def test_admin_create_class(client, create_test_admin, create_test_class):
+    DATA = _DATA
     token = create_test_admin
 
     response = client.post(
@@ -29,6 +30,7 @@ def test_admin_create_class(client, create_test_admin, create_test_class):
 
 
 def test_create_class_with_wrong_coursecode(client, create_test_teacher):
+    DATA = _DATA
     token = create_test_teacher
 
     response = client.post(
@@ -40,6 +42,7 @@ def test_create_class_with_wrong_coursecode(client, create_test_teacher):
 
 
 def test_create_class_success(client, create_test_teacher, create_test_course):
+    DATA = _DATA
     token = create_test_teacher
 
     response = client.post(

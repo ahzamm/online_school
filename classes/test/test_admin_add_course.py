@@ -6,11 +6,15 @@ from classes.messages import *
 url = reverse('CourseRegisteration')
 pytestmark = pytest.mark.django_db
 
-DATA = {"name": "Test Course", "course_code": "TC123",
-        "ch": "4", "email": "teacher@test.com"}
+_DATA = {"name": "Test Course", "course_code": "TC123",
+         "ch": "4", "email": "teacher@test.com"}
 
 
 def test_teacher_create_course(client, create_test_teacher):
+    """Check the expected response if the for some how teacher try to register course
+    """
+
+    DATA = _DATA
     token = create_test_teacher
 
     response = client.post(
@@ -23,6 +27,7 @@ def test_teacher_create_course(client, create_test_teacher):
 
 
 def test_create_course_with_wrong_email(client, create_test_admin):
+    DATA = _DATA
     token = create_test_admin
 
     response = client.post(
@@ -35,6 +40,7 @@ def test_create_course_with_wrong_email(client, create_test_admin):
 
 
 def test_admin_create_course_success(client, create_test_admin, create_test_teacher):
+    DATA = _DATA
     token = create_test_admin
 
     response = client.post(

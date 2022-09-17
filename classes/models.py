@@ -15,7 +15,6 @@ class Course(models.Model):
                           editable=False, unique=True)
     name = models.CharField(max_length=50)
     course_code = models.CharField(max_length=50)
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     ch = models.CharField(max_length=5,
                           choices=CH.choices)
 
@@ -27,7 +26,10 @@ class Classes(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4,
                           editable=False, unique=True)
     course = models.OneToOneField(Course, on_delete=models.CASCADE)
-    student = models.ManyToManyField(Student, default=None)
+    teacher = models.ForeignKey(Teacher, null=True,
+                                on_delete=models.CASCADE, related_name='teacher')
+    student = models.ManyToManyField(Student, null=True,
+                                     related_name='student')
     enrollment_start_date = models.DateField()
     enrollment_end_date = models.DateField()
 
