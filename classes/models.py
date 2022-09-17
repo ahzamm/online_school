@@ -31,7 +31,7 @@ class Classes(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid4,
                           editable=False, unique=True)
-    course = models.OneToOneField(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher, null=True,
                                 on_delete=models.CASCADE, related_name='teacher')
     student = models.ManyToManyField(Student, null=True,

@@ -24,4 +24,6 @@ def no_class_found(id: int):
 CLASS_CREATE_SUCCESS_MESSAGE = "Class Added Successfully"
 CLASS_CREATE_SUCCESS_STATUS = 200
 
+CLASS_ALREADY_REGISTERED = "Class with this course and section already exists"
+
 NO_COURSE_ERROR_MESSAGE = "No course with this course code present"

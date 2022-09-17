@@ -72,15 +72,27 @@ class ClassSerializer(serializers.ModelSerializer):
         enrollment_start_date = data.get('enrollment_start_date')
         enrollment_end_date = data.get('enrollment_end_date')
         course_code = data.get('course_code')
+        section = data.get('section')
 
         course = Course.objects.filter(course_code=course_code)
 
         if course:
+            course_id = course.first().id
+            previous_classes = Classes.objects.all().values('course', 'section')
+
+            for i in previous_classes:
+                is_already_registered = course_id == i["course"] and \
+                    section == i["section"]
+
+                if is_already_registered:
+                    raise serializers.ValidationError(CLASS_ALREADY_REGISTERED)
+
             teacher = self.context.get('teacher')
             classes: Classes = Classes.objects.create(
                 enrollment_start_date=enrollment_start_date,
                 enrollment_end_date=enrollment_end_date,
                 teacher=teacher,
+                section=section,
                 course=Course.objects.get(course_code=course_code)
             )
 

@@ -35,9 +35,7 @@ class TeacherCreateClassView(APIView):
     permission_classes = [IsAuthenticated, IsTeacher]
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        # teacher_email = request.user.email
         teacher = request.user
-
         serializer = ClassSerializer(data=request.data, context={
                                      'teacher': teacher})
         serializer.is_valid(raise_exception=True)
