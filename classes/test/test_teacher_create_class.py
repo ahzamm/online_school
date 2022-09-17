@@ -13,11 +13,15 @@ pytestmark = pytest.mark.django_db
 _DATA = {
     "course_code": "TC123",
     "enrollment_start_date": "2022-04-14",
-    "enrollment_end_date": "2022-04-18"
+    "enrollment_end_date": "2022-04-18",
+    "section": "A"
 }
 
 
 def test_admin_create_class(client, create_test_admin, create_test_class):
+    """Check the expected response if the for some how admin try to register course
+    """
+
     DATA = deepcopy(_DATA)
     token = create_test_admin
 

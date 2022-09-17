@@ -113,7 +113,6 @@ def create_test_course(client, create_test_admin, create_test_teacher):
     data = {
         "name": "Test Course",
         "course_code": "TC123",
-        "email": "teacher@test.com",
         "ch": "4"
     }
     token = create_test_admin
@@ -130,7 +129,8 @@ def create_test_class(client, create_test_teacher, create_test_course):
     data = {
         "course_code": "TC123",
         "enrollment_start_date": "2022-04-14",
-        "enrollment_end_date": "2022-04-18"
+        "enrollment_end_date": "2022-04-18",
+        "section": "A"
     }
 
     token = create_test_teacher

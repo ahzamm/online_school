@@ -9,7 +9,7 @@ url = reverse('CourseRegisteration')
 pytestmark = pytest.mark.django_db
 
 _DATA = {"name": "Test Course", "course_code": "TC123",
-         "ch": "4", "email": "teacher@test.com"}
+         "ch": "4"}
 
 
 def test_teacher_create_course(client, create_test_teacher):
@@ -25,22 +25,6 @@ def test_teacher_create_course(client, create_test_teacher):
 
     error_message = {'errors': {
         'detail': 'You do not have permission to perform this action.'}}
-    assert response_content == error_message
-
-
-def test_create_course_with_wrong_email(client, create_test_admin):
-    """Test create new course by providing teacher email that doesnt exists
-    """
-
-    DATA = deepcopy(_DATA)
-    token = create_test_admin
-
-    response = client.post(
-        url, DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
-    response_content = json.loads(response.content)
-
-    error_message = {'errors': {
-        'non_field_errors': [NO_TEACHER_FOUND_MESSAGE]}}
     assert response_content == error_message
 
 
