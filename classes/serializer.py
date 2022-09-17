@@ -45,6 +45,9 @@ class TimeTableSerializer(serializers.ModelSerializer):
 
         if is_class_exists:
 
+            if start_time > end_time:
+                raise serializers.ValidationError(INVALID_TIME_MESSAGE)
+
             previous_time = TimeTable.objects.all().values(
                 'start_time',
                 'end_time',
@@ -60,7 +63,7 @@ class TimeTableSerializer(serializers.ModelSerializer):
 
                 if clash:
                     raise serializers.ValidationError(
-                        f"There is already a class on this time in room no {room_no}")
+                        timetable_clash_message(room_no))
 
             timetable: TimeTable = TimeTable.objects.create(
                 days=days,
@@ -73,7 +76,7 @@ class TimeTableSerializer(serializers.ModelSerializer):
             timetable.save()
             return data
         else:
-            raise serializers.ValidationError(NO_COURSE_FOUND_MESSAGE)
+            raise serializers.ValidationError(no_class_found(_class))
 
 
 class ClassSerializer(serializers.ModelSerializer):

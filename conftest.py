@@ -3,6 +3,7 @@ from unittest.mock import patch
 
 import pytest
 from django.urls import reverse
+from classes.models import Classes
 
 pytestmark = pytest.mark.django_db
 
@@ -125,12 +126,31 @@ def create_test_course(client, create_test_admin, create_test_teacher):
 
 
 @pytest.fixture
-def create_test_class(client, create_test_course):
+def create_test_class(client, create_test_teacher, create_test_course):
     data = {
-        "course": "TC123",
-        "enrollment_start_date": "teacher@test.com",
-        "enrollment_end_date": "4"
+        "course_code": "TC123",
+        "enrollment_start_date": "2022-04-14",
+        "enrollment_end_date": "2022-04-18"
     }
-    response = client.post(reverse("CourseRegisteration"), data)
+
+    token = create_test_teacher
+    response = client.post(
+        reverse("ClassRegister"), data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
     return response_content
+
+
+@pytest.fixture
+def create_test_timetable(client, create_test_class, create_test_admin):
+    token = create_test_admin
+    test_class = Classes.objects.first()
+    test_class_id = test_class.id
+
+    data = {"days": "MONDAY",
+            "start_time": "09:30:00",
+            "end_time": "10:45:00",
+            "_class_": test_class_id,
+            "room_no": "ROOM_3"}
+
+    response = client.post(
+        reverse('TimeTableRegisteration'), data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})

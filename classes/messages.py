@@ -9,7 +9,16 @@ NO_TEACHER_FOUND_MESSAGE = "No Teacher with this Email found"
 TIMETABLE_REGISTER_SUCCESS_MESSAGE = "TIMETABLE ADDED SUCCESSFULLY"
 TIMETABLE_REGISTER_SUCCESS_STATUS = 201
 
-NO_COURSE_FOUND_MESSAGE = "No teacher with this email found"
+
+def timetable_clash_message(room_no: str) -> str:
+    return f"There is already a class on this time in room no {room_no}"
+
+
+INVALID_TIME_MESSAGE = "The provided time is invalid"
+
+
+def no_class_found(id: int):
+    return f"No class with ID {id} found"
 
 
 CLASS_CREATE_SUCCESS_MESSAGE = "Class Added Successfully"
