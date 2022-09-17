@@ -23,6 +23,12 @@ class Course(models.Model):
 
 
 class Classes(models.Model):
+
+    class SECTION(models.TextChoices):
+        A = "A"
+        B = "B"
+        C = "C"
+
     id = models.UUIDField(primary_key=True, default=uuid4,
                           editable=False, unique=True)
     course = models.OneToOneField(Course, on_delete=models.CASCADE)
@@ -32,6 +38,11 @@ class Classes(models.Model):
                                      related_name='student')
     enrollment_start_date = models.DateField()
     enrollment_end_date = models.DateField()
+    section = models.CharField(max_length=1,
+                               choices=SECTION.choices)
+
+    mid_exammination_date = models.DateField(null=True)
+    final_exammination_date = models.DateField(null=True)
 
     def __str__(self):
         return str(self.course)

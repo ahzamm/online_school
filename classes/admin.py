@@ -9,7 +9,8 @@ class CourseAdmin(admin.ModelAdmin):
 
 
 class ClassesAdmin(admin.ModelAdmin):
-    list_display = ('course', 'teacher')
+    list_display = ('course', 'teacher', 'enrollment_start_date',
+                    'enrollment_end_date', 'section')
 
 
 class AttendenceAdmin(admin.ModelAdmin):
