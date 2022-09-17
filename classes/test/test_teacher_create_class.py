@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 
 import pytest
 from classes.messages import *
@@ -17,7 +18,7 @@ _DATA = {
 
 
 def test_admin_create_class(client, create_test_admin, create_test_class):
-    DATA = _DATA
+    DATA = deepcopy(_DATA)
     token = create_test_admin
 
     response = client.post(
@@ -30,7 +31,7 @@ def test_admin_create_class(client, create_test_admin, create_test_class):
 
 
 def test_create_class_with_wrong_coursecode(client, create_test_teacher):
-    DATA = _DATA
+    DATA = deepcopy(_DATA)
     token = create_test_teacher
 
     response = client.post(
@@ -42,7 +43,7 @@ def test_create_class_with_wrong_coursecode(client, create_test_teacher):
 
 
 def test_create_class_success(client, create_test_teacher, create_test_course):
-    DATA = _DATA
+    DATA = deepcopy(_DATA)
     token = create_test_teacher
 
     response = client.post(

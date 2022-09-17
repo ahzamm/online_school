@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 
 import pytest
 from classes.messages import *
@@ -20,7 +21,7 @@ _DATA = {"days": "MONDAY",
 
 def test_invalid_course(client, create_test_class, create_test_admin):
     token = create_test_admin
-    DATA = _DATA
+    DATA = deepcopy(_DATA)
 
     response = client.post(
         url, DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
@@ -34,7 +35,7 @@ def test_invalid_course(client, create_test_class, create_test_admin):
 
 
 def test_time_clash(client, create_test_class, create_test_admin, create_test_timetable):
-    DATA = _DATA
+    DATA = deepcopy(_DATA)
     token = create_test_admin
     test_class = Classes.objects.first()
     test_class_id = test_class.id
@@ -51,7 +52,7 @@ def test_time_clash(client, create_test_class, create_test_admin, create_test_ti
 
 
 def test_invalid_time(client, create_test_class, create_test_admin, create_test_timetable):
-    DATA = _DATA
+    DATA = deepcopy(_DATA)
     token = create_test_admin
     test_class = Classes.objects.first()
     test_class_id = test_class.id
@@ -67,7 +68,7 @@ def test_invalid_time(client, create_test_class, create_test_admin, create_test_
 
 
 def test_create_timetable(client, create_test_class, create_test_admin):
-    DATA = _DATA
+    DATA = deepcopy(_DATA)
     token = create_test_admin
     test_class = Classes.objects.first()
     test_class_id = test_class.id

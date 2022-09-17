@@ -1,7 +1,9 @@
-import pytest
-from django.urls import reverse
 import json
+from copy import deepcopy
+
+import pytest
 from classes.messages import *
+from django.urls import reverse
 
 url = reverse('CourseRegisteration')
 pytestmark = pytest.mark.django_db
@@ -14,7 +16,7 @@ def test_teacher_create_course(client, create_test_teacher):
     """Check the expected response if the for some how teacher try to register course
     """
 
-    DATA = _DATA
+    DATA = deepcopy(_DATA)
     token = create_test_teacher
 
     response = client.post(
@@ -27,7 +29,10 @@ def test_teacher_create_course(client, create_test_teacher):
 
 
 def test_create_course_with_wrong_email(client, create_test_admin):
-    DATA = _DATA
+    """Test create new course by providing teacher email that doesnt exists
+    """
+
+    DATA = deepcopy(_DATA)
     token = create_test_admin
 
     response = client.post(
@@ -40,7 +45,10 @@ def test_create_course_with_wrong_email(client, create_test_admin):
 
 
 def test_admin_create_course_success(client, create_test_admin, create_test_teacher):
-    DATA = _DATA
+    """Test of create course success
+    """
+
+    DATA = deepcopy(_DATA)
     token = create_test_admin
 
     response = client.post(
