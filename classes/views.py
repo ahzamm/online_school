@@ -33,6 +33,7 @@ class AdminCreateCourse(APIView):
 # Teacher create class view
 # create course fixture complete
 # i just have to complete create class fixture
+# ADD FOREGIN KEY OF TEACHER IN CLASS
 
 class AdminCreateTimeTable(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
