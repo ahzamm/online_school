@@ -1,8 +1,3 @@
-"""create our models here."""
-# TODO
-# create seperate proxy model for admin
-# make password compalsory for every user type
-
 
 from uuid import uuid4
 
@@ -10,13 +5,11 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-#  Custom User Manager
-
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, name, password=None, password2=None):
-        """
-        Creates and saves a User with the given email, name, tc and password.
+    def create_user(self, email, name, password=None,
+                    password2=None):
+        """Creates and saves a User with the given email, name and password.
         """
         if not email:
             raise ValueError('User must have an email address')
@@ -28,11 +21,11 @@ class UserManager(BaseUserManager):
 
         user.set_password(password)
         user.save(using=self._db)
+
         return user
 
     def create_superuser(self, email, name, password=None, **kwargs):
-        """
-        Creates and saves a superuser with the given email, name and password.
+        """Creates and saves a superuser with the given email, name and password.
         """
         user = self.create_user(
             email=email,
@@ -41,6 +34,7 @@ class UserManager(BaseUserManager):
         )
         user.is_admin = True
         user.save(using=self._db)
+
         return user
 
 
@@ -58,11 +52,9 @@ class User(AbstractBaseUser):
     type = models.CharField(_('Type'), max_length=50,
                             choices=Type.choices)
 
-    email = models.EmailField(
-        verbose_name='Email',
-        max_length=255,
-        unique=True,
-    )
+    email = models.EmailField(verbose_name='Email',
+                              max_length=255, unique=True)
+
     name = models.CharField(max_length=200)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -106,6 +98,7 @@ class AdminManager(BaseUserManager):
 
         user.set_password(password)
         user.save(using=self._db)
+
         return user
 
 
@@ -127,6 +120,7 @@ class TeacherManager(BaseUserManager):
 
         user.set_password(password)
         user.save(using=self._db)
+
         return user
 
 
@@ -148,6 +142,7 @@ class StudentManager(BaseUserManager):
 
         user.set_password(password)
         user.save(using=self._db)
+
         return user
 
 

@@ -4,10 +4,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .messages import *
+
 from accounts.serializers import *
 
 from .custom_permissions import IsAdmin, IsStudent, IsTeacher
+from .messages import *
 
 
 def get_tokens_for_user(user):
@@ -18,8 +19,6 @@ def get_tokens_for_user(user):
         'access': str(refresh.access_token),
     }
 
-# ======================= Registeration view =======================
-
 
 class AdminRegisterationView(APIView):
     def post(self, request):
@@ -27,7 +26,9 @@ class AdminRegisterationView(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         token = get_tokens_for_user(user)
-        return Response({'msg': ADMIN_REGISTERATION_SUCCESS_MESSAGE, 'token': token},
+
+        return Response({'msg': ADMIN_REGISTERATION_SUCCESS_MESSAGE,
+                        'token': token},
                         status=REGISTERATION_SUCCESS_STATUS)
 
 
@@ -39,7 +40,9 @@ class TeacherRegisterationView(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         token = get_tokens_for_user(user)
-        return Response({'msg': TEACHER_REGISTERATION_SUCCESS_MESSAGE, 'token': token},
+
+        return Response({'msg': TEACHER_REGISTERATION_SUCCESS_MESSAGE,
+                        'token': token},
                         status=REGISTERATION_SUCCESS_STATUS)
 
 
@@ -51,10 +54,10 @@ class StudentRegisterationView(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         token = get_tokens_for_user(user)
-        return Response({'msg': STUDENT_REGISTERATION_SUCCESS_MESSAGE, 'token': token},
-                        status=REGISTERATION_SUCCESS_STATUS)
 
-# ======================= Login view =======================
+        return Response({'msg': STUDENT_REGISTERATION_SUCCESS_MESSAGE,
+                        'token': token},
+                        status=REGISTERATION_SUCCESS_STATUS)
 
 
 class AdminLoginView(APIView):
@@ -64,9 +67,12 @@ class AdminLoginView(APIView):
         email = serializer.data.get('email')
         password = serializer.data.get('password')
         user = authenticate(email=email, password=password)
+
         if user is not None:
             token = get_tokens_for_user(user)
-            return Response({'msg': LOGIN_SUCCESS_MESSAGE, 'token': token}, status=LOGIN_SUCCESS_STATUS)
+            return Response({'msg': LOGIN_SUCCESS_MESSAGE, 'token': token},
+                            status=LOGIN_SUCCESS_STATUS)
+
         return Response({'errors': {'non_field_errors': [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
                         status=EMAIL_PASSWORD_NOT_VALID_STATUS)
 
@@ -78,9 +84,13 @@ class TeacherLoginView(APIView):
         email = serializer.data.get('email')
         password = serializer.data.get('password')
         user = authenticate(email=email, password=password)
+
         if user is not None:
             token = get_tokens_for_user(user)
-            return Response({'msg': LOGIN_SUCCESS_MESSAGE, 'token': token}, status=LOGIN_SUCCESS_STATUS)
+            return Response({'msg': LOGIN_SUCCESS_MESSAGE,
+                            'token': token},
+                            status=LOGIN_SUCCESS_STATUS)
+
         return Response({'errors': {'non_field_errors': [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
                         status=EMAIL_PASSWORD_NOT_VALID_STATUS)
 
@@ -92,16 +102,16 @@ class StudentLoginView(APIView):
         email = serializer.data.get('email')
         password = serializer.data.get('password')
         user = authenticate(email=email, password=password)
+
         if user is not None:
             token = get_tokens_for_user(user)
-            return Response({'msg': LOGIN_SUCCESS_MESSAGE, 'token': token}, status=LOGIN_SUCCESS_STATUS)
+            return Response({'msg': LOGIN_SUCCESS_MESSAGE,
+                            'token': token},
+                            status=LOGIN_SUCCESS_STATUS)
+
         return Response({'errors': {'non_field_errors': [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
                         status=EMAIL_PASSWORD_NOT_VALID_STATUS)
 
-
-# ======================= Profile view =======================
-# TODO
-# we can make single profile view
 
 class AdminProfileView(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
@@ -127,36 +137,40 @@ class StudentProfileView(APIView):
         return Response(serializer.data, status=200)
 
 
-# ======================= Change Password view =======================
-
 class AdminChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        seriaizer = AdminChangePasswordSerializer(
-            data=request.data, context={'user': request.user})
+        seriaizer = AdminChangePasswordSerializer(data=request.data,
+                                                  context={'user': request.user})
         seriaizer.is_valid(raise_exception=True)
-        return Response({'msg': PASSWORD_CHANGE_SUCCESS_MESSAGE}, status=PASSWORD_CHANGE_SUCCESS_STATUS)
+
+        return Response({'msg': PASSWORD_CHANGE_SUCCESS_MESSAGE},
+                        status=PASSWORD_CHANGE_SUCCESS_STATUS)
 
 
 class TeacherChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        seriaizer = TeacherChangePasswordSerializer(
-            data=request.data, context={'user': request.user})
+        seriaizer = TeacherChangePasswordSerializer(data=request.data,
+                                                    context={'user': request.user})
         seriaizer.is_valid(raise_exception=True)
-        return Response({'msg': PASSWORD_CHANGE_SUCCESS_MESSAGE}, status=PASSWORD_CHANGE_SUCCESS_STATUS)
+
+        return Response({'msg': PASSWORD_CHANGE_SUCCESS_MESSAGE},
+                        status=PASSWORD_CHANGE_SUCCESS_STATUS)
 
 
 class StudentChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        seriaizer = StudentChangePasswordSerializer(
-            data=request.data, context={'user': request.user})
+        seriaizer = StudentChangePasswordSerializer(data=request.data,
+                                                    context={'user': request.user})
         seriaizer.is_valid(raise_exception=True)
-        return Response({'msg': PASSWORD_CHANGE_SUCCESS_MESSAGE}, status=PASSWORD_CHANGE_SUCCESS_STATUS)
+
+        return Response({'msg': PASSWORD_CHANGE_SUCCESS_MESSAGE},
+                        status=PASSWORD_CHANGE_SUCCESS_STATUS)
 
 
 class AdminChangeTeacherStudentPasswordView(APIView):
@@ -166,22 +180,25 @@ class AdminChangeTeacherStudentPasswordView(APIView):
         serializer = AdminChangeTeacherStudentPasswordSerializer(
             data=request.data)
         serializer.is_valid(raise_exception=True)
-        return Response({'msg': PASSWORD_CHANGE_SUCCESS_MESSAGE}, status=PASSWORD_CHANGE_SUCCESS_STATUS)
 
+        return Response({'msg': PASSWORD_CHANGE_SUCCESS_MESSAGE},
+                        status=PASSWORD_CHANGE_SUCCESS_STATUS)
 
-# ======================= RESET Password view =======================
 
 class SendPasswordResetEmailView(APIView):
     def post(self, request):
-        serializer = SendPasswordResetEmailSerializer(
-            data=request.data)
+        serializer = SendPasswordResetEmailSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        return Response({"msg": PASSWORD_RESET_EMAIL_MESSAGE}, status=PASSWORD_RESET_EMAIL_STATUS)
+
+        return Response({"msg": PASSWORD_RESET_EMAIL_MESSAGE},
+                        status=PASSWORD_RESET_EMAIL_STATUS)
 
 
 class UserPasswordResetView(APIView):
     def post(self, request, uid, token, format=None):
-        serializer = UserPasswordResetSerializer(
-            data=request.data, context={'uid': uid, 'token': token})
+        serializer = UserPasswordResetSerializer(data=request.data,
+                                                 context={'uid': uid, 'token': token})
         serializer.is_valid(raise_exception=True)
-        return Response({'msg': PASSWORD_RESET_SUCCESS_MESSAGE}, status=PASSWORD_RESET_SUCCESS_STATUS)
+
+        return Response({'msg': PASSWORD_RESET_SUCCESS_MESSAGE},
+                        status=PASSWORD_RESET_SUCCESS_STATUS)

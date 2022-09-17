@@ -3,9 +3,11 @@ from django.utils.encoding import (DjangoUnicodeDecodeError, force_bytes,
                                    smart_str)
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import serializers
-from .messages import *
+
 from accounts.models import Admin, Student, Teacher, User
 from accounts.utils import Util
+
+from .messages import *
 
 
 class AdminRegisterationSerializer(serializers.ModelSerializer):
@@ -23,6 +25,7 @@ class AdminRegisterationSerializer(serializers.ModelSerializer):
         if password != password2:
             raise serializers.ValidationError(
                 PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
+
         return data
 
     def create(self, validated_data):
@@ -44,6 +47,7 @@ class TeacherRegisterationSerializer(serializers.ModelSerializer):
         if password != password2:
             raise serializers.ValidationError(
                 PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
+
         return data
 
     def create(self, validated_data):
@@ -65,6 +69,7 @@ class StudentRegisterationSerializer(serializers.ModelSerializer):
         if password != password2:
             raise serializers.ValidationError(
                 PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
+
         return data
 
     def create(self, validated_data):
@@ -137,12 +142,16 @@ class AdminChangePasswordSerializer(serializers.Serializer):
         if password != password2:
             raise serializers.ValidationError(
                 PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
+
         user = self.context.get('user')
+
         if not user.check_password(old_password):
             raise serializers.ValidationError(
                 WRONG_OLD_PASSWORD)
+
         user.set_password(password)
         user.save()
+
         return data
 
 
@@ -164,12 +173,16 @@ class TeacherChangePasswordSerializer(serializers.Serializer):
         if password != password2:
             raise serializers.ValidationError(
                 PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
+
         user = self.context.get('user')
+
         if not user.check_password(old_password):
             raise serializers.ValidationError(
                 WRONG_OLD_PASSWORD)
+
         user.set_password(password)
         user.save()
+
         return data
 
 
@@ -191,12 +204,16 @@ class StudentChangePasswordSerializer(serializers.Serializer):
         if password != password2:
             raise serializers.ValidationError(
                 PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
+
         user = self.context.get('user')
+
         if not user.check_password(old_password):
             raise serializers.ValidationError(
                 WRONG_OLD_PASSWORD)
+
         user.set_password(password)
         user.save()
+
         return data
 
 
@@ -214,6 +231,7 @@ class AdminChangeTeacherStudentPasswordSerializer(serializers.Serializer):
         password2 = data.get('password2')
 
         user = User.objects.filter(email=email).first()
+
         if user is None:
             raise serializers.ValidationError(NO_STUDENT_TEACHER_WITH_EMAIL)
 
@@ -223,6 +241,7 @@ class AdminChangeTeacherStudentPasswordSerializer(serializers.Serializer):
 
         user.set_password(password)
         user.save()
+
         return data
 
 
@@ -231,6 +250,7 @@ class SendPasswordResetEmailSerializer(serializers.Serializer):
 
     def validate(self, data):
         email = data.get('email')
+
         if User.objects.filter(email=email).exists():
             user = User.objects.get(email=email)
             uid = urlsafe_base64_encode(force_bytes(user.id))
@@ -243,16 +263,21 @@ class SendPasswordResetEmailSerializer(serializers.Serializer):
                 'to_email': user.email
             }
             Util.send_email(data)
+
             return data
+
         else:
             raise serializers.ValidationError(USER_WITH_EMAIL_DOESNT_EXIST)
 
 
 class UserPasswordResetSerializer(serializers.Serializer):
-    password = serializers.CharField(
-        max_length=255, style={'input_type': 'password'}, write_only=True)
-    password2 = serializers.CharField(
-        max_length=255, style={'input_type': 'password'}, write_only=True)
+    password = serializers.CharField(max_length=255,
+                                     style={'input_type': 'password'},
+                                     write_only=True)
+
+    password2 = serializers.CharField(max_length=255,
+                                      style={'input_type': 'password'},
+                                      write_only=True)
 
     def validate(self, attrs):
         try:
@@ -260,17 +285,24 @@ class UserPasswordResetSerializer(serializers.Serializer):
             password2 = attrs.get('password2')
             uid = self.context.get('uid')
             token = self.context.get('token')
+
             if password != password2:
                 raise serializers.ValidationError(
                     PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
+
             id = smart_str(urlsafe_base64_decode(uid))
             user = User.objects.get(id=id)
+
             if not PasswordResetTokenGenerator().check_token(user, token):
                 raise serializers.ValidationError(
                     'Token is not Valid or Expired')
+
             user.set_password(password)
             user.save()
+
             return attrs
+
         except DjangoUnicodeDecodeError as identifier:
             PasswordResetTokenGenerator().check_token(user, token)
+
             raise serializers.ValidationError('Token is not Valid or Expired')
