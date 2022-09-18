@@ -73,7 +73,8 @@ class AdminLoginView(APIView):
             return Response({'msg': LOGIN_SUCCESS_MESSAGE, 'token': token},
                             status=LOGIN_SUCCESS_STATUS)
 
-        return Response({'errors': {'non_field_errors': [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
+        return Response({'errors': {'non_field_errors':
+                                    [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
                         status=EMAIL_PASSWORD_NOT_VALID_STATUS)
 
 
@@ -110,7 +111,8 @@ class StudentLoginView(APIView):
                             'token': token},
                             status=LOGIN_SUCCESS_STATUS)
 
-        return Response({'errors': {'non_field_errors': [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
+        return Response({'errors': {'non_field_errors':
+                                    [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
                         status=EMAIL_PASSWORD_NOT_VALID_STATUS)
 
 
