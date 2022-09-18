@@ -18,33 +18,33 @@ class TimeTableSerializer(serializers.ModelSerializer):
         exclude = ['_class']
 
     def validate(self, data):
-        _days = data.get('days')
-        _start_time = data.get('start_time')
-        _end_time = data.get('end_time')
-        _room_no = data.get('room_no')
+        days = data.get('days')
+        start_time = data.get('start_time')
+        end_time = data.get('end_time')
+        room_no = data.get('room_no')
         _class = data.get('_class_')
         is_class_exists = Classes.objects.filter(id=_class).exists()
 
         if not is_class_exists:
             raise serializers.ValidationError(no_class_found(_class))
 
-        if _start_time > _end_time:
+        if start_time > end_time:
             raise serializers.ValidationError(INVALID_TIME_MESSAGE)
 
-        clash = TimeTable.objects.filter(start_time__lt=_end_time,
-                                         end_time__gt=_start_time,
-                                         room_no=_room_no,
-                                         days=_days).exists()
+        clash = TimeTable.objects.filter(start_time__lt=end_time,
+                                         end_time__gt=start_time,
+                                         room_no=room_no,
+                                         days=days).exists()
 
         if clash:
             raise serializers.ValidationError(
-                timetable_clash_message(_room_no))
+                timetable_clash_message(room_no))
 
         timetable: TimeTable = TimeTable.objects.create(
-            days=_days,
-            start_time=_start_time,
-            end_time=_end_time,
-            room_no=_room_no,
+            days=days,
+            start_time=start_time,
+            end_time=end_time,
+            room_no=room_no,
             _class=Classes.objects.get(id=_class)
         )
 
