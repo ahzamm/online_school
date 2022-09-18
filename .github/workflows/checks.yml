@@ -15,4 +15,4 @@ jobs:
       - name: Test
         run: docker-compose run --rm my_awsome_app sh -c "python manage.py test"
       - name: Lint
-        run: docker-compose run --rm my_awsome_app sh -c "flake8 --ignore=E402,F841,F403,F405"
+        run: docker-compose run --rm my_awsome_app sh -c "flake8 --ignore=E402,F841,F403,F405 --per-file-ignores="__init__.py:F401" ."

@@ -55,8 +55,8 @@ class UserPasswordResetSerializer(serializers.Serializer):
                 raise serializers.ValidationError(
                     PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
 
-            id = smart_str(urlsafe_base64_decode(uid))
-            user = User.objects.get(id=id)
+            _id = smart_str(urlsafe_base64_decode(uid))
+            user = User.objects.get(id=_id)
 
             if not PasswordResetTokenGenerator().check_token(user, token):
                 raise serializers.ValidationError(
@@ -67,7 +67,8 @@ class UserPasswordResetSerializer(serializers.Serializer):
 
             return attrs
 
-        except DjangoUnicodeDecodeError:
+        except DjangoUnicodeDecodeError as e:
             PasswordResetTokenGenerator().check_token(user, token)
 
-            raise serializers.ValidationError('Token is not Valid or Expired')
+            raise serializers.ValidationError(
+                'Token is not Valid or Expired') from e
