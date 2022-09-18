@@ -66,8 +66,9 @@ def test_reset_password_response(client, create_test_student_with_legit_email):
     }
 
 
-@patch("accounts.serializers.PasswordResetTokenGenerator.make_token")
-@patch("accounts.serializers.urlsafe_base64_encode")
+@patch(("accounts.serializers.common_serializers.PasswordResetTokenGenerator"
+       ".make_token"))
+@patch("accounts.serializers.common_serializers.urlsafe_base64_encode")
 def test_reset_password_mail(patch_encode, make_token, client,
                              create_test_student_with_legit_email,
                              mailoutbox):
