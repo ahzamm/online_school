@@ -28,7 +28,8 @@ def test_teacher_create_course(client, create_test_teacher):
     assert response_content == error_message
 
 
-def test_admin_create_course_success(client, create_test_admin, create_test_teacher):
+def test_admin_create_course_success(client, create_test_admin,
+                                     create_test_teacher):
     """Test of create course success
     """
 

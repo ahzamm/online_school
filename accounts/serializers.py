@@ -22,6 +22,7 @@ class AdminRegisterationSerializer(serializers.ModelSerializer):
     def validate(self, data):
         password = data.get('password')
         password2 = data.get('password2')
+
         if password != password2:
             raise serializers.ValidationError(
                 PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
@@ -44,6 +45,7 @@ class TeacherRegisterationSerializer(serializers.ModelSerializer):
     def validate(self, data):
         password = data.get('password')
         password2 = data.get('password2')
+
         if password != password2:
             raise serializers.ValidationError(
                 PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
@@ -66,6 +68,7 @@ class StudentRegisterationSerializer(serializers.ModelSerializer):
     def validate(self, data):
         password = data.get('password')
         password2 = data.get('password2')
+
         if password != password2:
             raise serializers.ValidationError(
                 PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
@@ -298,7 +301,7 @@ class UserPasswordResetSerializer(serializers.Serializer):
 
             return attrs
 
-        except DjangoUnicodeDecodeError as identifier:
+        except DjangoUnicodeDecodeError:
             PasswordResetTokenGenerator().check_token(user, token)
 
             raise serializers.ValidationError('Token is not Valid or Expired')

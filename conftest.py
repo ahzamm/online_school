@@ -156,3 +156,4 @@ def create_test_timetable(client, create_test_class, create_test_admin):
 
     response = client.post(reverse('TimeTableRegisteration'), data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    return response

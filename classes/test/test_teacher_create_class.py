@@ -19,7 +19,7 @@ _DATA = {
 
 
 def test_admin_create_class(client, create_test_admin, create_test_class):
-    """Check the expected response if the for some how admin try to register course
+    """Check the expected response if admin try to create class
     """
     DATA = deepcopy(_DATA)
     token = create_test_admin
@@ -34,7 +34,8 @@ def test_admin_create_class(client, create_test_admin, create_test_class):
 
 
 def test_create_class_with_wrong_coursecode(client, create_test_teacher):
-    """Test the response by providing the course code, having no entry in our database
+    """Test the response by providing the course code, having no entry in our 
+       database
     """
     DATA = deepcopy(_DATA)
     token = create_test_teacher
@@ -47,7 +48,8 @@ def test_create_class_with_wrong_coursecode(client, create_test_teacher):
     assert response_content == error_message
 
 
-def test_already_registered_class(client, create_test_teacher, create_test_course, create_test_class):
+def test_already_registered_class(client, create_test_teacher,
+                                  create_test_course, create_test_class):
     DATA = deepcopy(_DATA)
     token = create_test_teacher
 

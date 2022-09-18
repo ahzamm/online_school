@@ -32,8 +32,8 @@ class Classes(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4,
                           editable=False, unique=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    teacher = models.ForeignKey(Teacher, null=True,
-                                on_delete=models.CASCADE, related_name='teacher')
+    teacher = models.ForeignKey(Teacher, null=True, on_delete=models.CASCADE,
+                                related_name='teacher')
     student = models.ManyToManyField(Student, null=True,
                                      related_name='student')
     enrollment_start_date = models.DateField()
@@ -88,8 +88,8 @@ class TimeTable(models.Model):
                             choices=DAYS.choices)
     start_time = models.TimeField()
     end_time = models.TimeField()
-    room_no = models.CharField(max_length=50,
-                               choices=ROOM_NO.choices, default=ROOM_NO.NOT_ANNOUNCED)
+    room_no = models.CharField(max_length=50, choices=ROOM_NO.choices,
+                               default=ROOM_NO.NOT_ANNOUNCED)
     _class = models.ForeignKey(Classes, on_delete=models.CASCADE)
 
     def __str__(self):

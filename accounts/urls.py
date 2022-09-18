@@ -33,7 +33,8 @@ urlpatterns = [
     path('student-change-password/', StudentChangePasswordView.as_view(),
          name='Student_Change_Password'),
 
-    path('admin-change-teastu-password/', AdminChangeTeacherStudentPasswordView.as_view(),
+    path('admin-change-teastu-password/',
+         AdminChangeTeacherStudentPasswordView.as_view(),
          name='Admin_Change_TeaStu_Password'),
 
     path('reset-password/', SendPasswordResetEmailView.as_view(),

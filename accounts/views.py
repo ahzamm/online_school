@@ -91,7 +91,8 @@ class TeacherLoginView(APIView):
                             'token': token},
                             status=LOGIN_SUCCESS_STATUS)
 
-        return Response({'errors': {'non_field_errors': [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
+        return Response({'errors': {'non_field_errors':
+                                    [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
                         status=EMAIL_PASSWORD_NOT_VALID_STATUS)
 
 
@@ -142,7 +143,8 @@ class AdminChangePasswordView(APIView):
 
     def post(self, request):
         seriaizer = AdminChangePasswordSerializer(data=request.data,
-                                                  context={'user': request.user})
+                                                  context={'user':
+                                                           request.user})
         seriaizer.is_valid(raise_exception=True)
 
         return Response({'msg': PASSWORD_CHANGE_SUCCESS_MESSAGE},
@@ -154,7 +156,8 @@ class TeacherChangePasswordView(APIView):
 
     def post(self, request):
         seriaizer = TeacherChangePasswordSerializer(data=request.data,
-                                                    context={'user': request.user})
+                                                    context={'user':
+                                                             request.user})
         seriaizer.is_valid(raise_exception=True)
 
         return Response({'msg': PASSWORD_CHANGE_SUCCESS_MESSAGE},
@@ -166,7 +169,8 @@ class StudentChangePasswordView(APIView):
 
     def post(self, request):
         seriaizer = StudentChangePasswordSerializer(data=request.data,
-                                                    context={'user': request.user})
+                                                    context={'user':
+                                                             request.user})
         seriaizer.is_valid(raise_exception=True)
 
         return Response({'msg': PASSWORD_CHANGE_SUCCESS_MESSAGE},
@@ -197,7 +201,8 @@ class SendPasswordResetEmailView(APIView):
 class UserPasswordResetView(APIView):
     def post(self, request, uid, token, format=None):
         serializer = UserPasswordResetSerializer(data=request.data,
-                                                 context={'uid': uid, 'token': token})
+                                                 context={'uid': uid,
+                                                          'token': token})
         serializer.is_valid(raise_exception=True)
 
         return Response({'msg': PASSWORD_RESET_SUCCESS_MESSAGE},

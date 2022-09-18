@@ -34,7 +34,8 @@ def test_invalid_course(client, create_test_class, create_test_admin):
         no_class_found(DATA["_class_"]))
 
 
-def test_time_clash(client, create_test_class, create_test_admin, create_test_timetable):
+def test_time_clash(client, create_test_class, create_test_admin,
+                    create_test_timetable):
     DATA = deepcopy(_DATA)
     token = create_test_admin
     test_class = Classes.objects.first()
@@ -51,7 +52,8 @@ def test_time_clash(client, create_test_class, create_test_admin, create_test_ti
         timetable_clash_message(DATA["room_no"]))
 
 
-def test_invalid_time(client, create_test_class, create_test_admin, create_test_timetable):
+def test_invalid_time(client, create_test_class, create_test_admin,
+                      create_test_timetable):
     DATA = deepcopy(_DATA)
     token = create_test_admin
     test_class = Classes.objects.first()

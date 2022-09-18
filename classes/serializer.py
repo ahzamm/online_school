@@ -78,7 +78,8 @@ class ClassSerializer(serializers.ModelSerializer):
 
         if course:
             course_id = course.first().id
-            previous_classes = Classes.objects.all().values('course', 'section')
+            previous_classes = Classes.objects.all().values('course',
+                                                            'section')
 
             for i in previous_classes:
                 is_already_registered = course_id == i["course"] and \

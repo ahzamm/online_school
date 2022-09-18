@@ -74,8 +74,8 @@ def test_reset_password_mail(patch_encode, make_token, client,
     patch_encode.return_value = "thisispatchencode"
     make_token.return_value = "thisispatchtoken"
 
-    response = client.post(reverse("Admin_Reset_Password"), data={
-                           "email": "ahzamahmed6@gmail.com"})
+    client.post(reverse("Admin_Reset_Password"),
+                data={"email": "ahzamahmed6@gmail.com"})
     reset_link = password_reset_link("thisispatchencode", "thisispatchtoken")
     mail_message = mailoutbox[0]
 

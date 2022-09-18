@@ -17,7 +17,8 @@ def test_login_with_no_data(client):
     response_content = json.loads(response.content)
 
     assert response.status_code == 400
-    assert response_content == {"errors": {"email": ["This field is required."],
+    assert response_content == {"errors": {"email":
+                                           ["This field is required."],
                                 "password": ["This field is required."]}}
 
 
