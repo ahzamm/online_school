@@ -250,23 +250,24 @@ class SendPasswordResetEmailSerializer(serializers.Serializer):
     def validate(self, data):
         email = data.get('email')
 
-        if User.objects.filter(email=email).exists():
-            user = User.objects.get(email=email)
-            uid = urlsafe_base64_encode(force_bytes(user.id))
-            token = PasswordResetTokenGenerator().make_token(user=user)
-            link = password_reset_link(uid, token)
-            body = PASSWORD_RESET_EMAIL_BODY + link
-            data = {
-                'subject': PASSWORD_RESET_EMAIL_SUBJECT,
-                'body': body,
-                'to_email': user.email
-            }
-            Util.send_email(data)
-
-            return data
-
-        else:
+        # If the user with the provided email doesnot exists,
+        # error will be generated
+        if not User.objects.filter(email=email).exists():
             raise serializers.ValidationError(USER_WITH_EMAIL_DOESNT_EXIST)
+
+        user = User.objects.get(email=email)
+        uid = urlsafe_base64_encode(force_bytes(user.id))
+        token = PasswordResetTokenGenerator().make_token(user=user)
+        link = password_reset_link(uid, token)
+        body = PASSWORD_RESET_EMAIL_BODY + link
+        data = {
+            'subject': PASSWORD_RESET_EMAIL_SUBJECT,
+            'body': body,
+            'to_email': user.email
+        }
+        Util.send_email(data)
+
+        return data
 
 
 class UserPasswordResetSerializer(serializers.Serializer):

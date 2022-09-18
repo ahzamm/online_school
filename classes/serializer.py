@@ -25,40 +25,40 @@ class TimeTableSerializer(serializers.ModelSerializer):
         _class = data.get('_class_')
         is_class_exists = Classes.objects.filter(id=_class)
 
-        if is_class_exists:
-
-            if start_time > end_time:
-                raise serializers.ValidationError(INVALID_TIME_MESSAGE)
-
-            previous_time = TimeTable.objects.all().values(
-                'start_time',
-                'end_time',
-                'room_no',
-                'days'
-            )
-            for i in previous_time:
-
-                clash = end_time > i['start_time'] and \
-                    i['end_time'] > start_time and \
-                    i['room_no'] == room_no and \
-                    i['days'] == days
-
-                if clash:
-                    raise serializers.ValidationError(
-                        timetable_clash_message(room_no))
-
-            timetable: TimeTable = TimeTable.objects.create(
-                days=days,
-                start_time=start_time,
-                end_time=end_time,
-                room_no=room_no,
-                _class=Classes.objects.get(id=_class)
-            )
-
-            timetable.save()
-            return data
-        else:
+        if not is_class_exists:
             raise serializers.ValidationError(no_class_found(_class))
+
+        if start_time > end_time:
+            raise serializers.ValidationError(INVALID_TIME_MESSAGE)
+
+        previous_time = TimeTable.objects.all().values(
+            'start_time',
+            'end_time',
+            'room_no',
+            'days'
+        )
+        for i in previous_time:
+
+            clash = end_time > i['start_time'] and \
+                i['end_time'] > start_time and \
+                i['room_no'] == room_no and \
+                i['days'] == days
+
+            if clash:
+                raise serializers.ValidationError(
+                    timetable_clash_message(room_no))
+
+        timetable: TimeTable = TimeTable.objects.create(
+            days=days,
+            start_time=start_time,
+            end_time=end_time,
+            room_no=room_no,
+            _class=Classes.objects.get(id=_class)
+        )
+
+        timetable.save()
+
+        return data
 
 
 class ClassSerializer(serializers.ModelSerializer):
@@ -76,29 +76,29 @@ class ClassSerializer(serializers.ModelSerializer):
 
         course = Course.objects.filter(course_code=course_code)
 
-        if course:
-            course_id = course.first().id
-            previous_classes = Classes.objects.all().values('course',
-                                                            'section')
-
-            for i in previous_classes:
-                is_already_registered = course_id == i["course"] and \
-                    section == i["section"]
-
-                if is_already_registered:
-                    raise serializers.ValidationError(CLASS_ALREADY_REGISTERED)
-
-            teacher = self.context.get('teacher')
-            classes: Classes = Classes.objects.create(
-                enrollment_start_date=enrollment_start_date,
-                enrollment_end_date=enrollment_end_date,
-                teacher=teacher,
-                section=section,
-                course=Course.objects.get(course_code=course_code)
-            )
-
-            classes.save()
-            return data
-
-        else:
+        if not course:
             raise serializers.ValidationError(NO_COURSE_ERROR_MESSAGE)
+
+        course_id = course.first().id
+        previous_classes = Classes.objects.all().values('course',
+                                                        'section')
+
+        for i in previous_classes:
+            is_already_registered = course_id == i["course"] and \
+                section == i["section"]
+
+            if is_already_registered:
+                raise serializers.ValidationError(CLASS_ALREADY_REGISTERED)
+
+        teacher = self.context.get('teacher')
+        classes: Classes = Classes.objects.create(
+            enrollment_start_date=enrollment_start_date,
+            enrollment_end_date=enrollment_end_date,
+            teacher=teacher,
+            section=section,
+            course=Course.objects.get(course_code=course_code)
+        )
+
+        classes.save()
+
+        return data

@@ -8,12 +8,11 @@ class UserRender(renderers.JSONRenderer):
 
     def render(self, data, accepted_media_type=None,
                renderer_contex=None):
-        response = ''
 
-        if 'ErrorDetail' in str(data):
-            response = json.dumps({'errors': data})
-
-        else:
-            response = json.dumps(data)
+        # If word "ErrorDetail" is presented in message then append "error" in
+        # message to better differentiate error messages
+        response = json.dumps({'errors': data}) \
+            if 'ErrorDetail' in str(data) \
+            else json.dumps(data)
 
         return response
