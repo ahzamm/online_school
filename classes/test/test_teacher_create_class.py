@@ -62,7 +62,7 @@ def test_already_registered_class(client, create_test_teacher,
 
 def test_create_class_success(client, create_test_teacher, create_test_course):
     """Test the response by providing all valid data of in order to register a 
-       class
+    class
     """
     DATA = deepcopy(_DATA)
     token = create_test_teacher
