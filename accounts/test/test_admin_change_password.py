@@ -43,7 +43,8 @@ def test_wrong_confirm_password(client, create_test_admin):
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
-    assert response.status_code == PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH_STATUS
+    assert response.status_code == \
+        PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH_STATUS
     assert response_content == non_field_error(
         PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
 
@@ -67,8 +68,8 @@ def test_change_password_success(patch_token, client,
 
     # Now, Test login with changed password
 
-    response = admin_login(patch_token=patch_token,
-                           client=client, email="admin@test.com", password="12345")
+    response = admin_login(patch_token=patch_token, client=client,
+                           email="admin@test.com", password="12345")
 
     response.status_code == 200
     response_content = json.loads(response.content)

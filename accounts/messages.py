@@ -30,7 +30,11 @@ PASSWORD_RESET_EMAIL_STATUS = 200
 
 PASSWORD_RESET_EMAIL_SUBJECT = "Reset Your Password"
 PASSWORD_RESET_EMAIL_BODY = "Click Following Link to Reset Your Password "
-PASSWORD_RESET_EMAIL = "http://localhost:8000/api/account/reset/"
+
+
+def password_reset_link(encode, token):
+    return f"http://localhost:8000/api/account/reset/{encode}/{token}"
+
 
 USER_WITH_EMAIL_DOESNT_EXIST = "User with this email doesnot exist"
 

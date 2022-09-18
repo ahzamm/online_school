@@ -77,8 +77,8 @@ class StudentRegisterationSerializer(serializers.ModelSerializer):
 
 
 class AdminLoginSerializer(serializers.ModelSerializer):
-    # serializer only see that we are sending post request so it throw "email is
-    # already register" thats why we have to initilize extra email field
+    # serializer only see that we are sending post request so it throw "email
+    # is already register" thats why we have to initilize extra email field
     email = serializers.EmailField(max_length=255)
 
     class Meta:
@@ -87,8 +87,6 @@ class AdminLoginSerializer(serializers.ModelSerializer):
 
 
 class TeacherLoginSerializer(serializers.ModelSerializer):
-    # serializer only see that we are sending post request so it throw "email is
-    # already register" thats why we have to initilize extra email field
     email = serializers.EmailField(max_length=255)
 
     class Meta:
@@ -97,8 +95,6 @@ class TeacherLoginSerializer(serializers.ModelSerializer):
 
 
 class StudentLoginSerializer(serializers.ModelSerializer):
-    # serializer only see that we are sending post request so it throw "email is
-    # already register" thats why we have to initilize extra email field
     email = serializers.EmailField(max_length=255)
 
     class Meta:
@@ -255,7 +251,7 @@ class SendPasswordResetEmailSerializer(serializers.Serializer):
             user = User.objects.get(email=email)
             uid = urlsafe_base64_encode(force_bytes(user.id))
             token = PasswordResetTokenGenerator().make_token(user=user)
-            link = f"{PASSWORD_RESET_EMAIL}{uid}/{token}"
+            link = password_reset_link(uid, token)
             body = PASSWORD_RESET_EMAIL_BODY + link
             data = {
                 'subject': PASSWORD_RESET_EMAIL_SUBJECT,

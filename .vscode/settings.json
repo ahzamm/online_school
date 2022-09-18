@@ -15,6 +15,10 @@
     "--max-line-length=120",
     "--ignore=E402,F841,F403,F405,E501",
 ],
+"editor.rulers": [79],
+"workbench.colorCustomizations": {
+    "editorRuler.foreground": "#3a4dbd"
+},
 "gitlens.currentLine.enabled": true,
 "gitlens.hovers.currentLine.over": "line",
 "gitlens.currentLine.format": "${author, }${agoOrDate}${' via 'pullRequest}${ • message|50?}",

@@ -76,7 +76,7 @@ def test_reset_password_mail(patch_encode, make_token, client,
 
     response = client.post(reverse("Admin_Reset_Password"), data={
                            "email": "ahzamahmed6@gmail.com"})
-    reset_link = "http://localhost:8000/api/account/reset/thisispatchencode/thisispatchtoken"
+    reset_link = password_reset_link("thisispatchencode", "thisispatchtoken")
     mail_message = mailoutbox[0]
 
     assert mail_message.body.split(' ')[-1] == reset_link
