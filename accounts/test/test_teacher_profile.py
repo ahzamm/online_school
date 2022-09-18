@@ -1,5 +1,6 @@
 
 import json
+from copy import deepcopy
 
 import jwt
 import pytest
@@ -9,25 +10,23 @@ from school import settings
 url = reverse('Teacher_Profile')
 pytestmark = pytest.mark.django_db
 
-DATA = {
-    "id": "user_id",
-    "email": "teacher@test.com",
-    "name": "Teacher"
-}
+_DATA = {"id": "user_id",
+         "email": "teacher@test.com",
+         "name": "Teacher"}
 
 
 def test_teacher_profile(client, create_test_teacher):
-
+    DATA = deepcopy(_DATA)
     token = create_test_teacher
 
-    payload = jwt.decode(
-        token, settings.SECRET_KEY, algorithms=['HS256'])
+    payload = jwt.decode(token, settings.SECRET_KEY,
+                         algorithms=['HS256'])
 
     user_id = payload.get('user_id')
-
     DATA["id"] = user_id
-    response = client.get(
-        url, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+
+    response = client.get(url,
+                          **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
     assert response.status_code == 200
@@ -37,8 +36,8 @@ def test_teacher_profile(client, create_test_teacher):
 def test_no_teacher_profile(client, create_test_student):
     token = create_test_student
 
-    response = client.get(
-        url, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    response = client.get(url,
+                          **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
 
     response_content = json.loads(response.content)
 

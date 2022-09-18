@@ -11,9 +11,11 @@ def test_no_email_exception():
 
 
 def test_create_account():
-    Admin.objects.create_user(
-        name='Admin', email='admin@test.com', password='1234')
+    Admin.objects.create_user(name='Admin',
+                              email='admin@test.com',
+                              password='1234')
     data = Admin.objects.first()
+
     assert data.name == 'Admin'
     assert data.email == 'admin@test.com'
     assert data.check_password('1234')

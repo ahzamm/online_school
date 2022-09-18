@@ -1,5 +1,6 @@
 
 import json
+from copy import deepcopy
 
 import jwt
 import pytest
@@ -9,7 +10,7 @@ from school import settings
 url = reverse('Admin_Profile')
 pytestmark = pytest.mark.django_db
 
-DATA = {
+_DATA = {
     "id": "user_id",
     "email": "admin@test.com",
     "name": "Admin"
@@ -17,17 +18,17 @@ DATA = {
 
 
 def test_admin_profile(client, create_test_admin):
-
+    DATA = deepcopy(_DATA)
     token = create_test_admin
 
-    payload = jwt.decode(
-        token, settings.SECRET_KEY, algorithms=['HS256'])
+    payload = jwt.decode(token, settings.SECRET_KEY,
+                         algorithms=['HS256'])
 
     user_id = payload.get('user_id')
 
     DATA["id"] = user_id
-    response = client.get(
-        url, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    response = client.get(url,
+                          **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
     assert response.status_code == 200

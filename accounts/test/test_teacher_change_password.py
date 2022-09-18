@@ -1,5 +1,6 @@
 
 import json
+from copy import deepcopy
 from unittest.mock import patch
 
 import pytest
@@ -11,20 +12,19 @@ from .extra import DUMMY_TOKEN, non_field_error
 url = reverse('Teacher_Change_Password')
 pytestmark = pytest.mark.django_db
 
-DATA = {
-    "old_password": "1234",
-    "password": "12345",
-    "password2": "12345",
-}
+_DATA = {"old_password": "1234",
+         "password": "12345",
+         "password2": "12345"}
 
 
 def test_teacher_change_wrong_old_password(client, create_test_teacher):
+    DATA = deepcopy(_DATA)
     token = create_test_teacher
 
     DATA["old_password"] = "123"
 
-    response = client.post(
-        url, DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    response = client.post(url, DATA,
+                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
     assert response.status_code == 400
@@ -32,12 +32,13 @@ def test_teacher_change_wrong_old_password(client, create_test_teacher):
 
 
 def test_wrong_confirm_password(client, create_test_teacher):
+    DATA = deepcopy(_DATA)
     token = create_test_teacher
 
     DATA["password2"] = "123456"
 
-    response = client.post(
-        url, DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    response = client.post(url, DATA,
+                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
     assert response.status_code == 400
@@ -45,30 +46,27 @@ def test_wrong_confirm_password(client, create_test_teacher):
         PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
 
 
-@pytest.mark.xfail
 @patch('accounts.views.get_tokens_for_user')
-def test_change_password_success(patch_token, client, create_test_teacher, teacher_login):
-
-    # == == == == == == == == Test Change Password == == == == == == == ==
-
+def test_change_password_success(patch_token, client,
+                                 create_test_teacher, teacher_login):
+    DATA = deepcopy(_DATA)
     token = create_test_teacher
 
-    message = {
-        "msg": PASSWORD_CHANGE_SUCCESS_MESSAGE
-    }
-    response = client.post(
-        url, DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    message = {"msg": PASSWORD_CHANGE_SUCCESS_MESSAGE}
+
+    response = client.post(url, DATA,
+                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
     assert response_content == message
     assert response.status_code == 200
 
-    # == == == == == == == == Test Login With Changed Password == == == == == == == ==
-
     response = teacher_login(patch_token=patch_token,
-                             client=client, email="teacher@test.com", password="12345")
+                             client=client, email="teacher@test.com",
+                             password="12345")
     response.status_code == 200
     response_content = json.loads(response.content)
+
     assert response_content == {
         "msg": LOGIN_SUCCESS_MESSAGE,
         "token": DUMMY_TOKEN

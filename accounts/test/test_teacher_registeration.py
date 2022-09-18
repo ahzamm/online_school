@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 from unittest.mock import patch
 
 import pytest
@@ -12,9 +13,8 @@ url = reverse('Teacher_Register')
 pytestmark = pytest.mark.django_db
 
 
-DATA = {
-    'name': 'Admin', 'email': 'teacher@test.com', 'password': '1234',
-    'password2': '1234'}
+_DATA = {'name': 'Admin', 'email': 'teacher@test.com',
+         'password': '1234', 'password2': '1234'}
 
 
 def test_get_zero_content(client, create_test_admin):
@@ -30,24 +30,32 @@ def test_get_zero_content(client, create_test_admin):
     assert response_content == FIELD_REQUIRED_MESSAGE
 
 
-def test_wrong_confirm_password(client, create_test_admin):
+def test_wrong_confirm_password(client,
+                                create_test_admin):
+    DATA = deepcopy(_DATA)
     DATA['password2'] = "12345"
     token = create_test_admin
-    response = client.post(
-        url, DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+
+    response = client.post(url, DATA,
+                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
+
     assert response.status_code == 400
     assert response_content == non_field_error(
         PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
 
 
 def test_with_same_email(client, create_test_admin):
-    Teacher.objects.create(name='Admin', email='teacher@test.com')
+    DATA = deepcopy(_DATA)
+
+    Teacher.objects.create(name='Admin',
+                           email='teacher@test.com')
 
     token = create_test_admin
-    response = client.post(
-        url, DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    response = client.post(url, DATA,
+                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
+
     assert response.status_code == 400
     assert response_content == {'errors': {
         "email": [
@@ -57,11 +65,14 @@ def test_with_same_email(client, create_test_admin):
 
 
 def test_with_wrong_data(client, create_test_admin):
+    DATA = deepcopy(_DATA)
     DATA['email'] = "teachertest.com"
     token = create_test_admin
-    response = client.post(
-        url, DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+
+    response = client.post(url, DATA,
+                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
+
     assert response.status_code == 400
     assert response_content == {'errors': {
         "email": [
@@ -71,21 +82,19 @@ def test_with_wrong_data(client, create_test_admin):
 
 
 @patch('accounts.views.get_tokens_for_user')
-def test_registeration_success(patch_token, client, create_test_admin):
+def test_registeration_success(patch_token, client,
+                               create_test_admin):
+    DATA = deepcopy(_DATA)
     patch_token.return_value = {
         "refresh": "DummyRefreshToken",
         "access": "DummyAccessToken"
     }
-    data = {
-        'name': 'Admin',
-        'email': 'teacher@example.com',
-        'password': '1234',
-        'password2': '1234'
-    }
     token = create_test_admin
-    response = client.post(
-        url, data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+
+    response = client.post(url, DATA,
+                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
+
     assert response.status_code == 201
     assert response_content == {
         "msg": "Registeration Success",
