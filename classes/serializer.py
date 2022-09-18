@@ -31,12 +31,8 @@ class TimeTableSerializer(serializers.ModelSerializer):
         if start_time > end_time:
             raise serializers.ValidationError(INVALID_TIME_MESSAGE)
 
-        previous_time = TimeTable.objects.all().values(
-            'start_time',
-            'end_time',
-            'room_no',
-            'days'
-        )
+        previous_time = TimeTable.objects.all().values('start_time', 'days'
+                                                       'end_time', 'room_no')
         for i in previous_time:
 
             clash = end_time > i['start_time'] and \
