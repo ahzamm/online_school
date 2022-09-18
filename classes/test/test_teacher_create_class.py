@@ -53,8 +53,8 @@ def test_already_registered_class(client, create_test_teacher,
     DATA = deepcopy(_DATA)
     token = create_test_teacher
 
-    response = client.post(
-        url, DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    response = client.post(url, DATA,
+                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
     assert response_content == non_field_error(CLASS_ALREADY_REGISTERED)
