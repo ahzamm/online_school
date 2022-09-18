@@ -13,7 +13,7 @@ _DATA = {"name": "Test Course", "course_code": "TC123",
 
 
 def test_teacher_create_course(client, create_test_teacher):
-    """Check the expected response if the for some how teacher 
+    """Check the expected response if the for some how teacher
        try to register course
     """
 
