@@ -59,7 +59,7 @@ def admin_login(patch_token, client, **kwargs):
     def _admin_login(client, patch_token, **kwargs):
         email = kwargs.pop("email")
         password = kwargs.pop("password")
-        patch_token.return_value = patch_token.return_value = {
+        patch_token.return_value = {
             "refresh": "DummyRefreshToken",
             "access": "DummyAccessToken"
         }
@@ -78,7 +78,7 @@ def teacher_login(patch_token, client, **kwargs):
     def _teacher_login(client, patch_token, **kwargs):
         email = kwargs.pop("email")
         password = kwargs.pop("password")
-        patch_token.return_value = patch_token.return_value = {
+        patch_token.return_value = {
             "refresh": "DummyRefreshToken",
             "access": "DummyAccessToken"
         }
@@ -97,7 +97,7 @@ def student_login(patch_token, client, **kwargs):
     def _student_login(client, patch_token, **kwargs):
         email = kwargs.pop("email")
         password = kwargs.pop("password")
-        patch_token.return_value = patch_token.return_value = {
+        patch_token.return_value = {
             "refresh": "DummyRefreshToken",
             "access": "DummyAccessToken"
         }
