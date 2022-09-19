@@ -1,13 +1,4 @@
-# from django.shortcuts import render
 
-# Create your views here.
-# TODO
-# - admin can create Course
-# - admin can create TimeTable
-# - Teacher can create class
-
-# student can enroll themself in a single class of a same course
-# - Teacher can create and insert Attendence
 
 from accounts.custom_permissions import IsAdmin, IsStudent, IsTeacher
 from django.http import HttpRequest, HttpResponse
@@ -53,6 +44,14 @@ class AdminCreateTimeTable(APIView):
 
         return Response({'msg': TIMETABLE_REGISTER_SUCCESS_MESSAGE},
                         status=TIMETABLE_REGISTER_SUCCESS_STATUS)
+
+
+# TODO
+# courses should have other pre req courses
+# Student can see all availabel classes
+# student can enroll themself in a class of a course they are eligable of(they
+# have already cleared pre req classes of that course)
+# Teacher can create and insert Attendence
 
 
 class StudentEnrollClass(APIView):

@@ -93,4 +93,4 @@ class TimeTable(models.Model):
     _class = models.ForeignKey(Classes, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self._class) + "....." + str(self.days)
+        return f"{str(self._class)}.....{str(self.days)}"
