@@ -9,6 +9,7 @@ omit =
    *asgi.py
    *wsgi.py
    */school/*
+   conftest.py
 
    *__init__*
    */__pycache__/*
