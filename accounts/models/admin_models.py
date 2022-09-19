@@ -1,6 +1,4 @@
 
-from uuid import uuid4
-
 from django.contrib.auth.models import BaseUserManager
 
 from .user_models import User
