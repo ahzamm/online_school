@@ -18,6 +18,7 @@ def create_test_admin(client):
     }
     response = client.post(reverse("Admin_Register"), data)
     response_content = json.loads(response.content)
+
     return response_content['token']['access']
 
 
@@ -34,6 +35,7 @@ def create_test_teacher(client, create_test_admin):
         reverse("Teacher_Register"), data, **{'HTTP_AUTHORIZATION':
                                               f'Bearer {token}'})
     response_content = json.loads(response.content)
+
     return response_content['token']['access']
 
 
@@ -69,6 +71,7 @@ def admin_login(patch_token, client, **kwargs):
         }
 
         return client.post(reverse('Admin_Login'), data)
+
     return _admin_login
 
 
@@ -87,7 +90,9 @@ def teacher_login(patch_token, client, **kwargs):
             "password": password
         }
         response = client.post(reverse('Teacher_Login'), data)
+
         return response
+
     return _teacher_login
 
 
@@ -106,7 +111,9 @@ def student_login(patch_token, client, **kwargs):
             "password": password
         }
         response = client.post(reverse('Student_Login'), data)
+
         return response
+
     return _student_login
 
 

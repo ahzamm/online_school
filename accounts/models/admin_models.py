@@ -11,6 +11,7 @@ class AdminManager(BaseUserManager):
             type=User.Type.ADMIN)
 
     def create_user(self, email=None, name=None, password=None, **kwargs):
+
         if not email:
             raise ValueError('User must have an email address')
 
@@ -34,6 +35,8 @@ class Admin(User):
         proxy = True
 
     def save(self, *args, **kwargs):
+
         if not self.pk:
             self.type = User.Type.ADMIN
+
         return super().save(*args, **kwargs)

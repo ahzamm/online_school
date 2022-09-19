@@ -33,6 +33,7 @@ class TeacherLoginView(APIView):
 
         if user is not None:
             token = get_tokens_for_user(user)
+
             return Response({'msg': LOGIN_SUCCESS_MESSAGE,
                             'token': token},
                             status=LOGIN_SUCCESS_STATUS)
@@ -47,6 +48,7 @@ class TeacherProfileView(APIView):
 
     def get(self, request):
         serializer = TeacherProfileSerializer(request.user)
+
         return Response(serializer.data, status=200)
 
 

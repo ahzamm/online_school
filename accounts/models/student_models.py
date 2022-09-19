@@ -13,6 +13,7 @@ class StudentManager(BaseUserManager):
             type=User.Type.STUDENT)
 
     def create_user(self, email=None, name=None, password=None, **kwargs):
+
         if not email:
             raise ValueError('User must have an email address')
 
@@ -49,6 +50,7 @@ class Student(User):
         proxy = True
 
     def save(self, *args, **kwargs):
+
         if not self.pk:
             self.type = User.Type.STUDENT
         return super().save(*args, **kwargs)

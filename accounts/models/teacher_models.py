@@ -12,6 +12,7 @@ class TeacherManager(BaseUserManager):
             type=User.Type.TEACHER)
 
     def create_user(self, email=None, name=None, password=None, **kwargs):
+
         if not email:
             raise ValueError('User must have an email address')
 
@@ -40,8 +41,10 @@ class Teacher(User):
         proxy = True
 
     def save(self, *args, **kwargs):
+
         if not self.pk:
             self.type = User.Type.TEACHER
+
         return super().save(*args, **kwargs)
 
     @property
