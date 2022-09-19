@@ -1,6 +1,7 @@
 
 [flake8]
 
+addopts = --ignore E402,F841,F403,F405,E501,Q000,ANN001
 
 exclude =
     __init__.py,
@@ -11,4 +12,4 @@ exclude =
     app.py
     tests.py
     
-addopts = --ignore E402,F841,F403,F405,E501
+
