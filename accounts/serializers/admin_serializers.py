@@ -1,8 +1,7 @@
 
+from accounts.messages import *
 from accounts.models import Admin, User
 from rest_framework import serializers
-
-from accounts.messages import *
 
 
 class AdminRegisterationSerializer(serializers.ModelSerializer):
