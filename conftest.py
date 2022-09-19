@@ -89,9 +89,8 @@ def teacher_login(patch_token, client, **kwargs):
             "email": email,
             "password": password
         }
-        response = client.post(reverse('Teacher_Login'), data)
 
-        return response
+        return client.post(reverse('Teacher_Login'), data)
 
     return _teacher_login
 
@@ -110,9 +109,8 @@ def student_login(patch_token, client, **kwargs):
             "email": email,
             "password": password
         }
-        response = client.post(reverse('Student_Login'), data)
 
-        return response
+        return client.post(reverse('Student_Login'), data)
 
     return _student_login
 

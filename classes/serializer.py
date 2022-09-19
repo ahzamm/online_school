@@ -31,12 +31,11 @@ class TimeTableSerializer(serializers.ModelSerializer):
         if start_time > end_time:
             raise serializers.ValidationError(INVALID_TIME_MESSAGE)
 
-        clash = TimeTable.objects.filter(start_time__lt=end_time,
-                                         end_time__gt=start_time,
-                                         room_no=room_no,
-                                         days=days).exists()
+        if TimeTable.objects.filter(start_time__lt=end_time,
+                                    end_time__gt=start_time,
+                                    room_no=room_no,
+                                    days=days).exists():
 
-        if clash:
             raise serializers.ValidationError(
                 timetable_clash_message(room_no))
 
@@ -66,19 +65,15 @@ class ClassSerializer(serializers.ModelSerializer):
         course_code = data.get('course_code')
         section = data.get('section')
 
-        course = Course.objects.filter(course_code=course_code).exists()
+        if not Course.objects.filter(course_code=course_code).exists():
 
-        if not course:
             raise serializers.ValidationError(NO_COURSE_ERROR_MESSAGE)
 
         course_id = Course.objects.get(course_code=course_code).id
 
-        # make sure that the class with the same course and section doesnot
-        # exists
-        is_class_already_registered = Classes.objects.filter(
-            course_id=course_id, section=section).exists()
+        if Classes.objects.filter(course_id=course_id,
+                                  section=section).exists():
 
-        if is_class_already_registered:
             raise serializers.ValidationError(CLASS_ALREADY_REGISTERED)
 
         teacher = self.context.get('teacher')

@@ -44,10 +44,10 @@ class UserPasswordResetSerializer(serializers.Serializer):
                                       style={'input_type': 'password'},
                                       write_only=True)
 
-    def validate(self, attrs):
+    def validate(self, data):
         try:
-            password = attrs.get('password')
-            password2 = attrs.get('password2')
+            password = data.get('password')
+            password2 = data.get('password2')
             uid = self.context.get('uid')
             token = self.context.get('token')
 
@@ -65,7 +65,7 @@ class UserPasswordResetSerializer(serializers.Serializer):
             user.set_password(password)
             user.save()
 
-            return attrs
+            return data
 
         except DjangoUnicodeDecodeError as e:
             PasswordResetTokenGenerator().check_token(user, token)
