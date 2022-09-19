@@ -46,7 +46,7 @@ def test_wrong_confirm_password(client, create_test_teacher):
         PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
 
 
-@patch('accounts.views.get_tokens_for_user')
+@patch('accounts.views.teacher_views.get_tokens_for_user')
 def test_change_password_success(patch_token, client,
                                  create_test_teacher, teacher_login):
     DATA = deepcopy(_DATA)

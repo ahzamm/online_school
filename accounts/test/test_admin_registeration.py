@@ -68,7 +68,7 @@ def test_admin_with_wrong_data(client):
     }
 
 
-@patch('accounts.views.get_tokens_for_user')
+@patch('accounts.views.admin_views.get_tokens_for_user')
 def test_admin_registeration_success(patch_token, client):
     DATA = deepcopy(_DATA)
     patch_token.return_value = DUMMY_TOKEN

@@ -54,7 +54,7 @@ def create_test_student(client, create_test_admin):
 
 
 @pytest.fixture
-@patch('accounts.views.get_tokens_for_user')
+@patch('accounts.views.admin_views.get_tokens_for_user')
 def admin_login(patch_token, client, **kwargs):
     def _admin_login(client, patch_token, **kwargs):
         email = kwargs.pop("email")
@@ -67,13 +67,13 @@ def admin_login(patch_token, client, **kwargs):
             "email": email,
             "password": password
         }
-        response = client.post(reverse('Admin_Login'), data)
-        return response
+
+        return client.post(reverse('Admin_Login'), data)
     return _admin_login
 
 
 @pytest.fixture
-@patch('accounts.views.get_tokens_for_user')
+@patch('accounts.views.teacher_views.get_tokens_for_user')
 def teacher_login(patch_token, client, **kwargs):
     def _teacher_login(client, patch_token, **kwargs):
         email = kwargs.pop("email")
@@ -92,7 +92,7 @@ def teacher_login(patch_token, client, **kwargs):
 
 
 @pytest.fixture
-@patch('accounts.views.get_tokens_for_user')
+@patch('accounts.views.student_views.get_tokens_for_user')
 def student_login(patch_token, client, **kwargs):
     def _student_login(client, patch_token, **kwargs):
         email = kwargs.pop("email")
@@ -121,9 +121,8 @@ def create_test_course(client, create_test_admin, create_test_teacher):
 
     response = client.post(reverse("CourseRegisteration"), data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
-    response_content = json.loads(response.content)
 
-    return response_content
+    return json.loads(response.content)
 
 
 @pytest.fixture
@@ -138,8 +137,8 @@ def create_test_class(client, create_test_teacher, create_test_course):
     token = create_test_teacher
     response = client.post(reverse("ClassRegister"), data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
-    response_content = json.loads(response.content)
-    return response_content
+
+    return json.loads(response.content)
 
 
 @pytest.fixture
@@ -156,4 +155,4 @@ def create_test_timetable(client, create_test_class, create_test_admin):
 
     response = client.post(reverse('TimeTableRegisteration'), data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
-    return response
+    return json.loads(response.content)

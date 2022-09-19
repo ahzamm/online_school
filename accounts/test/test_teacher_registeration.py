@@ -81,7 +81,7 @@ def test_with_wrong_data(client, create_test_admin):
     }
 
 
-@patch('accounts.views.get_tokens_for_user')
+@patch('accounts.views.teacher_views.get_tokens_for_user')
 def test_registeration_success(patch_token, client,
                                create_test_admin):
     DATA = deepcopy(_DATA)

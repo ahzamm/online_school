@@ -34,7 +34,7 @@ def test_wrong_email_password(client):
         EMAIL_PASSWORD_NOT_VALID_MESSAGE)
 
 
-@patch('accounts.views.get_tokens_for_user')
+@patch('accounts.views.student_views.get_tokens_for_user')
 def test_login_success(patch_token, client):
     patch_token.return_value = DUMMY_TOKEN
     Student.objects.create_user(name="Student",

@@ -83,7 +83,7 @@ def test_reset_password_mail(patch_encode, make_token, client,
     assert mail_message.body.split(' ')[-1] == reset_link
 
 
-@patch('accounts.views.get_tokens_for_user')
+@patch('accounts.views.student_views.get_tokens_for_user')
 def test_reset_password(patch_token, client,
                         create_test_student_with_legit_email,
                         student_login, mailoutbox):
