@@ -30,15 +30,14 @@ class AdminLoginView(APIView):
         password = serializer.data.get('password')
         user = authenticate(email=email, password=password)
 
-        if user is not None:
-            token = get_tokens_for_user(user)
+        if user is None:
+            return Response({'errors': {'non_field_errors':
+                                        [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
+                            status=EMAIL_PASSWORD_NOT_VALID_STATUS)
 
-            return Response({'msg': LOGIN_SUCCESS_MESSAGE, 'token': token},
-                            status=LOGIN_SUCCESS_STATUS)
-
-        return Response({'errors': {'non_field_errors':
-                                    [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
-                        status=EMAIL_PASSWORD_NOT_VALID_STATUS)
+        return Response({'msg': LOGIN_SUCCESS_MESSAGE,
+                        'token': get_tokens_for_user(user)},
+                        status=LOGIN_SUCCESS_STATUS)
 
 
 class AdminProfileView(APIView):
