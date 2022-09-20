@@ -12,11 +12,11 @@ class Course(models.Model):
         FOUR = "4"
 
     class LVL(models.IntegerChoices):
-        ONE = 1
-        TWO = 2
-        THREE = 3
-        FOUR = 4
-        FIVE = 5
+        ONE = 1, 'Level One Course'
+        TWO = 2, 'Level two Course'
+        THREE = 3, 'Level three Course'
+        FOUR = 4, 'Level four Course'
+        FIVE = 5, 'Level five Course'
 
     id = models.UUIDField(primary_key=True, default=uuid4,
                           editable=False, unique=True)
@@ -24,7 +24,7 @@ class Course(models.Model):
     course_code = models.CharField(max_length=50)
     ch = models.CharField(max_length=5, choices=CH.choices)
     pre_req_level = models.IntegerField(choices=LVL.choices, default=LVL.ONE)
-    pre_req_courses = models.ManyToManyField('self', null=True)
+    pre_req_courses = models.ManyToManyField('self', null=True, default=None)
 
     def __str__(self):
         return str(self.name)

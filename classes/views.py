@@ -13,10 +13,13 @@ from .serializer import ClassSerializer, CourseSerializer, TimeTableSerializer
 class AdminCreateCourse(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
-    def post(self, request: HttpRequest) -> HttpResponse:
+    def post(self, request):
+        print("================================")
         serializer = CourseSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
+        print("================================")
 
         return Response({'msg': COURSE_REGISTER_SUCCESS_MESSAGE},
                         status=COURSE_REGISTER_SUCCESS_STATUS)
@@ -25,7 +28,7 @@ class AdminCreateCourse(APIView):
 class TeacherCreateClassView(APIView):
     permission_classes = [IsAuthenticated, IsTeacher]
 
-    def post(self, request: HttpRequest) -> HttpResponse:
+    def post(self, request):
         teacher = request.user
         serializer = ClassSerializer(data=request.data, context={
                                      'teacher': teacher})
@@ -38,7 +41,7 @@ class TeacherCreateClassView(APIView):
 class AdminCreateTimeTable(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
-    def post(self, request: HttpRequest) -> HttpResponse:
+    def post(self, request):
         serializer = TimeTableSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -52,10 +55,3 @@ class AdminCreateTimeTable(APIView):
 # student can enroll themself in a class of a course they are eligable of(they
 # have already cleared pre req classes of that course)
 # Teacher can create and insert Attendence
-
-
-class StudentEnrollClass(APIView):
-    permission_classes = [IsAuthenticated, IsStudent]
-
-    def post(self, request: HttpRequest) -> HttpResponse:
-        ...
