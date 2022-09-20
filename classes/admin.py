@@ -5,7 +5,7 @@ from .models import *
 
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('name', 'course_code', 'ch',)
+    list_display = ('name', 'course_code', 'ch', 'pre_req_level',)
 
 
 class ClassesAdmin(admin.ModelAdmin):

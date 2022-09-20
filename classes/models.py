@@ -7,22 +7,22 @@ from django.db import models
 
 class Course(models.Model):
 
-    class CH(models.TextChoices):
-        THREE = "3"
-        FOUR = "4"
+    class CH(models.IntegerChoices):
+        THREE = 3
+        FOUR = 4
 
     class LVL(models.IntegerChoices):
-        ONE = 1, 'Level One Course'
-        TWO = 2, 'Level two Course'
-        THREE = 3, 'Level three Course'
-        FOUR = 4, 'Level four Course'
-        FIVE = 5, 'Level five Course'
+        ONE = 1
+        TWO = 2
+        THREE = 3
+        FOUR = 4
+        FIVE = 5
 
     id = models.UUIDField(primary_key=True, default=uuid4,
                           editable=False, unique=True)
     name = models.CharField(max_length=50)
     course_code = models.CharField(max_length=50)
-    ch = models.CharField(max_length=5, choices=CH.choices)
+    ch = models.IntegerField(max_length=5, choices=CH.choices)
     pre_req_level = models.IntegerField(choices=LVL.choices, default=LVL.ONE)
     pre_req_courses = models.ManyToManyField('self', null=True, default=None)
 

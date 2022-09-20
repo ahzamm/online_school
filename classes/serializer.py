@@ -13,19 +13,12 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        # exclude = ['pre_req_courses']
         fields = '__all__'
 
-        print("================================")
-
     def validate(self, data):
-
-        print("================================")
         pre_req_course = data.get('pre_req_course')
         data['pre_req_level'] = 1 if pre_req_course is None else \
             depth(pre_req_course)
-
-        print("=======>", data)
 
         return data
 
