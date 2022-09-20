@@ -14,7 +14,7 @@ _DATA = {
     "course_code": "TC123",
     "enrollment_start_date": "2022-04-14",
     "enrollment_end_date": "2022-04-18",
-    "section": "A"
+    "section": "A",
 }
 
 

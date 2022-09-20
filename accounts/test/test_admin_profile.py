@@ -13,7 +13,7 @@ pytestmark = pytest.mark.django_db
 _DATA = {
     "id": "user_id",
     "email": "admin@test.com",
-    "name": "Admin"
+    "name": "Admin",
 }
 
 
@@ -45,8 +45,8 @@ def test_no_admin_profile(client, create_test_teacher):
 
     error_message = {
         "errors": {
-            "detail": "You do not have permission to perform this action."
-        }
+            "detail": "You do not have permission to perform this action.",
+        },
     }
 
     assert response_content == error_message

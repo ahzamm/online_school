@@ -52,5 +52,5 @@ def test_login_success(patch_token, client):
     assert response.status_code == 200
     assert response_content == {
         "msg": "Login Success",
-        "token": DUMMY_TOKEN
+        "token": DUMMY_TOKEN,
     }

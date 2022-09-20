@@ -9,6 +9,12 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = '__all__'
 
+    def validate(self, data):
+        pre_req_course = data.get('pre_req_course')
+
+        if pre_req_course is None:
+            data['pre_req_level'] = 1
+
 
 class TimeTableSerializer(serializers.ModelSerializer):
     _class_ = serializers.UUIDField()
@@ -44,7 +50,7 @@ class TimeTableSerializer(serializers.ModelSerializer):
             start_time=start_time,
             end_time=end_time,
             room_no=room_no,
-            _class=Classes.objects.get(id=_class)
+            _class=Classes.objects.get(id=_class),
         )
 
         timetable.save()
@@ -82,7 +88,7 @@ class ClassSerializer(serializers.ModelSerializer):
             enrollment_end_date=enrollment_end_date,
             teacher=teacher,
             section=section,
-            course=Course.objects.get(course_code=course_code)
+            course=Course.objects.get(course_code=course_code),
         )
 
         classes.save()

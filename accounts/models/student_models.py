@@ -20,7 +20,7 @@ class StudentManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             name=name,
-            type=User.Type.STUDENT
+            type=User.Type.STUDENT,
         )
 
         user.set_password(password)

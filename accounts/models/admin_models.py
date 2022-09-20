@@ -18,7 +18,7 @@ class AdminManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             name=name,
-            type=User.Type.ADMIN
+            type=User.Type.ADMIN,
         )
 
         user.set_password(password)

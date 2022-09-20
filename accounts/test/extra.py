@@ -2,23 +2,23 @@
 
 DUMMY_TOKEN = {
     "refresh": "DummyRefreshToken",
-    "access": "DummyAccessToken"
+    "access": "DummyAccessToken",
 }
 
 FIELD_REQUIRED_MESSAGE = {
     'errors': {
         "email": [
-            "This field is required."
+            "This field is required.",
         ],
         "name": [
-            "This field is required."
+            "This field is required.",
         ],
         "password": [
-            "This field is required."
+            "This field is required.",
         ],
         "password2": [
-            "This field is required."
-        ]}
+            "This field is required.",
+        ]},
 }
 
 

@@ -56,7 +56,7 @@ def test_change_password_success(patch_token, client,
     token = create_test_student
 
     message = {
-        "msg": PASSWORD_CHANGE_SUCCESS_MESSAGE
+        "msg": PASSWORD_CHANGE_SUCCESS_MESSAGE,
     }
     response = client.post(url, DATA,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
@@ -73,5 +73,5 @@ def test_change_password_success(patch_token, client,
 
     assert response_content == {
         "msg": "Login Success",
-        "token": DUMMY_TOKEN
+        "token": DUMMY_TOKEN,
     }

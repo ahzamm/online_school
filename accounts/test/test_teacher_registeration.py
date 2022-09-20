@@ -22,7 +22,7 @@ def test_get_zero_content(client, create_test_admin):
 
     response = client.post(
         url,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     response_content = json.loads(response.content)
@@ -59,8 +59,8 @@ def test_with_same_email(client, create_test_admin):
     assert response.status_code == 400
     assert response_content == {'errors': {
         "email": [
-            "user with this Email already exists."
-        ]}
+            "user with this Email already exists.",
+        ]},
     }
 
 
@@ -76,8 +76,8 @@ def test_with_wrong_data(client, create_test_admin):
     assert response.status_code == 400
     assert response_content == {'errors': {
         "email": [
-            "Enter a valid email address."
-        ]}
+            "Enter a valid email address.",
+        ]},
     }
 
 
@@ -87,7 +87,7 @@ def test_registeration_success(patch_token, client,
     DATA = deepcopy(_DATA)
     patch_token.return_value = {
         "refresh": "DummyRefreshToken",
-        "access": "DummyAccessToken"
+        "access": "DummyAccessToken",
     }
     token = create_test_admin
 
@@ -100,6 +100,6 @@ def test_registeration_success(patch_token, client,
         "msg": "Registeration Success",
         "token": {
             "refresh": "DummyRefreshToken",
-            "access": "DummyAccessToken"
-        }
+            "access": "DummyAccessToken",
+        },
     }

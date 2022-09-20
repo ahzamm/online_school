@@ -69,5 +69,5 @@ def test_change_password_success(patch_token, client,
 
     assert response_content == {
         "msg": LOGIN_SUCCESS_MESSAGE,
-        "token": DUMMY_TOKEN
+        "token": DUMMY_TOKEN,
     }

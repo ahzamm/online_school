@@ -28,7 +28,7 @@ class SendPasswordResetEmailSerializer(serializers.Serializer):
         data = {
             'subject': PASSWORD_RESET_EMAIL_SUBJECT,
             'body': body,
-            'to_email': user.email
+            'to_email': user.email,
         }
         Util.send_email(data)
 

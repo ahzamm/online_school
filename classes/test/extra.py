@@ -2,7 +2,7 @@
 
 DUMMY_TOKEN = {
     "refresh": "DummyRefreshToken",
-    "access": "DummyAccessToken"
+    "access": "DummyAccessToken",
 }
 
 

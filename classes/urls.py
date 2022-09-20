@@ -8,5 +8,5 @@ urlpatterns = [
     path('timetable-register/', AdminCreateTimeTable.as_view(),
          name="TimeTableRegisteration"),
     path('class-register/', TeacherCreateClassView.as_view(),
-         name='ClassRegister')
+         name='ClassRegister'),
 ]

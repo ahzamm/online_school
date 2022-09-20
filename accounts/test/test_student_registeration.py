@@ -55,8 +55,8 @@ def test_with_same_email(client, create_test_admin):
     assert response.status_code == 400
     assert response_content == {'errors': {
         "email": [
-            "user with this Email already exists."
-        ]}
+            "user with this Email already exists.",
+        ]},
     }
 
 
@@ -72,8 +72,8 @@ def test_with_wrong_data(client, create_test_admin):
     assert response.status_code == 400
     assert response_content == {'errors': {
         "email": [
-            "Enter a valid email address."
-        ]}
+            "Enter a valid email address.",
+        ]},
     }
 
 

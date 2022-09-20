@@ -47,9 +47,9 @@ def test_admin_with_same_email(client):
     assert response.status_code == 400
     assert response_content == {"errors": {
         "email": [
-            "user with this Email already exists."
-        ]
-    }
+            "user with this Email already exists.",
+        ],
+    },
     }
 
 
@@ -63,8 +63,8 @@ def test_admin_with_wrong_data(client):
     assert response.status_code == 400
     assert response_content == {"errors": {
         "email": [
-            "Enter a valid email address."
-        ]}
+            "Enter a valid email address.",
+        ]},
     }
 
 
@@ -78,6 +78,6 @@ def test_admin_registeration_success(patch_token, client):
 
     assert response_content == {
         "msg": REGISTERATION_SUCCESS_MESSAGE,
-        "token": DUMMY_TOKEN
+        "token": DUMMY_TOKEN,
     }
     assert response.status_code == 201

@@ -43,8 +43,8 @@ def test_no_student_profile(client, create_test_admin):
 
     error_message = {
         "errors": {
-            "detail": "You do not have permission to perform this action."
-        }
+            "detail": "You do not have permission to perform this action.",
+        },
     }
 
     assert response_content == error_message

@@ -15,7 +15,7 @@ _DATA = {
     "email": "ahzamahmed6@gmail.com",
     "name": "Student",
     "password": "1234",
-    "password2": "1234"
+    "password2": "1234",
 }
 EMAIL = {"email": "ahzamahmed6@gmail.com"}
 
@@ -62,7 +62,7 @@ def test_reset_password_response(client, create_test_student_with_legit_email):
     response_content = json.loads(response.content)
 
     assert response_content == {
-        "msg": PASSWORD_RESET_EMAIL_MESSAGE
+        "msg": PASSWORD_RESET_EMAIL_MESSAGE,
     }
 
 
@@ -108,5 +108,5 @@ def test_reset_password(patch_token, client,
 
     assert response_content == {
         "msg": "Login Success",
-        "token": DUMMY_TOKEN
+        "token": DUMMY_TOKEN,
     }

@@ -14,7 +14,7 @@ def create_test_admin(client):
         "email": "admin@test.com",
         "name": "Admin",
         "password": "1234",
-        "password2": "1234"
+        "password2": "1234",
     }
     response = client.post(reverse("Admin_Register"), data)
     response_content = json.loads(response.content)
@@ -28,7 +28,7 @@ def create_test_teacher(client, create_test_admin):
         "email": "teacher@test.com",
         "name": "Teacher",
         "password": "1234",
-        "password2": "1234"
+        "password2": "1234",
     }
     token = create_test_admin
     response = client.post(
@@ -45,7 +45,7 @@ def create_test_student(client, create_test_admin):
         "email": "student@test.com",
         "name": "Student",
         "password": "1234",
-        "password2": "1234"
+        "password2": "1234",
     }
     token = create_test_admin
     response = client.post(reverse("Student_Register"), data,
@@ -63,11 +63,11 @@ def admin_login(patch_token, client, **kwargs):
         password = kwargs.pop("password")
         patch_token.return_value = {
             "refresh": "DummyRefreshToken",
-            "access": "DummyAccessToken"
+            "access": "DummyAccessToken",
         }
         data = {
             "email": email,
-            "password": password
+            "password": password,
         }
 
         return client.post(reverse('Admin_Login'), data)
@@ -83,11 +83,11 @@ def teacher_login(patch_token, client, **kwargs):
         password = kwargs.pop("password")
         patch_token.return_value = {
             "refresh": "DummyRefreshToken",
-            "access": "DummyAccessToken"
+            "access": "DummyAccessToken",
         }
         data = {
             "email": email,
-            "password": password
+            "password": password,
         }
 
         return client.post(reverse('Teacher_Login'), data)
@@ -103,11 +103,11 @@ def student_login(patch_token, client, **kwargs):
         password = kwargs.pop("password")
         patch_token.return_value = {
             "refresh": "DummyRefreshToken",
-            "access": "DummyAccessToken"
+            "access": "DummyAccessToken",
         }
         data = {
             "email": email,
-            "password": password
+            "password": password,
         }
 
         return client.post(reverse('Student_Login'), data)
@@ -120,7 +120,7 @@ def create_test_course(client, create_test_admin, create_test_teacher):
     data = {
         "name": "Test Course",
         "course_code": "TC123",
-        "ch": "4"
+        "ch": "4",
     }
     token = create_test_admin
 
@@ -136,7 +136,7 @@ def create_test_class(client, create_test_teacher, create_test_course):
         "course_code": "TC123",
         "enrollment_start_date": "2022-04-14",
         "enrollment_end_date": "2022-04-18",
-        "section": "A"
+        "section": "A",
     }
 
     token = create_test_teacher
