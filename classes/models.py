@@ -22,9 +22,9 @@ class Course(models.Model):
                           editable=False, unique=True)
     name = models.CharField(max_length=50)
     course_code = models.CharField(max_length=50)
-    ch = models.IntegerField(max_length=5, choices=CH.choices)
+    ch = models.IntegerField(choices=CH.choices)
     pre_req_level = models.IntegerField(choices=LVL.choices, default=LVL.ONE)
-    pre_req_courses = models.ManyToManyField('self', null=True, default=None)
+    pre_req_courses = models.ManyToManyField('self', default=None)
 
     def __str__(self):
         return str(self.name)
