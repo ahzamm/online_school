@@ -51,3 +51,8 @@ class AdminCreateTimeTable(APIView):
 # student can enroll themself in a class of a course they are eligable of(they
 # have already cleared pre req classes of that course)
 # Teacher can create and insert Attendence
+
+
+# TODO
+# list all courses
+# list all classes
