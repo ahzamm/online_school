@@ -11,20 +11,13 @@ class Course(models.Model):
         THREE = 3
         FOUR = 4
 
-    class LVL(models.IntegerChoices):
-        ONE = 1
-        TWO = 2
-        THREE = 3
-        FOUR = 4
-        FIVE = 5
-
     id = models.UUIDField(primary_key=True, default=uuid4,
                           editable=False, unique=True)
     name = models.CharField(max_length=50)
     course_code = models.CharField(max_length=50)
     ch = models.IntegerField(choices=CH.choices)
-    pre_req_level = models.IntegerField(choices=LVL.choices, default=LVL.ONE)
-    pre_req_courses = models.ManyToManyField('self', default=None)
+    pre_req_courses = models.ManyToManyField(
+        'self', symmetrical=False, related_name="pre_req", blank=True)
 
     def __str__(self):
         return str(self.name)
@@ -42,7 +35,7 @@ class Classes(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher, null=True, on_delete=models.CASCADE,
                                 related_name='teacher')
-    student = models.ManyToManyField(Student, null=True,
+    student = models.ManyToManyField(Student, blank=True,
                                      related_name='student')
     enrollment_start_date = models.DateField()
     enrollment_end_date = models.DateField()

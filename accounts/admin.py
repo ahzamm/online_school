@@ -8,7 +8,7 @@ class UserModelAdmin(BaseUserAdmin):
     list_display = ('id', 'email', 'name', 'is_admin')
     list_filter = ('is_admin',)
     fieldsets = (
-        ('User Credentials', {'fields': ('email', 'password',)}),
+        ('User Credentials', {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('name',)}),
     )
     add_fieldsets = (
@@ -23,10 +23,10 @@ class UserModelAdmin(BaseUserAdmin):
 
 
 class AdminModelAdmin(BaseUserAdmin):
-    list_display = ('id', 'email', 'name',)
+    list_display = ('id', 'email', 'name')
     list_filter = ('is_admin',)
     fieldsets = (
-        ('User Credentials', {'fields': ('email', 'password',)}),
+        ('User Credentials', {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('name',)}),
     )
     add_fieldsets = (
@@ -41,10 +41,10 @@ class AdminModelAdmin(BaseUserAdmin):
 
 
 class TeacherModelAdmin(BaseUserAdmin):
-    list_display = ('id', 'email', 'name',)
+    list_display = ('id', 'email', 'name')
     list_filter = ('is_admin',)
     fieldsets = (
-        ('User Credentials', {'fields': ('email', 'password',)}),
+        ('User Credentials', {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('name',)}),
     )
     add_fieldsets = (
@@ -59,10 +59,10 @@ class TeacherModelAdmin(BaseUserAdmin):
 
 
 class StudentModelAdmin(BaseUserAdmin):
-    list_display = ('id', 'email', 'name',)
+    list_display = ('id', 'email', 'name')
     list_filter = ('is_admin',)
     fieldsets = (
-        ('User Credentials', {'fields': ('email', 'password',)}),
+        ('User Credentials', {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('name',)}),
     )
     add_fieldsets = (

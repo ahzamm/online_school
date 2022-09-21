@@ -5,7 +5,7 @@ from .models import *
 
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('name', 'course_code', 'ch', 'pre_req_level',)
+    list_display = ('name', 'course_code', 'ch')
 
 
 class ClassesAdmin(admin.ModelAdmin):
@@ -14,11 +14,11 @@ class ClassesAdmin(admin.ModelAdmin):
 
 
 class AttendenceAdmin(admin.ModelAdmin):
-    list_display = ('date', 'start_time', 'end_time', '_class',)
+    list_display = ('date', 'start_time', 'end_time', '_class')
 
 
 class TimeTableAdmin(admin.ModelAdmin):
-    list_display = ('days', 'start_time', 'end_time', 'room_no', '_class',)
+    list_display = ('days', 'start_time', 'end_time', 'room_no', '_class')
 
 
 admin.site.register(Course, CourseAdmin)

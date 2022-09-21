@@ -1,4 +1,4 @@
-# @REM MIGRATION AND MIGRATE
+# @REM MIGRATION AND MIGRATE 
 python3 manage.py makemigrations classes
 python3 manage.py makemigrations accounts
 python3 manage.py migrate

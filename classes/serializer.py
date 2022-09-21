@@ -3,24 +3,11 @@ from .models import Classes, Course, TimeTable
 from .messages import *
 
 
-def depth(d):
-    if isinstance(d, dict):
-        return 1 + (max(map(depth, d.values())) if d else 0)
-    return 0
-
-
 class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
         fields = '__all__'
-
-    def validate(self, data):
-        pre_req_course = data.get('pre_req_course')
-        data['pre_req_level'] = 1 if pre_req_course is None else \
-            depth(pre_req_course)
-
-        return data
 
 
 class TimeTableSerializer(serializers.ModelSerializer):

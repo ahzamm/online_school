@@ -1,7 +1,6 @@
 
 
-from accounts.custom_permissions import IsAdmin, IsStudent, IsTeacher
-from django.http import HttpRequest, HttpResponse
+from accounts.custom_permissions import IsAdmin, IsTeacher
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -14,12 +13,9 @@ class AdminCreateCourse(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
     def post(self, request):
-        print("================================")
         serializer = CourseSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-
-        print("================================")
 
         return Response({'msg': COURSE_REGISTER_SUCCESS_MESSAGE},
                         status=COURSE_REGISTER_SUCCESS_STATUS)
