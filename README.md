@@ -6,3 +6,5 @@
 
 [**code coverage**](https://ahzamahmed6.github.io/code_cov/)
 
+[**code quality**](https://ahzamahmed6.github.io/code_qual/)
+
