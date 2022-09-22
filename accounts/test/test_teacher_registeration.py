@@ -26,6 +26,7 @@ def test_get_zero_content(client, create_test_admin):
     )
 
     response_content = json.loads(response.content)
+
     assert response.status_code == 400
     assert response_content == FIELD_REQUIRED_MESSAGE
 

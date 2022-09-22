@@ -30,6 +30,7 @@ def test_admin_create_class(client, create_test_admin, create_test_class):
 
     error_message = {'errors': {
         'detail': 'You do not have permission to perform this action.'}}
+
     assert response_content == error_message
 
 
@@ -45,6 +46,7 @@ def test_create_class_with_wrong_coursecode(client, create_test_teacher):
     response_content = json.loads(response.content)
 
     error_message = non_field_error(NO_COURSE_ERROR_MESSAGE)
+
     assert response_content == error_message
 
 

@@ -21,6 +21,7 @@ EMAIL = {"email": "ahzamahmed6@gmail.com"}
 
 
 def test_ending_emails(mailoutbox):
+
     assert len(mailoutbox) == 0
 
     mail.send_mail(subject='TestSubject',

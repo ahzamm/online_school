@@ -27,6 +27,7 @@ def test_teacher_create_course(client, create_test_teacher):
 
     error_message = {'errors': {
         'detail': 'You do not have permission to perform this action.'}}
+
     assert response_content == error_message
 
 
@@ -41,6 +42,7 @@ def test_admin_create_course_success(client, create_test_admin):
         url, DATA, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
     success_message = {'msg': COURSE_REGISTER_SUCCESS_MESSAGE}
+
     assert response_content == success_message
 
 
