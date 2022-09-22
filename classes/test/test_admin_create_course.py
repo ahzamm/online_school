@@ -46,7 +46,8 @@ def test_admin_create_course_success(client, create_test_admin):
     assert response_content == success_message
 
 
-def test_admin_add_heigh_level_course(client, create_test_admin, create_test_course):
+def test_admin_add_heigh_level_course(client, create_test_admin,
+                                      create_test_course):
     DATA = deepcopy(_DATA)
     token = create_test_admin
 
