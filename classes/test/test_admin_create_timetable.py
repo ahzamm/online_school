@@ -20,22 +20,30 @@ _DATA = {"days": "MONDAY",
 
 
 def test_invalid_course(client, create_test_class, create_test_admin):
+
+    # arrange
     token = create_test_admin
     data = deepcopy(_DATA)
 
-    response = client.post(
-        url, data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
-    response_content = json.loads(response.content)
+    response = client.post(  # act
+        url,
+        data,
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+    )
 
+    response_content = json.loads(response.content)
     response_content["errors"]["non_field_errors"][0] = \
         response_content["errors"]["non_field_errors"][0].replace('-', '')
 
+    # assert
     assert response_content == non_field_error(
         no_class_found(data["_class_"]))
 
 
 def test_time_clash(client, create_test_class, create_test_admin,
                     create_test_timetable):
+
+    # arrange
     data = deepcopy(_DATA)
     token = create_test_admin
     test_class = Classes.objects.first()
@@ -44,16 +52,26 @@ def test_time_clash(client, create_test_class, create_test_admin,
     data["start_time"] = "10:30:00"
     data["end_time"] = "11:40:00"
 
-    response = client.post(
-        url, data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
-    response_content = json.loads(response.content)
+    response = client.post(  # act
+        url,
+        data,
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+    )
 
-    assert response_content == non_field_error(
-        timetable_clash_message(data["room_no"]))
+    # assert
+    assert json.loads(response.content) == non_field_error(
+        timetable_clash_message(
+            data[
+                "room_no"
+            ]
+        )
+    )
 
 
 def test_invalid_time(client, create_test_class, create_test_admin,
                       create_test_timetable):
+
+    # arrange
     data = deepcopy(_DATA)
     token = create_test_admin
     test_class = Classes.objects.first()
@@ -62,22 +80,29 @@ def test_invalid_time(client, create_test_class, create_test_admin,
     data["start_time"] = "10:30:00"
     data["end_time"] = "09:40:00"
 
-    response = client.post(
-        url, data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
-    response_content = json.loads(response.content)
+    response = client.post(  # act
+        url,
+        data,
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+    )
 
-    assert response_content == non_field_error(INVALID_TIME_MESSAGE)
+    # assert
+    assert json.loads(response.content) == non_field_error(
+        INVALID_TIME_MESSAGE)
 
 
 def test_create_timetable(client, create_test_class, create_test_admin):
+
+    # arrange
     data = deepcopy(_DATA)
     token = create_test_admin
     test_class = Classes.objects.first()
     test_class_id = test_class.id
     data["_class_"] = test_class_id
 
-    response = client.post(
+    response = client.post(  # act
         url, data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
-    response_content = json.loads(response.content)
 
-    assert response_content == {'msg': TIMETABLE_REGISTER_SUCCESS_MESSAGE}
+    # assert
+    assert json.loads(response.content) == {
+        'msg': TIMETABLE_REGISTER_SUCCESS_MESSAGE}

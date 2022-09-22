@@ -18,66 +18,79 @@ _DATA = {'name': 'Admin', 'email': 'admin@test.com',
 
 
 def test_admin_get_zero_content(client):
-    response = client.post(url)
-    response_content = json.loads(response.content)
 
+    response = client.post(url)  # act
+
+    # assert
     assert response.status_code == 400
-    assert response_content == FIELD_REQUIRED_MESSAGE
+    assert json.loads(response.content) == FIELD_REQUIRED_MESSAGE
 
 
 def test_wrong_confirm_password(client):
-    data = deepcopy(_DATA)
-    data['password2'] = "12345"
-    response = client.post(url, data)
-    response_content = json.loads(response.content)
 
+    # arrange
+    data = deepcopy(_DATA)
+    data['password2'] = '12345'
+
+    response = client.post(url, data)  # act
+
+    # assert
     assert response.status_code == 400
-    assert response_content == non_field_error(
+    assert json.loads(response.content) == non_field_error(
         PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
 
 
 def test_admin_with_same_email(client):
+
+    # arrange
     data = deepcopy(_DATA)
     Admin.objects.create_user(name='Admin',
                               email='admin@test.com')
 
-    response = client.post(url, data)
-    response_content = json.loads(response.content)
+    response = client.post(url, data)  # act
 
+    # assert
     assert response.status_code == 400
-    assert response_content == {"errors": {
-        "email": [
-            "user with this Email already exists.",
-        ],
-    },
+    assert json.loads(response.content) == {
+        "errors": {
+            "email": [
+                "user with this Email already exists.",
+            ],
+        },
     }
 
 
 def test_admin_with_wrong_data(client):
+
+    # arrange
     data = deepcopy(_DATA)
     data['email'] = "admintest.com"
 
-    response = client.post(url, data)
-    response_content = json.loads(response.content)
+    response = client.post(url, data)  # act
 
+    # assert
     assert response.status_code == 400
-    assert response_content == {"errors": {
-        "email": [
-            "Enter a valid email address.",
-        ]},
+    assert json.loads(response.content) == {
+        "errors": {
+            "email": [
+                "Enter a valid email address.",
+            ]
+        },
     }
 
 
 @patch('accounts.views.admin_views.get_tokens_for_user')
 def test_admin_registeration_success(patch_token, client):
+
+    # arrange
     data = deepcopy(_DATA)
     patch_token.return_value = DUMMY_TOKEN
 
-    response = client.post(url, data)
-    response_content = json.loads(response.content)
+    response = client.post(url, data)  # act
 
-    assert response_content == {
+    # assert
+    assert response.status_code == 201
+    assert json.loads(response.content) == {
         "msg": REGISTERATION_SUCCESS_MESSAGE,
         "token": DUMMY_TOKEN,
     }
-    assert response.status_code == 201

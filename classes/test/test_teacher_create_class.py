@@ -21,56 +21,63 @@ _DATA = {
 def test_admin_create_class(client, create_test_admin, create_test_class):
     """Check the expected response if admin try to create class
     """
+    # arrange
     data = deepcopy(_DATA)
     token = create_test_admin
 
-    response = client.post(
+    response = client.post(  # act
         url, data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
-    response_content = json.loads(response.content)
 
-    error_message = {'errors': {
-        'detail': 'You do not have permission to perform this action.'}}
-
-    assert response_content == error_message
+    # assert
+    assert json.loads(response.content) == {
+        'errors': {
+            'detail': 'You do not have permission to perform this action.'
+        }
+    }
 
 
 def test_create_class_with_wrong_coursecode(client, create_test_teacher):
     """Test the response by providing the course code, having no entry in our
        database
     """
+    # arrange
     data = deepcopy(_DATA)
     token = create_test_teacher
 
-    response = client.post(
+    response = client.post(  # act
         url, data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
-    response_content = json.loads(response.content)
 
-    error_message = non_field_error(NO_COURSE_ERROR_MESSAGE)
-
-    assert response_content == error_message
+    # assert
+    assert json.loads(response.content) == non_field_error(
+        NO_COURSE_ERROR_MESSAGE)
 
 
 def test_already_registered_class(client, create_test_teacher,
                                   create_test_course, create_test_class):
+
+    # arrange
     data = deepcopy(_DATA)
     token = create_test_teacher
 
-    response = client.post(url, data,
+    response = client.post(url, data,  # act
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
-    response_content = json.loads(response.content)
 
-    assert response_content == non_field_error(CLASS_ALREADY_REGISTERED)
+    # assert
+    assert json.loads(response.content) == non_field_error(
+        CLASS_ALREADY_REGISTERED)
 
 
 def test_create_class_success(client, create_test_teacher, create_test_course):
     """Test the response by providing all valid data of in order to register a
        class
     """
+    # arrange
     data = deepcopy(_DATA)
     token = create_test_teacher
 
-    response = client.post(
+    response = client.post(  # act
         url, data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
-    response_content = json.loads(response.content)
 
-    assert response_content == {'msg': CLASS_CREATE_SUCCESS_MESSAGE}
+    # assert
+    assert json.loads(response.content) == {
+        'msg': CLASS_CREATE_SUCCESS_MESSAGE}

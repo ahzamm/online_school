@@ -20,59 +20,63 @@ _DATA = {
 
 
 def test_admin_change_wrong_old_password(client, create_test_admin):
+
+    # arrange
     data = deepcopy(_DATA)
     token = create_test_admin
 
     data["old_password"] = "123"
 
-    response = client.post(url, data,
+    response = client.post(url, data,  # act
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
-    response_content = json.loads(response.content)
 
+    # assert
     assert response.status_code == WRONG_OLD_PASSWORD_STATUS
-    assert response_content == non_field_error(WRONG_OLD_PASSWORD)
+    assert json.loads(response.content) == non_field_error(WRONG_OLD_PASSWORD)
 
 
 def test_wrong_confirm_password(client, create_test_admin):
+
+    # arrange
     data = deepcopy(_DATA)
     token = create_test_admin
 
     data["password2"] = "123456"
 
-    response = client.post(url, data,
+    response = client.post(url, data,  # act
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
-    response_content = json.loads(response.content)
 
+    # assert
     assert response.status_code == \
         PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH_STATUS
-    assert response_content == non_field_error(
+    assert json.loads(response.content) == non_field_error(
         PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
 
 
 @patch('accounts.views.admin_views.get_tokens_for_user')
 def test_change_password_success(patch_token, client,
                                  create_test_admin, admin_login):
+
+    # arrange
     data = deepcopy(_DATA)
-
-    # Test change password
     token = create_test_admin
-
     message = {"msg": PASSWORD_CHANGE_SUCCESS_MESSAGE}
+    response = client.post(
+        url,
+        data,
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+    )
 
-    response = client.post(url, data,
-                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
-    response_content = json.loads(response.content)
+    response = admin_login(  # act
+        patch_token=patch_token,
+        client=client,
+        email="admin@test.com",
+        password="12345"
+    )
 
-    assert response_content == message
+    # assert
     assert response.status_code == 200
-
-    # Now, Test login with changed password
-
-    response = admin_login(patch_token=patch_token, client=client,
-                           email="admin@test.com", password="12345")
-
-    response.status_code == 200
-    response_content = json.loads(response.content)
-
-    assert response_content == {"msg": LOGIN_SUCCESS_MESSAGE,
-                                "token": DUMMY_TOKEN}
+    assert json.loads(response.content) == {
+        "msg": LOGIN_SUCCESS_MESSAGE,
+        "token": DUMMY_TOKEN
+    }

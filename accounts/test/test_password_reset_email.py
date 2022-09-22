@@ -40,10 +40,14 @@ def test_ending_emails(mailoutbox):
 
 
 def test_reset_password_with_wrong_email(client):
-    response = client.post(reverse("Admin_Reset_Password"), data=EMAIL)
-    response_content = json.loads(response.content)
+    response = client.post(  # act
+        reverse("Admin_Reset_Password"),
+        data=EMAIL
+    )
 
-    assert response_content == non_field_error(USER_WITH_EMAIL_DOESNT_EXIST)
+    # assert
+    assert json.loads(response.content) == non_field_error(
+        USER_WITH_EMAIL_DOESNT_EXIST)
 
 
 @pytest.fixture()
@@ -51,18 +55,25 @@ def create_test_student_with_legit_email(client, create_test_admin):
     data = deepcopy(_DATA)
     token = create_test_admin
 
-    response = client.post(reverse("Student_Register"), data,
-                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    response = client.post(
+        reverse("Student_Register"),
+        data,
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+    )
     response_content = json.loads(response.content)
 
     return response_content['token']['access']
 
 
 def test_reset_password_response(client, create_test_student_with_legit_email):
-    response = client.post(reverse("Admin_Reset_Password"), data=EMAIL)
-    response_content = json.loads(response.content)
 
-    assert response_content == {
+    response = client.post(  # act
+        reverse("Admin_Reset_Password"),
+        data=EMAIL
+    )
+
+    # assert
+    assert json.loads(response.content) == {
         "msg": PASSWORD_RESET_EMAIL_MESSAGE,
     }
 
@@ -73,14 +84,20 @@ def test_reset_password_response(client, create_test_student_with_legit_email):
 def test_reset_password_mail(patch_encode, make_token, client,
                              create_test_student_with_legit_email,
                              mailoutbox):
+
+    # arrange
     patch_encode.return_value = "thisispatchencode"
     make_token.return_value = "thisispatchtoken"
 
-    client.post(reverse("Admin_Reset_Password"),
-                data={"email": "ahzamahmed6@gmail.com"})
+    client.post(  # act
+        reverse("Admin_Reset_Password"),
+        data={"email": "ahzamahmed6@gmail.com"}
+    )
+
     reset_link = password_reset_link("thisispatchencode", "thisispatchtoken")
     mail_message = mailoutbox[0]
 
+    # assert
     assert mail_message.body.split(' ')[-1] == reset_link
 
 
@@ -89,25 +106,27 @@ def test_reset_password(patch_token, client,
                         create_test_student_with_legit_email,
                         student_login, mailoutbox):
 
-    response = client.post(reverse("Admin_Reset_Password"), EMAIL)
+    # arrange
+    response = student_login(
+        patch_token=patch_token,
+        client=client,
+        email="ahzamahmed6@gmail.com",
+        password="changed_password"
+    )
+    response = client.post(
+        reverse("Admin_Reset_Password"),
+        EMAIL
+    )
     mail_message = mailoutbox[0]
     reset_link = mail_message.body.split(' ')[-1] + '/'
-    data = {"password": "changed_password",
-            "password2": "changed_password"}
-
-    response = client.post(reset_link, data=data)
-    response_content = json.loads(response.content)
-
-    assert response_content == {'msg': 'Password Reset Successfully'}
-
-    response = student_login(patch_token=patch_token, client=client,
-                             email="ahzamahmed6@gmail.com",
-                             password="changed_password")
-
-    response.status_code == 200
-    response_content = json.loads(response.content)
-
-    assert response_content == {
-        "msg": "Login Success",
-        "token": DUMMY_TOKEN,
+    data = {
+        "password": "changed_password",
+        "password2": "changed_password"
     }
+
+    response = client.post(reset_link, data=data)  # act
+
+    # assert
+    response.status_code == 200
+    assert json.loads(response.content) == {
+        'msg': 'Password Reset Successfully'}
