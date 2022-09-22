@@ -7,7 +7,7 @@ from accounts.messages import *
 from django.core import mail
 from django.urls import reverse
 
-from .extra import DUMMY_TOKEN, non_field_error
+from .extra import non_field_error
 
 pytestmark = pytest.mark.django_db
 
