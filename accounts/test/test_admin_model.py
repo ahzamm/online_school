@@ -7,8 +7,7 @@ pytestmark = pytest.mark.django_db
 def test_no_email_exception():
     with pytest.raises(ValueError) as er:
         Admin.objects.create_user(name='Admin')
-
-    assert "User must have an email address" == str(er.value)
+        assert "User must have an email address" == str(er.value)
 
 
 def test_create_account():

@@ -46,7 +46,7 @@ def test_reset_password_with_wrong_email(client):
     assert response_content == non_field_error(USER_WITH_EMAIL_DOESNT_EXIST)
 
 
-@pytest.fixture
+@pytest.fixture()
 def create_test_student_with_legit_email(client, create_test_admin):
     data = deepcopy(_DATA)
     token = create_test_admin

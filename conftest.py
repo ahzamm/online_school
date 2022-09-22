@@ -8,7 +8,7 @@ from classes.models import Classes
 pytestmark = pytest.mark.django_db
 
 
-@pytest.fixture
+@pytest.fixture()
 def create_test_admin(client):
     data = {
         "email": "admin@test.com",
@@ -22,7 +22,7 @@ def create_test_admin(client):
     return response_content['token']['access']
 
 
-@pytest.fixture
+@pytest.fixture()
 def create_test_teacher(client, create_test_admin):
     data = {
         "email": "teacher@test.com",
@@ -39,7 +39,7 @@ def create_test_teacher(client, create_test_admin):
     return response_content['token']['access']
 
 
-@pytest.fixture
+@pytest.fixture()
 def create_test_student(client, create_test_admin):
     data = {
         "email": "student@test.com",
@@ -55,7 +55,7 @@ def create_test_student(client, create_test_admin):
     return response_content['token']['access']
 
 
-@pytest.fixture
+@pytest.fixture()
 @patch('accounts.views.admin_views.get_tokens_for_user')
 def admin_login(patch_token, client, **kwargs):
     def _admin_login(client, patch_token, **kwargs):
@@ -75,7 +75,7 @@ def admin_login(patch_token, client, **kwargs):
     return _admin_login
 
 
-@pytest.fixture
+@pytest.fixture()
 @patch('accounts.views.teacher_views.get_tokens_for_user')
 def teacher_login(patch_token, client, **kwargs):
     def _teacher_login(client, patch_token, **kwargs):
@@ -95,7 +95,7 @@ def teacher_login(patch_token, client, **kwargs):
     return _teacher_login
 
 
-@pytest.fixture
+@pytest.fixture()
 @patch('accounts.views.student_views.get_tokens_for_user')
 def student_login(patch_token, client, **kwargs):
     def _student_login(client, patch_token, **kwargs):
@@ -115,7 +115,7 @@ def student_login(patch_token, client, **kwargs):
     return _student_login
 
 
-@pytest.fixture
+@pytest.fixture()
 def create_test_course(client, create_test_admin, create_test_teacher):
     data = {
         "name": "Test Course",
@@ -130,7 +130,7 @@ def create_test_course(client, create_test_admin, create_test_teacher):
     return json.loads(response.content)
 
 
-@pytest.fixture
+@pytest.fixture()
 def create_test_class(client, create_test_teacher, create_test_course):
     data = {
         "course_code": "TC123",
@@ -146,7 +146,7 @@ def create_test_class(client, create_test_teacher, create_test_course):
     return json.loads(response.content)
 
 
-@pytest.fixture
+@pytest.fixture()
 def create_test_timetable(client, create_test_class, create_test_admin):
     token = create_test_admin
     test_class = Classes.objects.first()
