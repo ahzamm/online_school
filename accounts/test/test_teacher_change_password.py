@@ -18,12 +18,12 @@ _DATA = {"old_password": "1234",
 
 
 def test_teacher_change_wrong_old_password(client, create_test_teacher):
-    DATA = deepcopy(_DATA)
+    data = deepcopy(_DATA)
     token = create_test_teacher
 
-    DATA["old_password"] = "123"
+    data["old_password"] = "123"
 
-    response = client.post(url, DATA,
+    response = client.post(url, data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
@@ -32,12 +32,12 @@ def test_teacher_change_wrong_old_password(client, create_test_teacher):
 
 
 def test_wrong_confirm_password(client, create_test_teacher):
-    DATA = deepcopy(_DATA)
+    data = deepcopy(_DATA)
     token = create_test_teacher
 
-    DATA["password2"] = "123456"
+    data["password2"] = "123456"
 
-    response = client.post(url, DATA,
+    response = client.post(url, data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
@@ -49,12 +49,12 @@ def test_wrong_confirm_password(client, create_test_teacher):
 @patch('accounts.views.teacher_views.get_tokens_for_user')
 def test_change_password_success(patch_token, client,
                                  create_test_teacher, teacher_login):
-    DATA = deepcopy(_DATA)
+    data = deepcopy(_DATA)
     token = create_test_teacher
 
     message = {"msg": PASSWORD_CHANGE_SUCCESS_MESSAGE}
 
-    response = client.post(url, DATA,
+    response = client.post(url, data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 

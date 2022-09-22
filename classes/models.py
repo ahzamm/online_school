@@ -71,14 +71,14 @@ class Attendence(models.Model):
 
 class TimeTable(models.Model):
 
-    class ROOM_NO(models.TextChoices):
+    class RoomNo(models.TextChoices):
         ROOM_1 = "ROOM_1"
         ROOM_2 = "ROOM_2"
         ROOM_3 = "ROOM_3"
         ROOM_4 = "ROOM_4"
         NOT_ANNOUNCED = "Not Announced Yet"
 
-    class DAYS(models.TextChoices):
+    class Days(models.TextChoices):
         MONDAY = "MONDAY"
         TUESDAY = "TUESDAY"
         WEDNESDAY = "WEDNESDAY"
@@ -86,11 +86,11 @@ class TimeTable(models.Model):
         FRIDAY = "FRIDAY"
 
     days = models.CharField(max_length=50,
-                            choices=DAYS.choices)
+                            choices=Days.choices)
     start_time = models.TimeField()
     end_time = models.TimeField()
-    room_no = models.CharField(max_length=50, choices=ROOM_NO.choices,
-                               default=ROOM_NO.NOT_ANNOUNCED)
+    room_no = models.CharField(max_length=50, choices=RoomNo.choices,
+                               default=RoomNo.NOT_ANNOUNCED)
     _class = models.ForeignKey(Classes, on_delete=models.CASCADE)
 
     def __str__(self):

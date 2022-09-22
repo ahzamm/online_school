@@ -48,10 +48,10 @@ def test_reset_password_with_wrong_email(client):
 
 @pytest.fixture
 def create_test_student_with_legit_email(client, create_test_admin):
-    DATA = deepcopy(_DATA)
+    data = deepcopy(_DATA)
     token = create_test_admin
 
-    response = client.post(reverse("Student_Register"), DATA,
+    response = client.post(reverse("Student_Register"), data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 

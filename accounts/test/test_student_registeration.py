@@ -29,12 +29,12 @@ def test_get_zero_content(client, create_test_admin):
 
 
 def test_wrong_confirm_password(client, create_test_admin):
-    DATA = deepcopy(_DATA)
+    data = deepcopy(_DATA)
 
-    DATA['password2'] = "123456"
+    data['password2'] = "123456"
     token = create_test_admin
 
-    response = client.post(url, DATA,
+    response = client.post(url, data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
@@ -44,11 +44,11 @@ def test_wrong_confirm_password(client, create_test_admin):
 
 
 def test_with_same_email(client, create_test_admin):
-    DATA = deepcopy(_DATA)
+    data = deepcopy(_DATA)
     Student.objects.create(name='Admin', email='student@test.com')
     token = create_test_admin
 
-    response = client.post(url, DATA,
+    response = client.post(url, data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
@@ -61,11 +61,11 @@ def test_with_same_email(client, create_test_admin):
 
 
 def test_with_wrong_data(client, create_test_admin):
-    DATA = deepcopy(_DATA)
-    DATA['email'] = "studenttest.com"
+    data = deepcopy(_DATA)
+    data['email'] = "studenttest.com"
     token = create_test_admin
 
-    response = client.post(url, DATA,
+    response = client.post(url, data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
@@ -79,11 +79,11 @@ def test_with_wrong_data(client, create_test_admin):
 
 @patch('accounts.views.student_views.get_tokens_for_user')
 def test_registeration_success(patch_token, client, create_test_admin):
-    DATA = deepcopy(_DATA)
+    data = deepcopy(_DATA)
     patch_token.return_value = DUMMY_TOKEN
     token = create_test_admin
 
-    response = client.post(url, DATA,
+    response = client.post(url, data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 

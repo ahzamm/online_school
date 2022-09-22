@@ -27,9 +27,9 @@ def test_login_with_no_data(client):
 
 
 def test_wrong_email_password(client):
-    DATA = deepcopy(_DATA)
+    data = deepcopy(_DATA)
 
-    response = client.post(url, DATA)
+    response = client.post(url, data)
     response_content = json.loads(response.content)
 
     assert response.status_code == 400
@@ -39,14 +39,14 @@ def test_wrong_email_password(client):
 
 @patch('accounts.views.teacher_views.get_tokens_for_user')
 def test_login_success(patch_token, client):
-    DATA = deepcopy(_DATA)
+    data = deepcopy(_DATA)
     patch_token.return_value = DUMMY_TOKEN
 
     Teacher.objects.create_user(name="Teacher",
                                 email="teacher@test.com",
                                 password="1234")
 
-    response = client.post(url, DATA)
+    response = client.post(url, data)
     response_content = json.loads(response.content)
 
     assert response.status_code == 200

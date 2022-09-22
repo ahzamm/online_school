@@ -26,9 +26,9 @@ def test_admin_get_zero_content(client):
 
 
 def test_wrong_confirm_password(client):
-    DATA = deepcopy(_DATA)
-    DATA['password2'] = "12345"
-    response = client.post(url, DATA)
+    data = deepcopy(_DATA)
+    data['password2'] = "12345"
+    response = client.post(url, data)
     response_content = json.loads(response.content)
 
     assert response.status_code == 400
@@ -37,11 +37,11 @@ def test_wrong_confirm_password(client):
 
 
 def test_admin_with_same_email(client):
-    DATA = deepcopy(_DATA)
+    data = deepcopy(_DATA)
     Admin.objects.create_user(name='Admin',
                               email='admin@test.com')
 
-    response = client.post(url, DATA)
+    response = client.post(url, data)
     response_content = json.loads(response.content)
 
     assert response.status_code == 400
@@ -54,10 +54,10 @@ def test_admin_with_same_email(client):
 
 
 def test_admin_with_wrong_data(client):
-    DATA = deepcopy(_DATA)
-    DATA['email'] = "admintest.com"
+    data = deepcopy(_DATA)
+    data['email'] = "admintest.com"
 
-    response = client.post(url, DATA)
+    response = client.post(url, data)
     response_content = json.loads(response.content)
 
     assert response.status_code == 400
@@ -70,10 +70,10 @@ def test_admin_with_wrong_data(client):
 
 @patch('accounts.views.admin_views.get_tokens_for_user')
 def test_admin_registeration_success(patch_token, client):
-    DATA = deepcopy(_DATA)
+    data = deepcopy(_DATA)
     patch_token.return_value = DUMMY_TOKEN
 
-    response = client.post(url, DATA)
+    response = client.post(url, data)
     response_content = json.loads(response.content)
 
     assert response_content == {

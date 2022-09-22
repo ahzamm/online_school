@@ -33,11 +33,11 @@ def test_get_zero_content(client, create_test_admin):
 
 def test_wrong_confirm_password(client,
                                 create_test_admin):
-    DATA = deepcopy(_DATA)
-    DATA['password2'] = "12345"
+    data = deepcopy(_DATA)
+    data['password2'] = "12345"
     token = create_test_admin
 
-    response = client.post(url, DATA,
+    response = client.post(url, data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
@@ -47,13 +47,13 @@ def test_wrong_confirm_password(client,
 
 
 def test_with_same_email(client, create_test_admin):
-    DATA = deepcopy(_DATA)
+    data = deepcopy(_DATA)
 
     Teacher.objects.create(name='Admin',
                            email='teacher@test.com')
 
     token = create_test_admin
-    response = client.post(url, DATA,
+    response = client.post(url, data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
@@ -66,11 +66,11 @@ def test_with_same_email(client, create_test_admin):
 
 
 def test_with_wrong_data(client, create_test_admin):
-    DATA = deepcopy(_DATA)
-    DATA['email'] = "teachertest.com"
+    data = deepcopy(_DATA)
+    data['email'] = "teachertest.com"
     token = create_test_admin
 
-    response = client.post(url, DATA,
+    response = client.post(url, data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 
@@ -85,14 +85,14 @@ def test_with_wrong_data(client, create_test_admin):
 @patch('accounts.views.teacher_views.get_tokens_for_user')
 def test_registeration_success(patch_token, client,
                                create_test_admin):
-    DATA = deepcopy(_DATA)
+    data = deepcopy(_DATA)
     patch_token.return_value = {
         "refresh": "DummyRefreshToken",
         "access": "DummyAccessToken",
     }
     token = create_test_admin
 
-    response = client.post(url, DATA,
+    response = client.post(url, data,
                            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
     response_content = json.loads(response.content)
 

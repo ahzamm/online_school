@@ -11,7 +11,7 @@ from .extra import DUMMY_TOKEN, non_field_error
 url = reverse('Admin_Login')
 pytestmark = pytest.mark.django_db
 
-DATA = {'email': 'admin@test.com',
+data = {'email': 'admin@test.com',
         'password': '1234'}
 
 
@@ -26,7 +26,7 @@ def test_login_with_no_data(client):
 
 
 def test_wrong_email_password(client):
-    response = client.post(url, DATA)
+    response = client.post(url, data)
     response_content = json.loads(response.content)
 
     assert response.status_code == 400
@@ -41,7 +41,7 @@ def test_login_success(patch_token, client):
     Admin.objects.create_user(name="Admin", email="admin@test.com",
                               password="1234")
 
-    response = client.post(url, DATA)
+    response = client.post(url, data)
     response_content = json.loads(response.content)
 
     assert response.status_code == 200
