@@ -14,8 +14,12 @@ url = reverse('Student_Register')
 pytestmark = pytest.mark.django_db
 
 
-_DATA = {'name': 'Student', 'email': 'student@test.com',
-         'password': '1234', 'password2': '1234'}
+_DATA = {
+    'name': 'Student',
+    'email': 'student@test.com',
+    'password': '1234',
+    'password2': '1234',
+    }
 
 
 def test_get_zero_content(client, create_test_admin):

@@ -13,9 +13,11 @@ from .extra import DUMMY_TOKEN, non_field_error
 url = reverse('Student_Change_Password')
 pytestmark = pytest.mark.django_db
 
-_DATA = {"old_password": "1234",
-         "password": "12345",
-         "password2": "12345"}
+_DATA = {
+    "old_password": "1234",
+    "password": "12345",
+    "password2": "12345",
+    }
 
 
 def test_student_change_wrong_old_password(client,

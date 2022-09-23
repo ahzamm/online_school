@@ -10,9 +10,11 @@ from school import settings
 url = reverse('Teacher_Profile')
 pytestmark = pytest.mark.django_db
 
-_DATA = {"id": "user_id",
-         "email": "teacher@test.com",
-         "name": "Teacher"}
+_DATA = {
+    "id": "user_id",
+    "email": "teacher@test.com",
+    "name": "Teacher",
+    }
 
 
 def test_teacher_profile(client, create_test_teacher):

@@ -9,8 +9,11 @@ from django.urls import reverse
 url = reverse('CourseRegisteration')
 pytestmark = pytest.mark.django_db
 
-_DATA = {"name": "Test Course 1", "course_code": "TC123 1",
-         "ch": "4"}
+_DATA = {
+    "name": "Test Course 1",
+    "course_code": "TC123 1",
+    "ch": "4",
+    }
 
 
 def test_teacher_create_course(client, create_test_teacher):

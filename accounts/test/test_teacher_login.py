@@ -12,8 +12,10 @@ from .extra import DUMMY_TOKEN, non_field_error
 url = reverse('Teacher_Login')
 pytestmark = pytest.mark.django_db
 
-_DATA = {'email': 'teacher@test.com',
-         'password': '1234'}
+_DATA = {
+    'email': 'teacher@test.com',
+    'password': '1234',
+    }
 
 
 def test_login_with_no_data(client):

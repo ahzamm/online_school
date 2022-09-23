@@ -61,3 +61,7 @@ class AdminCreateTimeTable(APIView):
 # TODO
 # list all courses
 # list all classes
+
+class ListAllCoursesView(APIView):
+    def get(self, request):
+        ...
