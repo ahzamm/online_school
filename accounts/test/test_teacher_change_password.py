@@ -4,7 +4,9 @@ from copy import deepcopy
 from unittest.mock import patch
 
 import pytest
-from accounts.messages import *
+from accounts.messages import (LOGIN_SUCCESS_MESSAGE,
+                               PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+                               WRONG_OLD_PASSWORD)
 from django.urls import reverse
 
 from .extra import DUMMY_TOKEN, non_field_error

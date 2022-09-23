@@ -1,5 +1,9 @@
 
-from accounts.messages import *
+from accounts.messages import (PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+                               PASSWORD_RESET_EMAIL_BODY,
+                               PASSWORD_RESET_EMAIL_SUBJECT,
+                               USER_WITH_EMAIL_DOESNT_EXIST,
+                               WRONG_OLD_PASSWORD)
 from accounts.models import Student
 from rest_framework import serializers
 

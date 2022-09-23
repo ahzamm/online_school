@@ -1,5 +1,9 @@
 
-from accounts.messages import *
+from accounts.messages import (PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+                               PASSWORD_RESET_EMAIL_BODY,
+                               PASSWORD_RESET_EMAIL_SUBJECT,
+                               USER_WITH_EMAIL_DOESNT_EXIST,
+                               password_reset_link)
 from accounts.models import User
 from accounts.utils import Util
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
