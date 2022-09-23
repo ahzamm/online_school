@@ -1,6 +1,7 @@
 from django.urls import path
 
-from .views import *
+from .views import (AdminCreateCourse, AdminCreateTimeTable,
+                    TeacherCreateClassView)
 
 urlpatterns = [
     path('course-register/', AdminCreateCourse.as_view(),
