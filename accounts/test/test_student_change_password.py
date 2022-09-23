@@ -5,7 +5,6 @@ from unittest.mock import patch
 
 import pytest
 from accounts.messages import (PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
-                               PASSWORD_CHANGE_SUCCESS_MESSAGE,
                                WRONG_OLD_PASSWORD)
 from django.urls import reverse
 
@@ -65,9 +64,6 @@ def test_change_password_success(patch_token, client,
     # arrange
     data = deepcopy(_DATA)
     token = create_test_student
-    message = {
-        "msg": PASSWORD_CHANGE_SUCCESS_MESSAGE,
-    }
     response = client.post(
         url,
         data,

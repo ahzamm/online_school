@@ -7,7 +7,6 @@ import pytest
 from accounts.messages import (LOGIN_SUCCESS_MESSAGE,
                                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
                                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH_STATUS,
-                               PASSWORD_CHANGE_SUCCESS_MESSAGE,
                                WRONG_OLD_PASSWORD, WRONG_OLD_PASSWORD_STATUS)
 from django.urls import reverse
 
@@ -64,7 +63,6 @@ def test_change_password_success(patch_token, client,
     # arrange
     data = deepcopy(_DATA)
     token = create_test_admin
-    message = {"msg": PASSWORD_CHANGE_SUCCESS_MESSAGE}
     response = client.post(
         url,
         data,
