@@ -2,11 +2,13 @@ import json
 from copy import deepcopy
 
 import pytest
-from classes.messages import *
+from classes.messages import (INVALID_TIME_MESSAGE,
+                              TIMETABLE_REGISTER_SUCCESS_MESSAGE,
+                              no_class_found, timetable_clash_message)
 from classes.models import Classes
 from django.urls import reverse
 
-from .extra import *
+from .extra import non_field_error
 
 url = reverse('TimeTableRegisteration')
 pytestmark = pytest.mark.django_db

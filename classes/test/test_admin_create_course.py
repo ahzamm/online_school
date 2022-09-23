@@ -1,9 +1,9 @@
 import json
-from classes.models import Course
 from copy import deepcopy
 
 import pytest
-from classes.messages import *
+from classes.messages import COURSE_REGISTER_SUCCESS_MESSAGE
+from classes.models import Course
 from django.urls import reverse
 
 url = reverse('CourseRegisteration')
