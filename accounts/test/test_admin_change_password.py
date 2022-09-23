@@ -29,8 +29,11 @@ def test_admin_change_wrong_old_password(client, create_test_admin):
     token = create_test_admin
     data["old_password"] = "123"
 
-    response = client.post(url, data,  # act
-                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    response = client.post(  # act
+        url,
+        data,
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        )
 
     # assert
     assert response.status_code == WRONG_OLD_PASSWORD_STATUS
@@ -44,8 +47,11 @@ def test_wrong_confirm_password(client, create_test_admin):
     token = create_test_admin
     data["password2"] = "123456"
 
-    response = client.post(url, data,  # act
-                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    response = client.post(  # act
+        url,
+        data,
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        )
 
     # assert
     assert response.status_code == \

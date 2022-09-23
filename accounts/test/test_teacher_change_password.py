@@ -62,8 +62,11 @@ def test_change_password_success(patch_token, client,
     # arrange
     data = deepcopy(_DATA)
     token = create_test_teacher
-    response = client.post(url, data,
-                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    response = client.post(
+        url,
+        data,
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+    )
 
     response = teacher_login(  # act
         patch_token=patch_token,

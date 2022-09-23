@@ -64,7 +64,7 @@ def create_test_student_with_legit_email(client, create_test_admin):
         reverse("Student_Register"),
         data,
         **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
-    )
+        )
     response_content = json.loads(response.content)
 
     return response_content['token']['access']

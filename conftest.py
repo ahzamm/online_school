@@ -32,8 +32,10 @@ def create_test_teacher(client, create_test_admin):
     }
     token = create_test_admin
     response = client.post(
-        reverse("Teacher_Register"), data, **{'HTTP_AUTHORIZATION':
-                                              f'Bearer {token}'})
+        reverse("Teacher_Register"),
+        data,
+        **{'HTTP_AUTHORIZATION':f'Bearer {token}'}
+        )
     response_content = json.loads(response.content)
 
     return response_content['token']['access']
@@ -48,8 +50,11 @@ def create_test_student(client, create_test_admin):
         "password2": "1234",
     }
     token = create_test_admin
-    response = client.post(reverse("Student_Register"), data,
-                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    response = client.post(
+        reverse("Student_Register"),
+        data,
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        )
     response_content = json.loads(response.content)
 
     return response_content['token']['access']
@@ -124,8 +129,11 @@ def create_test_course(client, create_test_admin, create_test_teacher):
     }
     token = create_test_admin
 
-    response = client.post(reverse("CourseRegisteration"), data,
-                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    response = client.post(
+        reverse("CourseRegisteration"),
+        data,
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        )
 
     return json.loads(response.content)
 
@@ -140,8 +148,11 @@ def create_test_class(client, create_test_teacher, create_test_course):
     }
 
     token = create_test_teacher
-    response = client.post(reverse("ClassRegister"), data,
-                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    response = client.post(
+        reverse("ClassRegister"),
+        data,
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        )
 
     return json.loads(response.content)
 
@@ -158,6 +169,9 @@ def create_test_timetable(client, create_test_class, create_test_admin):
             "_class_": test_class_id,
             "room_no": "ROOM_3"}
 
-    response = client.post(reverse('TimeTableRegisteration'), data,
-                           **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+    response = client.post(
+        reverse('TimeTableRegisteration'),
+        data,
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        )
     return json.loads(response.content)

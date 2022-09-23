@@ -33,7 +33,7 @@ def test_admin_profile(client, create_test_admin):
     response = client.get(  # act
         url,
         **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
-    )
+        )
 
     # assert
     assert response.status_code == 200
@@ -52,7 +52,7 @@ def test_no_admin_profile(client, create_test_teacher):
     response = client.get(  # act
         url,
         **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
-    )
+        )
 
     # assert
     assert response.status_code == 403
