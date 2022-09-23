@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import (AdminCreateCourse, AdminCreateTimeTable,
-                    TeacherCreateClassView)
+                    ListAllCoursesView, TeacherCreateClassView)
 
 urlpatterns = [
     path('course-register/', AdminCreateCourse.as_view(),
@@ -10,4 +10,7 @@ urlpatterns = [
          name="TimeTableRegisteration"),
     path('class-register/', TeacherCreateClassView.as_view(),
          name='ClassRegister'),
+    path('list-all-course/', ListAllCoursesView.as_view(),
+         name='ListAllCourse'),
+
 ]

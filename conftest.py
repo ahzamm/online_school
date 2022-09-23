@@ -34,7 +34,7 @@ def create_test_teacher(client, create_test_admin):
     response = client.post(
         reverse("Teacher_Register"),
         data,
-        **{'HTTP_AUTHORIZATION':f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
         )
     response_content = json.loads(response.content)
 
@@ -53,7 +53,7 @@ def create_test_student(client, create_test_admin):
     response = client.post(
         reverse("Student_Register"),
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
         )
     response_content = json.loads(response.content)
 
@@ -132,7 +132,7 @@ def create_test_course(client, create_test_admin, create_test_teacher):
     response = client.post(
         reverse("CourseRegisteration"),
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
         )
 
     return json.loads(response.content)
@@ -151,7 +151,7 @@ def create_test_class(client, create_test_teacher, create_test_course):
     response = client.post(
         reverse("ClassRegister"),
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
         )
 
     return json.loads(response.content)
@@ -172,6 +172,6 @@ def create_test_timetable(client, create_test_class, create_test_admin):
     response = client.post(
         reverse('TimeTableRegisteration'),
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
         )
     return json.loads(response.content)

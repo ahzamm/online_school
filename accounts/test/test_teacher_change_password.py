@@ -65,7 +65,7 @@ def test_change_password_success(patch_token, client,
     response = client.post(
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     response = teacher_login(  # act

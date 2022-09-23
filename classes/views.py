@@ -1,10 +1,14 @@
 
+import json
 
 from accounts.custom_permissions import IsAdmin, IsTeacher
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from classes.models import Course
+
+from .helper import UUIDEncoder
 from .messages import (CLASS_CREATE_SUCCESS_MESSAGE,
                        CLASS_CREATE_SUCCESS_STATUS,
                        COURSE_REGISTER_SUCCESS_MESSAGE,
@@ -64,4 +68,9 @@ class AdminCreateTimeTable(APIView):
 
 class ListAllCoursesView(APIView):
     def get(self, request):
-        ...
+        data = Course.objects.all()
+        serializer = CourseSerializer(data, many=True)
+        json_data = json.dumps(serializer.data, cls=UUIDEncoder)
+        json_without_slash = json.loads(json_data)
+
+        return Response({'data': json_without_slash}, status=200)

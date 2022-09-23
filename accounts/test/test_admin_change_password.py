@@ -32,7 +32,7 @@ def test_admin_change_wrong_old_password(client, create_test_admin):
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
         )
 
     # assert
@@ -50,7 +50,7 @@ def test_wrong_confirm_password(client, create_test_admin):
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
         )
 
     # assert
