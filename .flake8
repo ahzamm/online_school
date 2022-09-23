@@ -1,11 +1,6 @@
 
 [flake8]
 
-per-file-ignores =
-    tests: S101
-
-addopts = --ignore E402,F841,F403,F405,E501,Q000,ANN001
-
 exclude =
     __init__.py,
     migrations,
@@ -13,6 +8,5 @@ exclude =
     manage.py
     settings.py
     app.py
-    tests.py
     
 
