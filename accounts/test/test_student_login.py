@@ -21,12 +21,12 @@ def test_login_with_no_data(client):
     assert json.loads(response.content) == {
         "errors": {
             "email": [
-                "This field is required."
+                "This field is required.",
             ],
             "password": [
-                "This field is required."
-            ]
-        }
+                "This field is required.",
+            ],
+        },
     }
 
 
@@ -52,11 +52,11 @@ def test_login_success(patch_token, client):
     Student.objects.create_user(
         name="Student",
         email="student@test.com",
-        password="1234"
+        password="1234",
     )
     data = {
         "email": "student@test.com",
-        "password": "1234"
+        "password": "1234",
     }
 
     response = client.post(url, data)  # act

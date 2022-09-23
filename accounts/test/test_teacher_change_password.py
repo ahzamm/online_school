@@ -29,8 +29,8 @@ def test_teacher_change_wrong_old_password(client, create_test_teacher):
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'
-           }
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}',
+           },
     )
 
     # assert
@@ -67,7 +67,7 @@ def test_change_password_success(patch_token, client,
         patch_token=patch_token,
         client=client,
         email="teacher@test.com",
-        password="12345"
+        password="12345",
     )
 
     # assert

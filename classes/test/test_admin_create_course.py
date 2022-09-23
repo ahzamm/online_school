@@ -24,14 +24,14 @@ def test_teacher_create_course(client, create_test_teacher):
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert
     assert json.loads(response.content) == {
         'errors': {
-            'detail': 'You do not have permission to perform this action.'
-        }
+            'detail': 'You do not have permission to perform this action.',
+        },
     }
 
 
@@ -45,7 +45,7 @@ def test_admin_create_course_success(client, create_test_admin):
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert
@@ -61,7 +61,7 @@ def test_admin_add_heigh_level_course(client, create_test_admin,
     token = create_test_admin
 
     response = client.post(  # act
-        url, data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        url, data, **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     course0 = Course.objects.last()
@@ -71,5 +71,5 @@ def test_admin_add_heigh_level_course(client, create_test_admin,
     # assert
     assert course0.pre_req.all()[0] == course1
     assert json.loads(response.content) == {
-        'msg': COURSE_REGISTER_SUCCESS_MESSAGE
+        'msg': COURSE_REGISTER_SUCCESS_MESSAGE,
     }

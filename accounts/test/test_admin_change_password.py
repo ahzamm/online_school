@@ -66,19 +66,19 @@ def test_change_password_success(patch_token, client,
     response = client.post(
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     response = admin_login(  # act
         patch_token=patch_token,
         client=client,
         email="admin@test.com",
-        password="12345"
+        password="12345",
     )
 
     # assert
     assert response.status_code == 200
     assert json.loads(response.content) == {
         "msg": LOGIN_SUCCESS_MESSAGE,
-        "token": DUMMY_TOKEN
+        "token": DUMMY_TOKEN,
     }

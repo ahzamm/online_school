@@ -30,7 +30,7 @@ def test_invalid_course(client, create_test_class, create_test_admin):
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     response_content = json.loads(response.content)
@@ -57,7 +57,7 @@ def test_time_clash(client, create_test_class, create_test_admin,
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert
@@ -65,8 +65,8 @@ def test_time_clash(client, create_test_class, create_test_admin,
         timetable_clash_message(
             data[
                 "room_no"
-            ]
-        )
+            ],
+        ),
     )
 
 
@@ -85,7 +85,7 @@ def test_invalid_time(client, create_test_class, create_test_admin,
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert

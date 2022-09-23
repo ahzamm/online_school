@@ -30,7 +30,7 @@ def test_student_change_wrong_old_password(client,
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert
@@ -48,7 +48,7 @@ def test_wrong_confirm_password(client, create_test_student):
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert
@@ -67,14 +67,14 @@ def test_change_password_success(patch_token, client,
     response = client.post(
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     response = student_login(  # act
         patch_token=patch_token,
         client=client,
         email="student@test.com",
-        password="12345"
+        password="12345",
     )
 
     # assert

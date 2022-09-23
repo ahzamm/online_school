@@ -75,7 +75,7 @@ def test_admin_with_wrong_data(client):
         "errors": {
             "email": [
                 "Enter a valid email address.",
-            ]
+            ],
         },
     }
 

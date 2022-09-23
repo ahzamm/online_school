@@ -33,8 +33,8 @@ def test_admin_create_class(client, create_test_admin, create_test_class):
     # assert
     assert json.loads(response.content) == {
         'errors': {
-            'detail': 'You do not have permission to perform this action.'
-        }
+            'detail': 'You do not have permission to perform this action.',
+        },
     }
 
 

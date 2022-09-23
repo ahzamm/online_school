@@ -17,7 +17,7 @@ def test_create_account():
     Admin.objects.create_user(  # act
         name='Admin',
         email='admin@test.com',
-        password='1234'
+        password='1234',
     )
 
     # assert

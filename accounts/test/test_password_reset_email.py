@@ -44,7 +44,7 @@ def test_ending_emails(mailoutbox):
 def test_reset_password_with_wrong_email(client):
     response = client.post(  # act
         reverse("Admin_Reset_Password"),
-        data=EMAIL
+        data=EMAIL,
     )
 
     # assert
@@ -60,7 +60,7 @@ def create_test_student_with_legit_email(client, create_test_admin):
     response = client.post(
         reverse("Student_Register"),
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
     response_content = json.loads(response.content)
 
@@ -71,7 +71,7 @@ def test_reset_password_response(client, create_test_student_with_legit_email):
 
     response = client.post(  # act
         reverse("Admin_Reset_Password"),
-        data=EMAIL
+        data=EMAIL,
     )
 
     # assert
@@ -93,7 +93,7 @@ def test_reset_password_mail(patch_encode, make_token, client,
 
     client.post(  # act
         reverse("Admin_Reset_Password"),
-        data={"email": "ahzamahmed6@gmail.com"}
+        data={"email": "ahzamahmed6@gmail.com"},
     )
 
     reset_link = password_reset_link("thisispatchencode", "thisispatchtoken")
@@ -113,17 +113,17 @@ def test_reset_password(patch_token, client,
         patch_token=patch_token,
         client=client,
         email="ahzamahmed6@gmail.com",
-        password="changed_password"
+        password="changed_password",
     )
     response = client.post(
         reverse("Admin_Reset_Password"),
-        EMAIL
+        EMAIL,
     )
     mail_message = mailoutbox[0]
     reset_link = mail_message.body.split(' ')[-1] + '/'
     data = {
         "password": "changed_password",
-        "password2": "changed_password"
+        "password2": "changed_password",
     }
 
     response = client.post(reset_link, data=data)  # act

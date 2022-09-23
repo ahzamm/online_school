@@ -43,7 +43,7 @@ def test_wrong_confirm_password(client,
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert
@@ -58,14 +58,14 @@ def test_with_same_email(client, create_test_admin):
     data = deepcopy(_DATA)
     Teacher.objects.create(
         name='Admin',
-        email='teacher@test.com'
+        email='teacher@test.com',
     )
     token = create_test_admin
 
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert
@@ -87,7 +87,7 @@ def test_with_wrong_data(client, create_test_admin):
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert
@@ -114,7 +114,7 @@ def test_registeration_success(patch_token, client,
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert

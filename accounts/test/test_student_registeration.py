@@ -25,7 +25,7 @@ def test_get_zero_content(client, create_test_admin):
 
     response = client.post(  # act
         url,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert
@@ -43,7 +43,7 @@ def test_wrong_confirm_password(client, create_test_admin):
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert
@@ -62,7 +62,7 @@ def test_with_same_email(client, create_test_admin):
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert
@@ -84,7 +84,7 @@ def test_with_wrong_data(client, create_test_admin):
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert
@@ -92,7 +92,7 @@ def test_with_wrong_data(client, create_test_admin):
     assert json.loads(response.content) == {'errors': {
         "email": [
             "Enter a valid email address.",
-        ]
+        ],
     },
     }
 
@@ -108,12 +108,12 @@ def test_registeration_success(patch_token, client, create_test_admin):
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert
     assert response.status_code == 201
     assert json.loads(response.content) == {
         "msg": REGISTERATION_SUCCESS_MESSAGE,
-        "token": DUMMY_TOKEN
+        "token": DUMMY_TOKEN,
     }
