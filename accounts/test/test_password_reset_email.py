@@ -26,14 +26,17 @@ def test_ending_emails(mailoutbox):
 
     assert len(mailoutbox) == 0
 
-    mail.send_mail(subject='TestSubject',
-                   message='TestMessage',
-                   from_email='test@gmail.com',
-                   recipient_list=['test1@gmail.com'],
-                   fail_silently=False)
+    mail.send_mail(  # act
+        subject='TestSubject',
+        message='TestMessage',
+        from_email='test@gmail.com',
+        recipient_list=['test1@gmail.com'],
+        fail_silently=False,
+        )
 
     m = mailoutbox[0]
 
+    # assert
     assert m.subject == 'TestSubject'
     assert m.body == 'TestMessage'
     assert m.from_email == 'test@gmail.com'

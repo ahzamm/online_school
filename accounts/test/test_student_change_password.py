@@ -24,7 +24,6 @@ def test_student_change_wrong_old_password(client,
     # arrange
     data = deepcopy(_DATA)
     token = create_test_student
-
     data["old_password"] = "123"
 
     response = client.post(  # act

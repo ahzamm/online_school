@@ -27,7 +27,6 @@ def test_admin_change_wrong_old_password(client, create_test_admin):
     # arrange
     data = deepcopy(_DATA)
     token = create_test_admin
-
     data["old_password"] = "123"
 
     response = client.post(url, data,  # act
@@ -43,7 +42,6 @@ def test_wrong_confirm_password(client, create_test_admin):
     # arrange
     data = deepcopy(_DATA)
     token = create_test_admin
-
     data["password2"] = "123456"
 
     response = client.post(url, data,  # act

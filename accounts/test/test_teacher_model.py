@@ -12,12 +12,15 @@ def test_no_email_exception():
 
 
 def test_create_account():
+
+    # arrange
     Teacher.objects.create_user(name='Teacher',
                                 email='teacher@test.com',
                                 password='1234')
 
-    data = Teacher.objects.first()
+    data = Teacher.objects.first()   # act
 
+    # assert
     assert data.name == 'Teacher'
     assert data.email == 'teacher@test.com'
     assert data.check_password('1234')

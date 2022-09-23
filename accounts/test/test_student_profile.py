@@ -20,7 +20,6 @@ def test_student_profile(client, create_test_student):
     # arrange
     data = deepcopy(_DATA)
     token = create_test_student
-
     payload = jwt.decode(
         token,
         settings.SECRET_KEY,
