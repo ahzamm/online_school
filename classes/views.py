@@ -1,8 +1,7 @@
 
 import json
-from django.forms.models import model_to_dict
+
 from accounts.custom_permissions import IsAdmin, IsTeacher
-from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -16,7 +15,9 @@ from .messages import (CLASS_CREATE_SUCCESS_MESSAGE,
                        COURSE_REGISTER_SUCCESS_STATUS,
                        TIMETABLE_REGISTER_SUCCESS_MESSAGE,
                        TIMETABLE_REGISTER_SUCCESS_STATUS)
-from .serializer import ClassSerializer, CourseSerializer, ListAllCourseSerializer, TimeTableSerializer
+from .serializer import (ClassSerializer, CourseSerializer,
+                         ListAllCourseSerializer, ListOneCourseSerializer,
+                         TimeTableSerializer)
 
 
 class AdminCreateCourse(APIView):
@@ -70,23 +71,24 @@ class AdminCreateTimeTable(APIView):
 class ListAllCoursesView(APIView):
     def get(self, request):
         data = Course.objects.all()
-        serializer = ListAllCourseSerializer(data, context={'request': request}, many=True)
-        # json_data = json.dumps(serializer.data, cls=UUIDEncoder)
-        # json_without_slash = json.loads(json_data)
+        serializer = ListAllCourseSerializer(
+            data,
+            context={'request': request},
+            many=True
+        )
 
         return Response({'data': serializer.data}, status=200)
 
 
 class ListOneCourse(APIView):
     def get(self, request, slug):
-        course = get_object_or_404(Course, slug=slug)
-        serializer = model_to_dict(course)
-
-        for iter, i in enumerate(serializer['pre_req_courses']):
-            serializer['pre_req_courses'][iter] = i.name
-
-        json_data = json.dumps(serializer, cls=UUIDEncoder)
+        course = Course.objects.filter(slug=slug)
+        serializer = ListOneCourseSerializer(
+            course,
+            context={'request': request},
+            many=True
+        )
+        json_data = json.dumps(serializer.data, cls=UUIDEncoder)
         json_without_slash = json.loads(json_data)
-        del json_without_slash['slug']
 
         return Response({'data': json_without_slash}, status=200)

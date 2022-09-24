@@ -102,3 +102,11 @@ class ListAllCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ['name', 'course_detail']
+
+
+class ListOneCourseSerializer(serializers.ModelSerializer):
+    pre_req_courses = ListAllCourseSerializer(read_only=True, many=True)
+    
+    class Meta:
+        model = Course
+        fields = ['name', 'course_code', 'ch', 'pre_req_courses']
