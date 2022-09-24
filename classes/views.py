@@ -2,6 +2,7 @@
 import json
 
 from accounts.custom_permissions import IsAdmin, IsTeacher
+from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -15,7 +16,7 @@ from .messages import (CLASS_CREATE_SUCCESS_MESSAGE,
                        COURSE_REGISTER_SUCCESS_STATUS,
                        TIMETABLE_REGISTER_SUCCESS_MESSAGE,
                        TIMETABLE_REGISTER_SUCCESS_STATUS)
-from .serializer import ClassSerializer, CourseSerializer, TimeTableSerializer
+from .serializer import ClassSerializer, CourseSerializer, ListAllCourseSerializer, TimeTableSerializer
 
 
 class AdminCreateCourse(APIView):
@@ -68,14 +69,25 @@ class AdminCreateTimeTable(APIView):
 
 class ListAllCoursesView(APIView):
     def get(self, request):
-        data = Course.objects.all()
-        serializer = CourseSerializer(data, many=True)
+        data = Course.objects.all().values('name')
+        serializer = ListAllCourseSerializer(data, many=True)
         json_data = json.dumps(serializer.data, cls=UUIDEncoder)
         json_without_slash = json.loads(json_data)
 
         return Response({'data': json_without_slash}, status=200)
-
+from django.core import serializers
+from django.forms.models import model_to_dict
 
 class ListOneCourse(APIView):
-    def get(self, request):
-        ...
+    def get(self, request, course_slug):
+        course = get_object_or_404(Course, slug=course_slug)
+        serializer = model_to_dict(course)
+
+        for iter, i in enumerate(serializer['pre_req_courses']):
+            serializer['pre_req_courses'][iter] = i.name
+            
+        json_data = json.dumps(serializer, cls=UUIDEncoder)
+        json_without_slash = json.loads(json_data)
+        del json_without_slash['slug']
+
+        return Response({'data': json_without_slash}, status=200)

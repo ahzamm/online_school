@@ -91,3 +91,10 @@ class ClassSerializer(serializers.ModelSerializer):
         classes.save()
 
         return data
+
+
+class ListAllCourseSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Course
+        fields = ['name']
