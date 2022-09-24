@@ -1,8 +1,8 @@
 
 import json
-
+from django.forms.models import model_to_dict
 from accounts.custom_permissions import IsAdmin, IsTeacher
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -75,8 +75,7 @@ class ListAllCoursesView(APIView):
         json_without_slash = json.loads(json_data)
 
         return Response({'data': json_without_slash}, status=200)
-from django.core import serializers
-from django.forms.models import model_to_dict
+
 
 class ListOneCourse(APIView):
     def get(self, request, course_slug):
@@ -85,7 +84,7 @@ class ListOneCourse(APIView):
 
         for iter, i in enumerate(serializer['pre_req_courses']):
             serializer['pre_req_courses'][iter] = i.name
-            
+
         json_data = json.dumps(serializer, cls=UUIDEncoder)
         json_without_slash = json.loads(json_data)
         del json_without_slash['slug']

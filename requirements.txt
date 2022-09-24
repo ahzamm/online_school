@@ -11,6 +11,4 @@ tzdata==2021.5
 pytest
 pytest-django
 pytest-cov
-flake8
 django_extensions
-django-autoslug
