@@ -74,7 +74,7 @@ class ListAllCoursesView(APIView):
         serializer = ListAllCourseSerializer(
             data,
             context={'request': request},
-            many=True
+            many=True,
         )
 
         return Response({'data': serializer.data}, status=200)
@@ -86,7 +86,7 @@ class ListOneCourse(APIView):
         serializer = ListOneCourseSerializer(
             course,
             context={'request': request},
-            many=True
+            many=True,
         )
         json_data = json.dumps(serializer.data, cls=UUIDEncoder)
         json_without_slash = json.loads(json_data)

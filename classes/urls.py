@@ -12,6 +12,6 @@ urlpatterns = [
          name='ClassRegister'),
     path('courses/', ListAllCoursesView.as_view(),
          name='ListAllCourse'),
-     path('courses/<slug>/', ListOneCourse.as_view(), name='CourseDetail')
+    path('courses/<slug>/', ListOneCourse.as_view(), name='CourseDetail'),
 
 ]
