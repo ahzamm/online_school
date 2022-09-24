@@ -6,7 +6,7 @@ from .models import Attendence, Classes, Course, TimeTable
 
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('name', 'course_code', 'ch')
+    list_display = ('name', 'course_code', 'slug', 'ch')
 
 
 class ClassesAdmin(admin.ModelAdmin):

@@ -74,3 +74,8 @@ class ListAllCoursesView(APIView):
         json_without_slash = json.loads(json_data)
 
         return Response({'data': json_without_slash}, status=200)
+
+
+class ListOneCourse(APIView):
+    def get(self, request):
+        ...

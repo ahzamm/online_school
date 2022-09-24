@@ -10,7 +10,7 @@ urlpatterns = [
          name="TimeTableRegisteration"),
     path('class-register/', TeacherCreateClassView.as_view(),
          name='ClassRegister'),
-    path('list-all-course/', ListAllCoursesView.as_view(),
+    path('courses/', ListAllCoursesView.as_view(),
          name='ListAllCourse'),
 
 ]

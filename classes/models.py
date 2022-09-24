@@ -2,6 +2,7 @@
 from uuid import uuid4
 
 from accounts.models import Student, Teacher
+from autoslug import AutoSlugField
 from django.db import models
 
 
@@ -13,8 +14,9 @@ class Course(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid4,
                           editable=False, unique=True)
-    name = models.CharField(max_length=50)
-    course_code = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, null=False, unique=True)
+    slug = AutoSlugField(populate_from='name', null=False, unique=True)
+    course_code = models.CharField(max_length=50, null=False, unique=True)
     ch = models.IntegerField(choices=CH.choices)
     pre_req_courses = models.ManyToManyField(
         'self', symmetrical=False, related_name="pre_req", blank=True)
