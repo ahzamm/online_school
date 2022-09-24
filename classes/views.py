@@ -69,17 +69,17 @@ class AdminCreateTimeTable(APIView):
 
 class ListAllCoursesView(APIView):
     def get(self, request):
-        data = Course.objects.all().values('name')
-        serializer = ListAllCourseSerializer(data, many=True)
-        json_data = json.dumps(serializer.data, cls=UUIDEncoder)
-        json_without_slash = json.loads(json_data)
+        data = Course.objects.all()
+        serializer = ListAllCourseSerializer(data, context={'request': request}, many=True)
+        # json_data = json.dumps(serializer.data, cls=UUIDEncoder)
+        # json_without_slash = json.loads(json_data)
 
-        return Response({'data': json_without_slash}, status=200)
+        return Response({'data': serializer.data}, status=200)
 
 
 class ListOneCourse(APIView):
-    def get(self, request, course_slug):
-        course = get_object_or_404(Course, slug=course_slug)
+    def get(self, request, slug):
+        course = get_object_or_404(Course, slug=slug)
         serializer = model_to_dict(course)
 
         for iter, i in enumerate(serializer['pre_req_courses']):

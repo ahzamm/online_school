@@ -1,3 +1,4 @@
+from cgitb import lookup
 from rest_framework import serializers
 
 from .messages import (CLASS_ALREADY_REGISTERED, INVALID_TIME_MESSAGE,
@@ -94,7 +95,10 @@ class ClassSerializer(serializers.ModelSerializer):
 
 
 class ListAllCourseSerializer(serializers.ModelSerializer):
-
+    course_detail = serializers.HyperlinkedIdentityField(
+        view_name='course:CourseDetail',
+        lookup_field='slug'
+    )
     class Meta:
         model = Course
-        fields = ['name']
+        fields = ['name', 'course_detail']
