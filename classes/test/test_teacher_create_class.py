@@ -28,9 +28,9 @@ def test_admin_create_class(client, create_test_admin, create_test_class):
     token = create_test_admin
 
     response = client.post(  # act
-        url, 
-        data, 
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        url,
+        data,
+        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
     )
 
     # assert
