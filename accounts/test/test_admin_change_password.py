@@ -57,8 +57,9 @@ def test_wrong_confirm_password(client, create_test_admin):
     )
 
     # assert
-    assert response.status_code == \
-        PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH_STATUS
+    assert (
+        response.status_code == PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH_STATUS
+    )
     assert json.loads(response.content) == non_field_error(
         PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
     )
