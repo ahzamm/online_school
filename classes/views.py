@@ -1,18 +1,21 @@
 import json
-
+from accounts.models import Student
+from accounts.custom_permissions import IsAdmin, IsStudent, IsTeacher
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from accounts.custom_permissions import IsAdmin, IsTeacher
-from classes.models import Course, Classes
+from classes.models import Classes, Course
 
 from .helper import UUIDEncoder
 from .messages import (
+    ALREADY_ENROLLED_MESSAGE,
     CLASS_CREATE_SUCCESS_MESSAGE,
     CLASS_CREATE_SUCCESS_STATUS,
     COURSE_REGISTER_SUCCESS_MESSAGE,
     COURSE_REGISTER_SUCCESS_STATUS,
+    ENROLLED_SUCCESS_MESSAGE,
+    NOT_ELIGIBLE_MESSAGE,
     TIMETABLE_REGISTER_SUCCESS_MESSAGE,
     TIMETABLE_REGISTER_SUCCESS_STATUS,
 )
@@ -131,3 +134,33 @@ class ListOneClassView(APIView):
         json_data = json.dumps(serializer.data, cls=UUIDEncoder)
         json_without_slash = json.loads(json_data)
         return Response({"data": json_without_slash}, status=200)
+
+
+# [ x ] student can not enrolled in two class of same course DONE
+# [   ] Now course pre req logic
+# as soon as a student is created, StudentMore for that Student should bhe
+# created
+
+
+class StudentEnrollClassView(APIView):
+    permission_classes = [IsAuthenticated, IsStudent]
+
+    def post(self, request, slug):
+        request.user.__class__ = Student
+        student = request.user
+        if Classes.objects.filter(slug=slug, student=student):
+            return Response(
+                {"data": ALREADY_ENROLLED_MESSAGE},
+                status=200,
+            )
+
+        course = Classes.objects.get(slug=slug).course
+        pre_req_course = course.pre_req_courses.all()
+        for course in pre_req_course:
+            if course not in student.more.cleared_course.all():
+                return Response({"data": NOT_ELIGIBLE_MESSAGE}, status=200)
+
+        _class = Classes.objects.get(slug=slug)
+        _class.student.add(student)
+        _class.save()
+        return Response({"data": ENROLLED_SUCCESS_MESSAGE}, status=200)

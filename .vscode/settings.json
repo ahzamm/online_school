@@ -16,6 +16,7 @@
   "editor.rulers": [79],
   "workbench.colorCustomizations": {
     "editorRuler.foreground": "#3a4dbd"
+    // "titleBar.activeBackground": "#0a426c"
   },
   "gitlens.currentLine.enabled": true,
   "gitlens.hovers.currentLine.over": "line",
@@ -31,5 +32,5 @@
     }
   },
 
-  "python.formatting.blackArgs": ["-l 100"]
+  "python.formatting.blackArgs": ["-l", "79"]
 }
