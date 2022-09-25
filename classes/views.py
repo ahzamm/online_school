@@ -1,4 +1,3 @@
-
 import json
 
 from accounts.custom_permissions import IsAdmin, IsTeacher
@@ -9,15 +8,21 @@ from rest_framework.views import APIView
 from classes.models import Course
 
 from .helper import UUIDEncoder
-from .messages import (CLASS_CREATE_SUCCESS_MESSAGE,
-                       CLASS_CREATE_SUCCESS_STATUS,
-                       COURSE_REGISTER_SUCCESS_MESSAGE,
-                       COURSE_REGISTER_SUCCESS_STATUS,
-                       TIMETABLE_REGISTER_SUCCESS_MESSAGE,
-                       TIMETABLE_REGISTER_SUCCESS_STATUS)
-from .serializer import (ClassSerializer, CourseSerializer,
-                         ListAllCourseSerializer, ListOneCourseSerializer,
-                         TimeTableSerializer)
+from .messages import (
+    CLASS_CREATE_SUCCESS_MESSAGE,
+    CLASS_CREATE_SUCCESS_STATUS,
+    COURSE_REGISTER_SUCCESS_MESSAGE,
+    COURSE_REGISTER_SUCCESS_STATUS,
+    TIMETABLE_REGISTER_SUCCESS_MESSAGE,
+    TIMETABLE_REGISTER_SUCCESS_STATUS,
+)
+from .serializer import (
+    ClassSerializer,
+    CourseSerializer,
+    ListAllCourseSerializer,
+    ListOneCourseSerializer,
+    TimeTableSerializer,
+)
 
 
 class AdminCreateCourse(APIView):
@@ -28,8 +33,10 @@ class AdminCreateCourse(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response({'msg': COURSE_REGISTER_SUCCESS_MESSAGE},
-                        status=COURSE_REGISTER_SUCCESS_STATUS)
+        return Response(
+            {"msg": COURSE_REGISTER_SUCCESS_MESSAGE},
+            status=COURSE_REGISTER_SUCCESS_STATUS,
+        )
 
 
 class TeacherCreateClassView(APIView):
@@ -37,12 +44,12 @@ class TeacherCreateClassView(APIView):
 
     def post(self, request):
         teacher = request.user
-        serializer = ClassSerializer(data=request.data, context={
-                                     'teacher': teacher})
+        serializer = ClassSerializer(data=request.data, context={"teacher": teacher})
         serializer.is_valid(raise_exception=True)
 
-        return Response({'msg': CLASS_CREATE_SUCCESS_MESSAGE},
-                        status=CLASS_CREATE_SUCCESS_STATUS)
+        return Response(
+            {"msg": CLASS_CREATE_SUCCESS_MESSAGE}, status=CLASS_CREATE_SUCCESS_STATUS
+        )
 
 
 class AdminCreateTimeTable(APIView):
@@ -52,8 +59,10 @@ class AdminCreateTimeTable(APIView):
         serializer = TimeTableSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        return Response({'msg': TIMETABLE_REGISTER_SUCCESS_MESSAGE},
-                        status=TIMETABLE_REGISTER_SUCCESS_STATUS)
+        return Response(
+            {"msg": TIMETABLE_REGISTER_SUCCESS_MESSAGE},
+            status=TIMETABLE_REGISTER_SUCCESS_STATUS,
+        )
 
 
 # TODO
@@ -68,16 +77,17 @@ class AdminCreateTimeTable(APIView):
 # list all courses
 # list all classes
 
+
 class ListAllCoursesView(APIView):
     def get(self, request):
         data = Course.objects.all()
         serializer = ListAllCourseSerializer(
             data,
-            context={'request': request},
+            context={"request": request},
             many=True,
         )
 
-        return Response({'data': serializer.data}, status=200)
+        return Response({"data": serializer.data}, status=200)
 
 
 class ListOneCourse(APIView):
@@ -85,10 +95,10 @@ class ListOneCourse(APIView):
         course = Course.objects.filter(slug=slug)
         serializer = ListOneCourseSerializer(
             course,
-            context={'request': request},
+            context={"request": request},
             many=True,
         )
         json_data = json.dumps(serializer.data, cls=UUIDEncoder)
         json_without_slash = json.loads(json_data)
 
-        return Response({'data': json_without_slash}, status=200)
+        return Response({"data": json_without_slash}, status=200)

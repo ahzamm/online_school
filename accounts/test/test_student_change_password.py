@@ -1,27 +1,27 @@
-
 import json
 from copy import deepcopy
 from unittest.mock import patch
 
 import pytest
-from accounts.messages import (PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
-                               WRONG_OLD_PASSWORD)
+from accounts.messages import (
+    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+    WRONG_OLD_PASSWORD,
+)
 from django.urls import reverse
 
 from .extra import DUMMY_TOKEN, non_field_error
 
-url = reverse('Student_Change_Password')
+url = reverse("Student_Change_Password")
 pytestmark = pytest.mark.django_db
 
 _DATA = {
     "old_password": "1234",
     "password": "12345",
     "password2": "12345",
-    }
+}
 
 
-def test_student_change_wrong_old_password(client,
-                                           create_test_student):
+def test_student_change_wrong_old_password(client, create_test_student):
 
     # arrange
     data = deepcopy(_DATA)
@@ -31,7 +31,7 @@ def test_student_change_wrong_old_password(client,
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
+        **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
 
     # assert
@@ -49,18 +49,20 @@ def test_wrong_confirm_password(client, create_test_student):
     response = client.post(  # act
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
+        **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
 
     # assert
     assert response.status_code == 400
     assert json.loads(response.content) == non_field_error(
-        PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
+        PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
+    )
 
 
-@patch('accounts.views.student_views.get_tokens_for_user')
-def test_change_password_success(patch_token, client,
-                                 create_test_student, student_login):
+@patch("accounts.views.student_views.get_tokens_for_user")
+def test_change_password_success(
+    patch_token, client, create_test_student, student_login
+):
 
     # arrange
     data = deepcopy(_DATA)
@@ -68,7 +70,7 @@ def test_change_password_success(patch_token, client,
     response = client.post(
         url,
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
+        **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
 
     response = student_login(  # act

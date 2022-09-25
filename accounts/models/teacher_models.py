@@ -1,4 +1,3 @@
-
 from django.contrib.auth.models import BaseUserManager
 from django.db import models
 
@@ -6,15 +5,13 @@ from .user_models import User
 
 
 class TeacherManager(BaseUserManager):
-
     def get_queryset(self, *args, **kwargs):
-        return super().get_queryset(*args, **kwargs).filter(
-            type=User.Type.TEACHER)
+        return super().get_queryset(*args, **kwargs).filter(type=User.Type.TEACHER)
 
     def create_user(self, email=None, name=None, password=None, **kwargs):
 
         if not email:
-            raise ValueError('User must have an email address')
+            raise ValueError("User must have an email address")
 
         user = self.model(
             email=self.normalize_email(email),

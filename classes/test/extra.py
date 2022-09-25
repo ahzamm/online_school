@@ -1,5 +1,3 @@
-
-
 DUMMY_TOKEN = {
     "refresh": "DummyRefreshToken",
     "access": "DummyAccessToken",
@@ -7,4 +5,4 @@ DUMMY_TOKEN = {
 
 
 def non_field_error(message):
-    return {'errors': {'non_field_errors': [message]}}
+    return {"errors": {"non_field_errors": [message]}}

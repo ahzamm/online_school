@@ -3,9 +3,11 @@ from copy import deepcopy
 from unittest.mock import patch
 
 import pytest
-from accounts.messages import (PASSWORD_RESET_EMAIL_MESSAGE,
-                               USER_WITH_EMAIL_DOESNT_EXIST,
-                               password_reset_link)
+from accounts.messages import (
+    PASSWORD_RESET_EMAIL_MESSAGE,
+    USER_WITH_EMAIL_DOESNT_EXIST,
+    password_reset_link,
+)
 from django.core import mail
 from django.urls import reverse
 
@@ -27,20 +29,20 @@ def test_ending_emails(mailoutbox):
     assert len(mailoutbox) == 0
 
     mail.send_mail(  # act
-        subject='TestSubject',
-        message='TestMessage',
-        from_email='test@gmail.com',
-        recipient_list=['test1@gmail.com'],
+        subject="TestSubject",
+        message="TestMessage",
+        from_email="test@gmail.com",
+        recipient_list=["test1@gmail.com"],
         fail_silently=False,
-        )
+    )
 
     m = mailoutbox[0]
 
     # assert
-    assert m.subject == 'TestSubject'
-    assert m.body == 'TestMessage'
-    assert m.from_email == 'test@gmail.com'
-    assert list(m.to) == ['test1@gmail.com']
+    assert m.subject == "TestSubject"
+    assert m.body == "TestMessage"
+    assert m.from_email == "test@gmail.com"
+    assert list(m.to) == ["test1@gmail.com"]
     assert len(mailoutbox) == 1
 
 
@@ -51,8 +53,7 @@ def test_reset_password_with_wrong_email(client):
     )
 
     # assert
-    assert json.loads(response.content) == non_field_error(
-        USER_WITH_EMAIL_DOESNT_EXIST)
+    assert json.loads(response.content) == non_field_error(USER_WITH_EMAIL_DOESNT_EXIST)
 
 
 @pytest.fixture()
@@ -63,11 +64,11 @@ def create_test_student_with_legit_email(client, create_test_admin):
     response = client.post(
         reverse("Student_Register"),
         data,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
-        )
+        **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
+    )
     response_content = json.loads(response.content)
 
-    return response_content['token']['access']
+    return response_content["token"]["access"]
 
 
 def test_reset_password_response(client, create_test_student_with_legit_email):
@@ -83,12 +84,16 @@ def test_reset_password_response(client, create_test_student_with_legit_email):
     }
 
 
-@patch(("accounts.serializers.common_serializers.PasswordResetTokenGenerator"
-       ".make_token"))
+@patch(
+    (
+        "accounts.serializers.common_serializers.PasswordResetTokenGenerator"
+        ".make_token"
+    )
+)
 @patch("accounts.serializers.common_serializers.urlsafe_base64_encode")
-def test_reset_password_mail(patch_encode, make_token, client,
-                             create_test_student_with_legit_email,
-                             mailoutbox):
+def test_reset_password_mail(
+    patch_encode, make_token, client, create_test_student_with_legit_email, mailoutbox
+):
 
     # arrange
     patch_encode.return_value = "thisispatchencode"
@@ -103,13 +108,13 @@ def test_reset_password_mail(patch_encode, make_token, client,
     mail_message = mailoutbox[0]
 
     # assert
-    assert mail_message.body.split(' ')[-1] == reset_link
+    assert mail_message.body.split(" ")[-1] == reset_link
 
 
-@patch('accounts.views.student_views.get_tokens_for_user')
-def test_reset_password(patch_token, client,
-                        create_test_student_with_legit_email,
-                        student_login, mailoutbox):
+@patch("accounts.views.student_views.get_tokens_for_user")
+def test_reset_password(
+    patch_token, client, create_test_student_with_legit_email, student_login, mailoutbox
+):
 
     # arrange
     response = student_login(
@@ -123,7 +128,7 @@ def test_reset_password(patch_token, client,
         EMAIL,
     )
     mail_message = mailoutbox[0]
-    reset_link = mail_message.body.split(' ')[-1] + '/'
+    reset_link = mail_message.body.split(" ")[-1] + "/"
     data = {
         "password": "changed_password",
         "password2": "changed_password",
@@ -133,5 +138,4 @@ def test_reset_password(patch_token, client,
 
     # assert
     response.status_code == 200
-    assert json.loads(response.content) == {
-        'msg': 'Password Reset Successfully'}
+    assert json.loads(response.content) == {"msg": "Password Reset Successfully"}

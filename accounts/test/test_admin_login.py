@@ -2,18 +2,16 @@ import json
 from unittest.mock import patch
 
 import pytest
-from accounts.messages import (EMAIL_PASSWORD_NOT_VALID_MESSAGE,
-                               LOGIN_SUCCESS_MESSAGE)
+from accounts.messages import EMAIL_PASSWORD_NOT_VALID_MESSAGE, LOGIN_SUCCESS_MESSAGE
 from accounts.models import Admin
 from django.urls import reverse
 
 from .extra import DUMMY_TOKEN, non_field_error
 
-url = reverse('Admin_Login')
+url = reverse("Admin_Login")
 pytestmark = pytest.mark.django_db
 
-data = {'email': 'admin@test.com',
-        'password': '1234'}
+data = {"email": "admin@test.com", "password": "1234"}
 
 
 def test_login_with_no_data(client):
@@ -41,10 +39,11 @@ def test_wrong_email_password(client):
     # assert
     assert response.status_code == 400
     assert json.loads(response.content) == non_field_error(
-        EMAIL_PASSWORD_NOT_VALID_MESSAGE)
+        EMAIL_PASSWORD_NOT_VALID_MESSAGE
+    )
 
 
-@patch('accounts.views.admin_views.get_tokens_for_user')
+@patch("accounts.views.admin_views.get_tokens_for_user")
 def test_login_success(patch_token, client):
 
     # arrange

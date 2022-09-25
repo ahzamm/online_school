@@ -6,20 +6,25 @@ from .models import Attendence, Classes, Course, TimeTable
 
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('name', 'course_code', 'slug', 'ch')
+    list_display = ("name", "course_code", "slug", "ch")
 
 
 class ClassesAdmin(admin.ModelAdmin):
-    list_display = ('course', 'teacher', 'enrollment_start_date',
-                    'enrollment_end_date', 'section')
+    list_display = (
+        "course",
+        "teacher",
+        "enrollment_start_date",
+        "enrollment_end_date",
+        "section",
+    )
 
 
 class AttendenceAdmin(admin.ModelAdmin):
-    list_display = ('date', 'start_time', 'end_time', '_class')
+    list_display = ("date", "start_time", "end_time", "_class")
 
 
 class TimeTableAdmin(admin.ModelAdmin):
-    list_display = ('days', 'start_time', 'end_time', 'room_no', '_class')
+    list_display = ("days", "start_time", "end_time", "room_no", "_class")
 
 
 admin.site.register(Course, CourseAdmin)

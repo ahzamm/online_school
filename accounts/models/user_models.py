@@ -1,4 +1,3 @@
-
 from uuid import uuid4
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
@@ -7,12 +6,10 @@ from django.utils.translation import gettext_lazy as _
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, name, password=None,
-                    password2=None):
-        """Creates and saves a User with the given email, name and password.
-        """
+    def create_user(self, email, name, password=None, password2=None):
+        """Creates and saves a User with the given email, name and password."""
         if not email:
-            raise ValueError('User must have an email address')
+            raise ValueError("User must have an email address")
 
         user = self.model(
             email=self.normalize_email(email),
@@ -26,7 +23,7 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, email, name, password=None, **kwargs):
         """Creates and saves a superuser with the given email, name and
-           password.
+        password.
         """
         user = self.create_user(
             email=email,
@@ -40,21 +37,17 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-
     class Type(models.TextChoices):
-        STUDENT = "STUDENT", 'Student'
-        TEACHER = "TEACHER", 'Teacher'
-        ADMIN = "ADMIN", 'Admin'
-        SUPER = "SUPER", 'Super'
+        STUDENT = "STUDENT", "Student"
+        TEACHER = "TEACHER", "Teacher"
+        ADMIN = "ADMIN", "Admin"
+        SUPER = "SUPER", "Super"
 
-    id = models.UUIDField(primary_key=True, default=uuid4,
-                          editable=False, unique=True)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False, unique=True)
 
-    type = models.CharField(_('Type'), max_length=50,
-                            choices=Type.choices)
+    type = models.CharField(_("Type"), max_length=50, choices=Type.choices)
 
-    email = models.EmailField(verbose_name='Email',
-                              max_length=255, unique=True)
+    email = models.EmailField(verbose_name="Email", max_length=255, unique=True)
 
     name = models.CharField(max_length=200)
     is_active = models.BooleanField(default=True)
@@ -64,8 +57,8 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["name"]
 
     def __str__(self):
         return self.email

@@ -4,7 +4,7 @@ import pytest
 from classes.models import Course
 from django.urls import reverse
 
-url = reverse('ListAllCourse')
+url = reverse("ListAllCourse")
 pytestmark = pytest.mark.django_db
 
 
@@ -13,7 +13,7 @@ def test_list_no_courses(client):
 
     response = client.get(url)  # act
 
-    assert response.content.decode('utf-8') == '{"data": []}'
+    assert response.content.decode("utf-8") == '{"data": []}'
 
 
 def test_list_one_courses(client, create_test_course):
@@ -21,16 +21,17 @@ def test_list_one_courses(client, create_test_course):
     # arrange
     course = Course.objects.first()
     message = {
-        "data": [{
-            "id": str(course.id),
-            "name": str(course.name),
-            "course_code": str(course.course_code),
-            "ch": course.ch,
-            "pre_req_courses": [],
+        "data": [
+            {
+                "id": str(course.id),
+                "name": str(course.name),
+                "course_code": str(course.course_code),
+                "ch": course.ch,
+                "pre_req_courses": [],
             },
         ],
     }
 
     response = client.get(url)  # act
 
-    assert response.content.decode('utf-8') == json.dumps(message)
+    assert response.content.decode("utf-8") == json.dumps(message)

@@ -1,4 +1,3 @@
-
 import json
 from copy import deepcopy
 
@@ -7,12 +6,10 @@ import pytest
 from django.urls import reverse
 from school import settings
 
-url = reverse('Student_Profile')
+url = reverse("Student_Profile")
 pytestmark = pytest.mark.django_db
 
-_DATA = {"id": "user_id",
-         "email": "student@test.com",
-         "name": "Student"}
+_DATA = {"id": "user_id", "email": "student@test.com", "name": "Student"}
 
 
 def test_student_profile(client, create_test_student):
@@ -23,14 +20,14 @@ def test_student_profile(client, create_test_student):
     payload = jwt.decode(
         token,
         settings.SECRET_KEY,
-        algorithms=['HS256'],
+        algorithms=["HS256"],
     )
-    user_id = payload.get('user_id')
+    user_id = payload.get("user_id")
     data["id"] = user_id
 
     response = client.get(  # act
         url,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
+        **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
 
     # assert
@@ -45,7 +42,7 @@ def test_no_student_profile(client, create_test_admin):
 
     response = client.get(  # act
         url,
-        **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
+        **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
 
     # assert

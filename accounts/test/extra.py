@@ -1,12 +1,10 @@
-
-
 DUMMY_TOKEN = {
     "refresh": "DummyRefreshToken",
     "access": "DummyAccessToken",
 }
 
 FIELD_REQUIRED_MESSAGE = {
-    'errors': {
+    "errors": {
         "email": [
             "This field is required.",
         ],
@@ -18,9 +16,10 @@ FIELD_REQUIRED_MESSAGE = {
         ],
         "password2": [
             "This field is required.",
-        ]},
+        ],
+    },
 }
 
 
 def non_field_error(message):
-    return {'errors': {'non_field_errors': [message]}}
+    return {"errors": {"non_field_errors": [message]}}

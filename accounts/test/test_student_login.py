@@ -8,7 +8,7 @@ from django.urls import reverse
 
 from .extra import DUMMY_TOKEN, non_field_error
 
-url = reverse('Student_Login')
+url = reverse("Student_Login")
 pytestmark = pytest.mark.django_db
 
 
@@ -33,18 +33,18 @@ def test_login_with_no_data(client):
 def test_wrong_email_password(client):
 
     # arrange
-    data = {'email': 'student@test.com',
-            'password': '1234'}
+    data = {"email": "student@test.com", "password": "1234"}
 
     response = client.post(url, data)  # act
 
     # assert
     assert response.status_code == 400
     assert json.loads(response.content) == non_field_error(
-        EMAIL_PASSWORD_NOT_VALID_MESSAGE)
+        EMAIL_PASSWORD_NOT_VALID_MESSAGE
+    )
 
 
-@patch('accounts.views.student_views.get_tokens_for_user')
+@patch("accounts.views.student_views.get_tokens_for_user")
 def test_login_success(patch_token, client):
 
     # arrange
