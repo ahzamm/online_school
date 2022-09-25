@@ -6,8 +6,9 @@ from django.urls import reverse
 
 from classes.messages import COURSE_REGISTER_SUCCESS_MESSAGE
 from classes.models import Course
+# from django.core.urlresolvers import reverse_lazy
 
-url = reverse("CourseRegisteration")
+url = reverse("course:CourseRegisteration")
 pytestmark = pytest.mark.django_db
 
 _DATA = {

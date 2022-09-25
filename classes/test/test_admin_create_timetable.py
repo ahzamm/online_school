@@ -11,7 +11,7 @@ from classes.models import Classes
 
 from .extra import non_field_error
 
-url = reverse("TimeTableRegisteration")
+url = reverse("course:TimeTableRegisteration")
 pytestmark = pytest.mark.django_db
 
 

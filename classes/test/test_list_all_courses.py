@@ -5,7 +5,7 @@ from django.urls import reverse
 
 from classes.models import Course
 
-url = reverse("ListAllCourse")
+url = reverse("course:ListAllCourse")
 pytestmark = pytest.mark.django_db
 
 

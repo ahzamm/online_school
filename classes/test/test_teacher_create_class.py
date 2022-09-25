@@ -10,7 +10,7 @@ from classes.messages import (CLASS_ALREADY_REGISTERED,
 
 from .extra import non_field_error
 
-url = reverse("ClassRegister")
+url = reverse("course:ClassRegister")
 pytestmark = pytest.mark.django_db
 
 _DATA = {
