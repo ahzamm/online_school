@@ -1,16 +1,12 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from accounts.messages import (
-    PASSWORD_RESET_EMAIL_MESSAGE,
-    PASSWORD_RESET_EMAIL_STATUS,
-    PASSWORD_RESET_SUCCESS_MESSAGE,
-    PASSWORD_RESET_SUCCESS_STATUS,
-)
-from accounts.serializers import (
-    SendPasswordResetEmailSerializer,
-    UserPasswordResetSerializer,
-)
+from accounts.messages import (PASSWORD_RESET_EMAIL_MESSAGE,
+                               PASSWORD_RESET_EMAIL_STATUS,
+                               PASSWORD_RESET_SUCCESS_MESSAGE,
+                               PASSWORD_RESET_SUCCESS_STATUS)
+from accounts.serializers import (SendPasswordResetEmailSerializer,
+                                  UserPasswordResetSerializer)
 
 
 class SendPasswordResetEmailView(APIView):

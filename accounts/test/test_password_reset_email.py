@@ -6,11 +6,9 @@ import pytest
 from django.core import mail
 from django.urls import reverse
 
-from accounts.messages import (
-    PASSWORD_RESET_EMAIL_MESSAGE,
-    USER_WITH_EMAIL_DOESNT_EXIST,
-    password_reset_link,
-)
+from accounts.messages import (PASSWORD_RESET_EMAIL_MESSAGE,
+                               USER_WITH_EMAIL_DOESNT_EXIST,
+                               password_reset_link)
 
 from .extra import non_field_error
 

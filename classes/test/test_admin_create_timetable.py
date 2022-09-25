@@ -4,12 +4,9 @@ from copy import deepcopy
 import pytest
 from django.urls import reverse
 
-from classes.messages import (
-    INVALID_TIME_MESSAGE,
-    TIMETABLE_REGISTER_SUCCESS_MESSAGE,
-    no_class_found,
-    timetable_clash_message,
-)
+from classes.messages import (INVALID_TIME_MESSAGE,
+                              TIMETABLE_REGISTER_SUCCESS_MESSAGE,
+                              no_class_found, timetable_clash_message)
 from classes.models import Classes
 
 from .extra import non_field_error

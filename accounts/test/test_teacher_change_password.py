@@ -5,11 +5,9 @@ from unittest.mock import patch
 import pytest
 from django.urls import reverse
 
-from accounts.messages import (
-    LOGIN_SUCCESS_MESSAGE,
-    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
-    WRONG_OLD_PASSWORD,
-)
+from accounts.messages import (LOGIN_SUCCESS_MESSAGE,
+                               PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+                               WRONG_OLD_PASSWORD)
 
 from .extra import DUMMY_TOKEN, non_field_error
 

@@ -1,12 +1,7 @@
 from django.urls import path
 
-from .views import (
-    AdminCreateCourse,
-    AdminCreateTimeTable,
-    ListAllCoursesView,
-    ListOneCourse,
-    TeacherCreateClassView,
-)
+from .views import (AdminCreateCourse, AdminCreateTimeTable,
+                    ListAllCoursesView, ListOneCourse, TeacherCreateClassView)
 
 urlpatterns = [
     path(

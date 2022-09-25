@@ -9,21 +9,15 @@ from classes.models import Course
 from helper import ListAllCoursePagination
 
 from .helper import UUIDEncoder
-from .messages import (
-    CLASS_CREATE_SUCCESS_MESSAGE,
-    CLASS_CREATE_SUCCESS_STATUS,
-    COURSE_REGISTER_SUCCESS_MESSAGE,
-    COURSE_REGISTER_SUCCESS_STATUS,
-    TIMETABLE_REGISTER_SUCCESS_MESSAGE,
-    TIMETABLE_REGISTER_SUCCESS_STATUS,
-)
-from .serializer import (
-    ClassSerializer,
-    CourseSerializer,
-    ListAllCourseSerializer,
-    ListOneCourseSerializer,
-    TimeTableSerializer,
-)
+from .messages import (CLASS_CREATE_SUCCESS_MESSAGE,
+                       CLASS_CREATE_SUCCESS_STATUS,
+                       COURSE_REGISTER_SUCCESS_MESSAGE,
+                       COURSE_REGISTER_SUCCESS_STATUS,
+                       TIMETABLE_REGISTER_SUCCESS_MESSAGE,
+                       TIMETABLE_REGISTER_SUCCESS_STATUS)
+from .serializer import (ClassSerializer, CourseSerializer,
+                         ListAllCourseSerializer, ListOneCourseSerializer,
+                         TimeTableSerializer)
 
 
 class AdminCreateCourse(APIView):

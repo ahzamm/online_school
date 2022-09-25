@@ -1,9 +1,7 @@
 from rest_framework import serializers
 
-from accounts.messages import (
-    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
-    WRONG_OLD_PASSWORD,
-)
+from accounts.messages import (PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+                               WRONG_OLD_PASSWORD)
 from accounts.models import Student
 
 
