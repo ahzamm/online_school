@@ -126,4 +126,4 @@ class ListAllClassesSerializer(serializers.ModelSerializer):
 class ListOneClasseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Classes
-        fields = "__all__"
+        exclude = ["id", "slug"]
