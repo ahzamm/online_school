@@ -130,6 +130,21 @@ class ListAllClassesSerializer(serializers.ModelSerializer):
 
 
 class ListOneClasseSerializer(serializers.ModelSerializer):
+    course_name = serializers.CharField(source="course.name")
+    teacher_name = serializers.CharField(source="teacher.name")
+    student_name = serializers.CharField(
+        source="student.name"
+    )  # TODO have to fix this returns null value
+
     class Meta:
         model = Classes
-        exclude = ["id", "slug"]
+        fields = [
+            "course_name",
+            "teacher_name",
+            "student_name",
+            "enrollment_start_date",
+            "enrollment_end_date",
+            "section",
+            "mid_exammination_date",
+            "final_exammination_date",
+        ]
