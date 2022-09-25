@@ -23,6 +23,13 @@
   "gitlens.codeLens.enabled": false,
   "gitlens.hovers.enabled": false,
   "editor.formatOnSave": true,
+
+  "[python]": {
+    "editor.formatOnSave": true
+  },
+
   "python.formatting.provider": "black",
-  "python.formatting.blackArgs": ["--line-length", "79"]
+
+  "python.formatting.blackPath": "/home/ahzam/Downloads/BackendDevelopement/backendenv/bin/python3",
+  "python.formatting.blackArgs": ["-l 100"]
 }
