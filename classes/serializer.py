@@ -133,7 +133,7 @@ class ListOneClasseSerializer(serializers.ModelSerializer):
     course_name = serializers.CharField(source="course.name")
     teacher_name = serializers.CharField(source="teacher.name")
     student_name = serializers.CharField(
-        source="student.name"
+        source="student.name",
     )  # TODO have to fix this returns null value
 
     class Meta:

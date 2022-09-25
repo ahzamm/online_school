@@ -115,7 +115,9 @@ class ListAllClassesView(APIView):
     def get(self, request):
         data = Classes.objects.all()
         serializer = ListAllClassesSerializer(
-            data, many=True, context={"request": request}
+            data,
+            many=True,
+            context={"request": request},
         )
         json_data = json.dumps(serializer.data, cls=UUIDEncoder)
         json_without_slash = json.loads(json_data)
