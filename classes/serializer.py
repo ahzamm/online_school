@@ -121,3 +121,9 @@ class ListAllClassesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Classes
         fields = "__all__"
+
+
+class ListOneClasseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Classes
+        fields = "__all__"

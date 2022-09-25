@@ -21,6 +21,7 @@ from .serializer import (
     CourseSerializer,
     ListAllClassesSerializer,
     ListAllCourseSerializer,
+    ListOneClasseSerializer,
     ListOneCourseSerializer,
     TimeTableSerializer,
 )
@@ -119,6 +120,10 @@ class ListAllClassesView(APIView):
         return Response({"data": json_without_slash}, status=200)
 
 
-class ListOneCourseView(APIView):
-    def get(self, request):
-        ...
+class ListOneClassView(APIView):
+    def get(self, request, slug):
+        data = Classes.objects.filter(slug=slug)
+        serializer = ListOneClasseSerializer(data, many=True)
+        json_data = json.dumps(serializer.data, cls=UUIDEncoder)
+        json_without_slash = json.loads(json_data)
+        return Response({"data": json_without_slash}, status=200)

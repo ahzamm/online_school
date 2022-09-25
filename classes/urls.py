@@ -7,6 +7,7 @@ from .views import (
     ListAllCoursesView,
     ListOneCourseView,
     TeacherCreateClassView,
+    ListOneClassView,
 )
 
 urlpatterns = [
@@ -39,5 +40,10 @@ urlpatterns = [
         "classes/",
         ListAllClassesView.as_view(),
         name="ListAllClasses",
+    ),
+    path(
+        "classes/<slug>/",
+        ListOneClassView.as_view(),
+        name="CourseDetail",
     ),
 ]
