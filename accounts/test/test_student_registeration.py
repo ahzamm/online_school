@@ -5,8 +5,10 @@ from unittest.mock import patch
 import pytest
 from django.urls import reverse
 
-from accounts.messages import (PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
-                               REGISTERATION_SUCCESS_MESSAGE)
+from accounts.messages import (
+    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+    REGISTERATION_SUCCESS_MESSAGE,
+)
 from accounts.models import Student
 
 from .extra import DUMMY_TOKEN, FIELD_REQUIRED_MESSAGE, non_field_error
@@ -54,7 +56,7 @@ def test_wrong_confirm_password(client, create_test_admin):
     # assert
     assert response.status_code == 400
     assert json.loads(response.content) == non_field_error(
-        PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
+        PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
     )
 
 
@@ -77,7 +79,7 @@ def test_with_same_email(client, create_test_admin):
         "errors": {
             "email": [
                 "user with this Email already exists.",
-            ]
+            ],
         },
     }
 

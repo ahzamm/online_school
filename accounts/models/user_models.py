@@ -44,13 +44,18 @@ class User(AbstractBaseUser):
         SUPER = "SUPER", "Super"
 
     id = models.UUIDField(
-        primary_key=True, default=uuid4, editable=False, unique=True
+        primary_key=True,
+        default=uuid4,
+        editable=False,
+        unique=True,
     )
 
     type = models.CharField(_("Type"), max_length=50, choices=Type.choices)
 
     email = models.EmailField(
-        verbose_name="Email", max_length=255, unique=True
+        verbose_name="Email",
+        max_length=255,
+        unique=True,
     )
 
     name = models.CharField(max_length=200)

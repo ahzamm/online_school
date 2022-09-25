@@ -4,8 +4,10 @@ from unittest.mock import patch
 import pytest
 from django.urls import reverse
 
-from accounts.messages import (EMAIL_PASSWORD_NOT_VALID_MESSAGE,
-                               LOGIN_SUCCESS_MESSAGE)
+from accounts.messages import (
+    EMAIL_PASSWORD_NOT_VALID_MESSAGE,
+    LOGIN_SUCCESS_MESSAGE,
+)
 from accounts.models import Admin
 
 from .extra import DUMMY_TOKEN, non_field_error
@@ -41,7 +43,7 @@ def test_wrong_email_password(client):
     # assert
     assert response.status_code == 400
     assert json.loads(response.content) == non_field_error(
-        EMAIL_PASSWORD_NOT_VALID_MESSAGE
+        EMAIL_PASSWORD_NOT_VALID_MESSAGE,
     )
 
 

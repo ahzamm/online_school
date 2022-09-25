@@ -41,7 +41,7 @@ def test_wrong_email_password(client):
     # assert
     assert response.status_code == 400
     assert json.loads(response.content) == non_field_error(
-        EMAIL_PASSWORD_NOT_VALID_MESSAGE
+        EMAIL_PASSWORD_NOT_VALID_MESSAGE,
     )
 
 

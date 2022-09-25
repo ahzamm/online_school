@@ -1,14 +1,19 @@
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.utils.encoding import (DjangoUnicodeDecodeError, force_bytes,
-                                   smart_str)
+from django.utils.encoding import (
+    DjangoUnicodeDecodeError,
+    force_bytes,
+    smart_str,
+)
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import serializers
 
-from accounts.messages import (PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
-                               PASSWORD_RESET_EMAIL_BODY,
-                               PASSWORD_RESET_EMAIL_SUBJECT,
-                               USER_WITH_EMAIL_DOESNT_EXIST,
-                               password_reset_link)
+from accounts.messages import (
+    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+    PASSWORD_RESET_EMAIL_BODY,
+    PASSWORD_RESET_EMAIL_SUBJECT,
+    USER_WITH_EMAIL_DOESNT_EXIST,
+    password_reset_link,
+)
 from accounts.models import User
 from accounts.utils import Util
 
@@ -41,11 +46,15 @@ class SendPasswordResetEmailSerializer(serializers.Serializer):
 
 class UserPasswordResetSerializer(serializers.Serializer):
     password = serializers.CharField(
-        max_length=255, style={"input_type": "password"}, write_only=True
+        max_length=255,
+        style={"input_type": "password"},
+        write_only=True,
     )
 
     password2 = serializers.CharField(
-        max_length=255, style={"input_type": "password"}, write_only=True
+        max_length=255,
+        style={"input_type": "password"},
+        write_only=True,
     )
 
     def validate(self, data):
@@ -57,7 +66,7 @@ class UserPasswordResetSerializer(serializers.Serializer):
 
             if password != password2:
                 raise serializers.ValidationError(
-                    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
+                    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
                 )
 
             _id = smart_str(urlsafe_base64_decode(uid))
@@ -65,7 +74,7 @@ class UserPasswordResetSerializer(serializers.Serializer):
 
             if not PasswordResetTokenGenerator().check_token(user, token):
                 raise serializers.ValidationError(
-                    "Token is not Valid or Expired"
+                    "Token is not Valid or Expired",
                 )
 
             user.set_password(password)
@@ -77,5 +86,5 @@ class UserPasswordResetSerializer(serializers.Serializer):
             PasswordResetTokenGenerator().check_token(user, token)
 
             raise serializers.ValidationError(
-                "Token is not Valid or Expired"
+                "Token is not Valid or Expired",
             ) from e

@@ -16,7 +16,9 @@ def test_create_account():
 
     # arrange
     Teacher.objects.create_user(
-        name="Teacher", email="teacher@test.com", password="1234"
+        name="Teacher",
+        email="teacher@test.com",
+        password="1234",
     )
 
     data = Teacher.objects.first()  # act

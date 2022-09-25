@@ -1,14 +1,17 @@
 from rest_framework import serializers
 
-from accounts.messages import (NO_STUDENT_TEACHER_WITH_EMAIL,
-                               PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
-                               WRONG_OLD_PASSWORD)
+from accounts.messages import (
+    NO_STUDENT_TEACHER_WITH_EMAIL,
+    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+    WRONG_OLD_PASSWORD,
+)
 from accounts.models import Admin, User
 
 
 class AdminRegisterationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(
-        style={"input_type": "password"}, write_only=True
+        style={"input_type": "password"},
+        write_only=True,
     )
 
     class Meta:
@@ -22,7 +25,7 @@ class AdminRegisterationSerializer(serializers.ModelSerializer):
 
         if password != password2:
             raise serializers.ValidationError(
-                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
+                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
             )
 
         return data
@@ -49,15 +52,18 @@ class AdminProfileSerializer(serializers.ModelSerializer):
 
 class AdminChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(
-        style={"input_type": "password"}, write_only=True
+        style={"input_type": "password"},
+        write_only=True,
     )
 
     password = serializers.CharField(
-        style={"input_type": "password"}, write_only=True
+        style={"input_type": "password"},
+        write_only=True,
     )
 
     password2 = serializers.CharField(
-        style={"input_type": "password"}, write_only=True
+        style={"input_type": "password"},
+        write_only=True,
     )
 
     def validate(self, data):
@@ -67,7 +73,7 @@ class AdminChangePasswordSerializer(serializers.Serializer):
 
         if password != password2:
             raise serializers.ValidationError(
-                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
+                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
             )
 
         user = self.context.get("user")
@@ -84,11 +90,13 @@ class AdminChangePasswordSerializer(serializers.Serializer):
 class AdminChangeTeacherStudentPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField(max_length=255)
     password = serializers.CharField(
-        style={"input_type": "password"}, write_only=True
+        style={"input_type": "password"},
+        write_only=True,
     )
 
     password2 = serializers.CharField(
-        style={"input_type": "password"}, write_only=True
+        style={"input_type": "password"},
+        write_only=True,
     )
 
     def validate(self, data):
@@ -103,7 +111,7 @@ class AdminChangeTeacherStudentPasswordSerializer(serializers.Serializer):
 
         if password != password2:
             raise serializers.ValidationError(
-                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
+                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
             )
 
         user.set_password(password)

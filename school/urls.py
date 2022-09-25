@@ -5,6 +5,10 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/account/", include("accounts.urls")),
     path(
-        "api/classes/", include(("classes.urls", "Course"), namespace="course")
+        "api/classes/",
+        include(
+            ("classes.urls", "Course"),
+            namespace="course",
+        ),
     ),
 ]

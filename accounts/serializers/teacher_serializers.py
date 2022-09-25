@@ -1,13 +1,16 @@
 from rest_framework import serializers
 
-from accounts.messages import (PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
-                               WRONG_OLD_PASSWORD)
+from accounts.messages import (
+    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+    WRONG_OLD_PASSWORD,
+)
 from accounts.models import Teacher
 
 
 class TeacherRegisterationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(
-        style={"input_type": "password"}, write_only=True
+        style={"input_type": "password"},
+        write_only=True,
     )
 
     class Meta:
@@ -21,7 +24,7 @@ class TeacherRegisterationSerializer(serializers.ModelSerializer):
 
         if password != password2:
             raise serializers.ValidationError(
-                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
+                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
             )
 
         return data
@@ -46,15 +49,18 @@ class TeacherProfileSerializer(serializers.ModelSerializer):
 
 class TeacherChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(
-        style={"input_type": "password"}, write_only=True
+        style={"input_type": "password"},
+        write_only=True,
     )
 
     password = serializers.CharField(
-        style={"input_type": "password"}, write_only=True
+        style={"input_type": "password"},
+        write_only=True,
     )
 
     password2 = serializers.CharField(
-        style={"input_type": "password"}, write_only=True
+        style={"input_type": "password"},
+        write_only=True,
     )
 
     def validate(self, data):
@@ -64,7 +70,7 @@ class TeacherChangePasswordSerializer(serializers.Serializer):
 
         if password != password2:
             raise serializers.ValidationError(
-                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
+                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
             )
 
         user = self.context.get("user")

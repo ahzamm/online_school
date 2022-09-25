@@ -5,9 +5,11 @@ from unittest.mock import patch
 import pytest
 from django.urls import reverse
 
-from accounts.messages import (LOGIN_SUCCESS_MESSAGE,
-                               PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
-                               WRONG_OLD_PASSWORD)
+from accounts.messages import (
+    LOGIN_SUCCESS_MESSAGE,
+    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+    WRONG_OLD_PASSWORD,
+)
 
 from .extra import DUMMY_TOKEN, non_field_error
 
@@ -48,20 +50,25 @@ def test_wrong_confirm_password(client, create_test_teacher):
     token = create_test_teacher
     data["password2"] = "123456"
 
-    response = client.post(
-        url, data, **{"HTTP_AUTHORIZATION": f"Bearer {token}"}  # act
+    response = client.post(  # act
+        url,
+        data,
+        **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
 
     # assert
     assert response.status_code == 400
     assert json.loads(response.content) == non_field_error(
-        PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
+        PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
     )
 
 
 @patch("accounts.views.teacher_views.get_tokens_for_user")
 def test_change_password_success(
-    patch_token, client, create_test_teacher, teacher_login
+    patch_token,
+    client,
+    create_test_teacher,
+    teacher_login,
 ):
     # arrange
     data = deepcopy(_DATA)

@@ -4,9 +4,11 @@ from copy import deepcopy
 import pytest
 from django.urls import reverse
 
-from classes.messages import (CLASS_ALREADY_REGISTERED,
-                              CLASS_CREATE_SUCCESS_MESSAGE,
-                              NO_COURSE_ERROR_MESSAGE)
+from classes.messages import (
+    CLASS_ALREADY_REGISTERED,
+    CLASS_CREATE_SUCCESS_MESSAGE,
+    NO_COURSE_ERROR_MESSAGE,
+)
 
 from .extra import non_field_error
 
@@ -50,30 +52,37 @@ def test_create_class_with_wrong_coursecode(client, create_test_teacher):
     token = create_test_teacher
 
     response = client.post(  # act
-        url, data, **{"HTTP_AUTHORIZATION": f"Bearer {token}"}
+        url,
+        data,
+        **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
 
     # assert
     assert json.loads(response.content) == non_field_error(
-        NO_COURSE_ERROR_MESSAGE
+        NO_COURSE_ERROR_MESSAGE,
     )
 
 
 def test_already_registered_class(
-    client, create_test_teacher, create_test_course, create_test_class
+    client,
+    create_test_teacher,
+    create_test_course,
+    create_test_class,
 ):
 
     # arrange
     data = deepcopy(_DATA)
     token = create_test_teacher
 
-    response = client.post(
-        url, data, **{"HTTP_AUTHORIZATION": f"Bearer {token}"}  # act
+    response = client.post(  # act
+        url,
+        data,
+        **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
 
     # assert
     assert json.loads(response.content) == non_field_error(
-        CLASS_ALREADY_REGISTERED
+        CLASS_ALREADY_REGISTERED,
     )
 
 
@@ -86,10 +95,12 @@ def test_create_class_success(client, create_test_teacher, create_test_course):
     token = create_test_teacher
 
     response = client.post(  # act
-        url, data, **{"HTTP_AUTHORIZATION": f"Bearer {token}"}
+        url,
+        data,
+        **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
 
     # assert
     assert json.loads(response.content) == {
-        "msg": CLASS_CREATE_SUCCESS_MESSAGE
+        "msg": CLASS_CREATE_SUCCESS_MESSAGE,
     }

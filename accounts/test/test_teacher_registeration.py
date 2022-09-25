@@ -53,7 +53,7 @@ def test_wrong_confirm_password(client, create_test_admin):
     # assert
     assert response.status_code == 400
     assert json.loads(response.content) == non_field_error(
-        PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
+        PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
     )
 
 
@@ -79,7 +79,7 @@ def test_with_same_email(client, create_test_admin):
         "errors": {
             "email": [
                 "user with this Email already exists.",
-            ]
+            ],
         },
     }
 
@@ -103,7 +103,7 @@ def test_with_wrong_data(client, create_test_admin):
         "errors": {
             "email": [
                 "Enter a valid email address.",
-            ]
+            ],
         },
     }
 
