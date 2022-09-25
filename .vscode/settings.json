@@ -15,7 +15,8 @@
   ],
   "editor.rulers": [79],
   "workbench.colorCustomizations": {
-    "editorRuler.foreground": "#3a4dbd"
+    "editorRuler.foreground": "#3a4dbd",
+    "titleBar.activeBackground": "#0a426c"
   },
   "gitlens.currentLine.enabled": true,
   "gitlens.hovers.currentLine.over": "line",
@@ -27,9 +28,9 @@
   "python.formatting.provider": "black",
   "[python]": {
     "editor.codeActionsOnSave": {
-      "source.organizeImports": false
+      "source.organizeImports": true
     }
   },
 
-  "python.formatting.blackArgs": ["-l 100"]
+  "python.formatting.blackArgs": ["-l", "100"]
 }
