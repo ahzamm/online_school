@@ -44,6 +44,6 @@ urlpatterns = [
     path(
         "classes/<slug>/",
         ListOneClassView.as_view(),
-        name="CourseDetail",
+        name="ClassDetail",
     ),
 ]

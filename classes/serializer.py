@@ -118,9 +118,14 @@ class ListOneCourseSerializer(serializers.ModelSerializer):
 
 
 class ListAllClassesSerializer(serializers.ModelSerializer):
+    class_detail = serializers.HyperlinkedIdentityField(
+        view_name="course:ClassDetail",
+        lookup_field="slug",
+    )
+
     class Meta:
         model = Classes
-        fields = "__all__"
+        fields = ["course", "section", "class_detail"]
 
 
 class ListOneClasseSerializer(serializers.ModelSerializer):
