@@ -91,7 +91,10 @@ class ListAllCoursesView(APIView):
             many=True,
         )
 
-        return Response(serializer.data, status=200)
+        return Response(
+            {"data": serializer.data},
+            status=200,
+        )
 
 
 class ListOneCourse(APIView):

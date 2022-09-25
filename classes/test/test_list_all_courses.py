@@ -24,11 +24,10 @@ def test_list_one_courses(client, create_test_course):
     message = {
         "data": [
             {
-                "id": str(course.id),
                 "name": str(course.name),
-                "course_code": str(course.course_code),
-                "ch": course.ch,
-                "pre_req_courses": [],
+                "course_detail": (
+                    f"http://testserver/api/classes/courses/{course.slug}/"
+                ),
             },
         ],
     }

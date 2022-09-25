@@ -131,7 +131,7 @@ def create_test_course(client, create_test_admin, create_test_teacher):
     token = create_test_admin
 
     response = client.post(
-        reverse("CourseRegisteration"),
+        reverse("course:CourseRegisteration"),
         data,
         **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
@@ -150,7 +150,7 @@ def create_test_class(client, create_test_teacher, create_test_course):
 
     token = create_test_teacher
     response = client.post(
-        reverse("ClassRegister"),
+        reverse("course:ClassRegister"),
         data,
         **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
@@ -173,7 +173,7 @@ def create_test_timetable(client, create_test_class, create_test_admin):
     }
 
     response = client.post(
-        reverse("TimeTableRegisteration"),
+        reverse("course:TimeTableRegisteration"),
         data,
         **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
