@@ -1,8 +1,12 @@
 from rest_framework import serializers
 
-from .messages import (CLASS_ALREADY_REGISTERED, INVALID_TIME_MESSAGE,
-                       NO_COURSE_ERROR_MESSAGE, no_class_found,
-                       timetable_clash_message)
+from .messages import (
+    CLASS_ALREADY_REGISTERED,
+    INVALID_TIME_MESSAGE,
+    NO_COURSE_ERROR_MESSAGE,
+    no_class_found,
+    timetable_clash_message,
+)
 from .models import Classes, Course, TimeTable
 
 
@@ -34,7 +38,10 @@ class TimeTableSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(INVALID_TIME_MESSAGE)
 
         if TimeTable.objects.filter(
-            start_time__lt=end_time, end_time__gt=start_time, room_no=room_no, days=days
+            start_time__lt=end_time,
+            end_time__gt=start_time,
+            room_no=room_no,
+            days=days,
         ).exists():
 
             raise serializers.ValidationError(timetable_clash_message(room_no))
@@ -71,7 +78,9 @@ class ClassSerializer(serializers.ModelSerializer):
 
         course_id = Course.objects.get(course_code=course_code).id
 
-        if Classes.objects.filter(course_id=course_id, section=section).exists():
+        if Classes.objects.filter(
+            course_id=course_id, section=section
+        ).exists():
 
             raise serializers.ValidationError(CLASS_ALREADY_REGISTERED)
 

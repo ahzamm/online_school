@@ -1,14 +1,19 @@
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.utils.encoding import (DjangoUnicodeDecodeError, force_bytes,
-                                   smart_str)
+from django.utils.encoding import (
+    DjangoUnicodeDecodeError,
+    force_bytes,
+    smart_str,
+)
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import serializers
 
-from accounts.messages import (PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
-                               PASSWORD_RESET_EMAIL_BODY,
-                               PASSWORD_RESET_EMAIL_SUBJECT,
-                               USER_WITH_EMAIL_DOESNT_EXIST,
-                               password_reset_link)
+from accounts.messages import (
+    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+    PASSWORD_RESET_EMAIL_BODY,
+    PASSWORD_RESET_EMAIL_SUBJECT,
+    USER_WITH_EMAIL_DOESNT_EXIST,
+    password_reset_link,
+)
 from accounts.models import User
 from accounts.utils import Util
 
@@ -64,7 +69,9 @@ class UserPasswordResetSerializer(serializers.Serializer):
             user = User.objects.get(id=_id)
 
             if not PasswordResetTokenGenerator().check_token(user, token):
-                raise serializers.ValidationError("Token is not Valid or Expired")
+                raise serializers.ValidationError(
+                    "Token is not Valid or Expired"
+                )
 
             user.set_password(password)
             user.save()
@@ -74,4 +81,6 @@ class UserPasswordResetSerializer(serializers.Serializer):
         except DjangoUnicodeDecodeError as e:
             PasswordResetTokenGenerator().check_token(user, token)
 
-            raise serializers.ValidationError("Token is not Valid or Expired") from e
+            raise serializers.ValidationError(
+                "Token is not Valid or Expired"
+            ) from e

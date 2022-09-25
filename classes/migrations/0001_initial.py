@@ -33,7 +33,8 @@ class Migration(migrations.Migration):
                 (
                     "section",
                     models.CharField(
-                        choices=[("A", "A"), ("B", "B"), ("C", "C")], max_length=1
+                        choices=[("A", "A"), ("B", "B"), ("C", "C")],
+                        max_length=1,
                     ),
                 ),
                 ("mid_exammination_date", models.DateField(null=True)),
@@ -105,7 +106,10 @@ class Migration(migrations.Migration):
                 ),
                 ("name", models.CharField(max_length=50)),
                 ("course_code", models.CharField(max_length=50)),
-                ("ch", models.IntegerField(choices=[(3, "Three"), (4, "Four")])),
+                (
+                    "ch",
+                    models.IntegerField(choices=[(3, "Three"), (4, "Four")]),
+                ),
                 (
                     "pre_req_courses",
                     models.ManyToManyField(
@@ -118,7 +122,8 @@ class Migration(migrations.Migration):
             model_name="classes",
             name="course",
             field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, to="classes.course"
+                on_delete=django.db.models.deletion.CASCADE,
+                to="classes.course",
             ),
         ),
         migrations.AddField(
@@ -171,7 +176,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "student",
-                    models.ManyToManyField(default=None, to="accounts.student"),
+                    models.ManyToManyField(
+                        default=None, to="accounts.student"
+                    ),
                 ),
             ],
         ),

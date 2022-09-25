@@ -52,10 +52,14 @@ def test_admin_create_course_success(client, create_test_admin):
     )
 
     # assert
-    assert json.loads(response.content) == {"msg": COURSE_REGISTER_SUCCESS_MESSAGE}
+    assert json.loads(response.content) == {
+        "msg": COURSE_REGISTER_SUCCESS_MESSAGE
+    }
 
 
-def test_admin_add_heigh_level_course(client, create_test_admin, create_test_course):
+def test_admin_add_heigh_level_course(
+    client, create_test_admin, create_test_course
+):
 
     # arrange
     data = deepcopy(_DATA)

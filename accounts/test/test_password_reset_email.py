@@ -6,9 +6,11 @@ import pytest
 from django.core import mail
 from django.urls import reverse
 
-from accounts.messages import (PASSWORD_RESET_EMAIL_MESSAGE,
-                               USER_WITH_EMAIL_DOESNT_EXIST,
-                               password_reset_link)
+from accounts.messages import (
+    PASSWORD_RESET_EMAIL_MESSAGE,
+    USER_WITH_EMAIL_DOESNT_EXIST,
+    password_reset_link,
+)
 
 from .extra import non_field_error
 
@@ -52,7 +54,9 @@ def test_reset_password_with_wrong_email(client):
     )
 
     # assert
-    assert json.loads(response.content) == non_field_error(USER_WITH_EMAIL_DOESNT_EXIST)
+    assert json.loads(response.content) == non_field_error(
+        USER_WITH_EMAIL_DOESNT_EXIST
+    )
 
 
 @pytest.fixture()
@@ -91,7 +95,11 @@ def test_reset_password_response(client, create_test_student_with_legit_email):
 )
 @patch("accounts.serializers.common_serializers.urlsafe_base64_encode")
 def test_reset_password_mail(
-    patch_encode, make_token, client, create_test_student_with_legit_email, mailoutbox
+    patch_encode,
+    make_token,
+    client,
+    create_test_student_with_legit_email,
+    mailoutbox,
 ):
 
     # arrange
@@ -112,7 +120,11 @@ def test_reset_password_mail(
 
 @patch("accounts.views.student_views.get_tokens_for_user")
 def test_reset_password(
-    patch_token, client, create_test_student_with_legit_email, student_login, mailoutbox
+    patch_token,
+    client,
+    create_test_student_with_legit_email,
+    student_login,
+    mailoutbox,
 ):
 
     # arrange
@@ -137,4 +149,6 @@ def test_reset_password(
 
     # assert
     response.status_code == 200
-    assert json.loads(response.content) == {"msg": "Password Reset Successfully"}
+    assert json.loads(response.content) == {
+        "msg": "Password Reset Successfully"
+    }

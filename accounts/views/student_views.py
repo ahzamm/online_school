@@ -5,17 +5,22 @@ from rest_framework.views import APIView
 
 from accounts.custom_permissions import IsAdmin, IsStudent
 from accounts.generate_tokens import get_tokens_for_user
-from accounts.messages import (EMAIL_PASSWORD_NOT_VALID_MESSAGE,
-                               EMAIL_PASSWORD_NOT_VALID_STATUS,
-                               LOGIN_SUCCESS_MESSAGE, LOGIN_SUCCESS_STATUS,
-                               PASSWORD_CHANGE_SUCCESS_MESSAGE,
-                               PASSWORD_CHANGE_SUCCESS_STATUS,
-                               REGISTERATION_SUCCESS_STATUS,
-                               STUDENT_REGISTERATION_SUCCESS_MESSAGE)
-from accounts.serializers import (StudentChangePasswordSerializer,
-                                  StudentLoginSerializer,
-                                  StudentProfileSerializer,
-                                  StudentRegisterationSerializer)
+from accounts.messages import (
+    EMAIL_PASSWORD_NOT_VALID_MESSAGE,
+    EMAIL_PASSWORD_NOT_VALID_STATUS,
+    LOGIN_SUCCESS_MESSAGE,
+    LOGIN_SUCCESS_STATUS,
+    PASSWORD_CHANGE_SUCCESS_MESSAGE,
+    PASSWORD_CHANGE_SUCCESS_STATUS,
+    REGISTERATION_SUCCESS_STATUS,
+    STUDENT_REGISTERATION_SUCCESS_MESSAGE,
+)
+from accounts.serializers import (
+    StudentChangePasswordSerializer,
+    StudentLoginSerializer,
+    StudentProfileSerializer,
+    StudentRegisterationSerializer,
+)
 
 
 class StudentRegisterationView(APIView):
@@ -43,7 +48,11 @@ class StudentLoginView(APIView):
 
         if user is None:
             return Response(
-                {"errors": {"non_field_errors": [EMAIL_PASSWORD_NOT_VALID_MESSAGE]}},
+                {
+                    "errors": {
+                        "non_field_errors": [EMAIL_PASSWORD_NOT_VALID_MESSAGE]
+                    }
+                },
                 status=EMAIL_PASSWORD_NOT_VALID_STATUS,
             )
 

@@ -4,9 +4,11 @@ from copy import deepcopy
 import pytest
 from django.urls import reverse
 
-from classes.messages import (CLASS_ALREADY_REGISTERED,
-                              CLASS_CREATE_SUCCESS_MESSAGE,
-                              NO_COURSE_ERROR_MESSAGE)
+from classes.messages import (
+    CLASS_ALREADY_REGISTERED,
+    CLASS_CREATE_SUCCESS_MESSAGE,
+    NO_COURSE_ERROR_MESSAGE,
+)
 
 from .extra import non_field_error
 
@@ -54,7 +56,9 @@ def test_create_class_with_wrong_coursecode(client, create_test_teacher):
     )
 
     # assert
-    assert json.loads(response.content) == non_field_error(NO_COURSE_ERROR_MESSAGE)
+    assert json.loads(response.content) == non_field_error(
+        NO_COURSE_ERROR_MESSAGE
+    )
 
 
 def test_already_registered_class(
@@ -70,7 +74,9 @@ def test_already_registered_class(
     )
 
     # assert
-    assert json.loads(response.content) == non_field_error(CLASS_ALREADY_REGISTERED)
+    assert json.loads(response.content) == non_field_error(
+        CLASS_ALREADY_REGISTERED
+    )
 
 
 def test_create_class_success(client, create_test_teacher, create_test_course):
@@ -86,4 +92,6 @@ def test_create_class_success(client, create_test_teacher, create_test_course):
     )
 
     # assert
-    assert json.loads(response.content) == {"msg": CLASS_CREATE_SUCCESS_MESSAGE}
+    assert json.loads(response.content) == {
+        "msg": CLASS_CREATE_SUCCESS_MESSAGE
+    }

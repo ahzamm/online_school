@@ -1,12 +1,16 @@
 from rest_framework import serializers
 
-from accounts.messages import (PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
-                               WRONG_OLD_PASSWORD)
+from accounts.messages import (
+    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+    WRONG_OLD_PASSWORD,
+)
 from accounts.models import Student
 
 
 class StudentRegisterationSerializer(serializers.ModelSerializer):
-    password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)
+    password2 = serializers.CharField(
+        style={"input_type": "password"}, write_only=True
+    )
 
     class Meta:
         model = Student
@@ -18,7 +22,9 @@ class StudentRegisterationSerializer(serializers.ModelSerializer):
         password2 = data.get("password2")
 
         if password != password2:
-            raise serializers.ValidationError(PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
+            raise serializers.ValidationError(
+                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
+            )
 
         return data
 
@@ -45,9 +51,13 @@ class StudentChangePasswordSerializer(serializers.Serializer):
         style={"input_type": "password"}, write_only=True
     )
 
-    password = serializers.CharField(style={"input_type": "password"}, write_only=True)
+    password = serializers.CharField(
+        style={"input_type": "password"}, write_only=True
+    )
 
-    password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)
+    password2 = serializers.CharField(
+        style={"input_type": "password"}, write_only=True
+    )
 
     def validate(self, data):
         old_password = data.get("old_password")
@@ -55,7 +65,9 @@ class StudentChangePasswordSerializer(serializers.Serializer):
         password2 = data.get("password2")
 
         if password != password2:
-            raise serializers.ValidationError(PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH)
+            raise serializers.ValidationError(
+                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH
+            )
 
         user = self.context.get("user")
 

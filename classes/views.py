@@ -6,17 +6,24 @@ from rest_framework.views import APIView
 
 from accounts.custom_permissions import IsAdmin, IsTeacher
 from classes.models import Course
+from helper import ListAllCoursePagination
 
 from .helper import UUIDEncoder
-from .messages import (CLASS_CREATE_SUCCESS_MESSAGE,
-                       CLASS_CREATE_SUCCESS_STATUS,
-                       COURSE_REGISTER_SUCCESS_MESSAGE,
-                       COURSE_REGISTER_SUCCESS_STATUS,
-                       TIMETABLE_REGISTER_SUCCESS_MESSAGE,
-                       TIMETABLE_REGISTER_SUCCESS_STATUS)
-from .serializer import (ClassSerializer, CourseSerializer,
-                         ListAllCourseSerializer, ListOneCourseSerializer,
-                         TimeTableSerializer)
+from .messages import (
+    CLASS_CREATE_SUCCESS_MESSAGE,
+    CLASS_CREATE_SUCCESS_STATUS,
+    COURSE_REGISTER_SUCCESS_MESSAGE,
+    COURSE_REGISTER_SUCCESS_STATUS,
+    TIMETABLE_REGISTER_SUCCESS_MESSAGE,
+    TIMETABLE_REGISTER_SUCCESS_STATUS,
+)
+from .serializer import (
+    ClassSerializer,
+    CourseSerializer,
+    ListAllCourseSerializer,
+    ListOneCourseSerializer,
+    TimeTableSerializer,
+)
 
 
 class AdminCreateCourse(APIView):
@@ -38,11 +45,14 @@ class TeacherCreateClassView(APIView):
 
     def post(self, request):
         teacher = request.user
-        serializer = ClassSerializer(data=request.data, context={"teacher": teacher})
+        serializer = ClassSerializer(
+            data=request.data, context={"teacher": teacher}
+        )
         serializer.is_valid(raise_exception=True)
 
         return Response(
-            {"msg": CLASS_CREATE_SUCCESS_MESSAGE}, status=CLASS_CREATE_SUCCESS_STATUS
+            {"msg": CLASS_CREATE_SUCCESS_MESSAGE},
+            status=CLASS_CREATE_SUCCESS_STATUS,
         )
 
 
@@ -73,6 +83,8 @@ class AdminCreateTimeTable(APIView):
 
 
 class ListAllCoursesView(APIView):
+    pagination_class = ListAllCoursePagination
+
     def get(self, request):
         data = Course.objects.all()
         serializer = ListAllCourseSerializer(
@@ -96,3 +108,8 @@ class ListOneCourse(APIView):
         json_without_slash = json.loads(json_data)
 
         return Response({"data": json_without_slash}, status=200)
+
+
+# create page pagination for ListAllCourse
+# create fields eg. cs, se
+# students pagination

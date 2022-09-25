@@ -5,7 +5,9 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = "django-insecure-tusa=z@z6ltz1eill^(wqlii$x*681^wxt(4lee20mh*q$h1n8"
+SECRET_KEY = (
+    "django-insecure-tusa=z@z6ltz1eill^(wqlii$x*681^wxt(4lee20mh*q$h1n8"
+)
 
 DEBUG = True
 

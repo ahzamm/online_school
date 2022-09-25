@@ -7,7 +7,11 @@ from .user_models import User
 
 class StudentManager(BaseUserManager):
     def get_queryset(self, *args, **kwargs):
-        return super().get_queryset(*args, **kwargs).filter(type=User.Type.STUDENT)
+        return (
+            super()
+            .get_queryset(*args, **kwargs)
+            .filter(type=User.Type.STUDENT)
+        )
 
     def create_user(self, email=None, name=None, password=None, **kwargs):
 

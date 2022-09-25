@@ -4,9 +4,12 @@ from copy import deepcopy
 import pytest
 from django.urls import reverse
 
-from classes.messages import (INVALID_TIME_MESSAGE,
-                              TIMETABLE_REGISTER_SUCCESS_MESSAGE,
-                              no_class_found, timetable_clash_message)
+from classes.messages import (
+    INVALID_TIME_MESSAGE,
+    TIMETABLE_REGISTER_SUCCESS_MESSAGE,
+    no_class_found,
+    timetable_clash_message,
+)
 from classes.models import Classes
 
 from .extra import non_field_error
@@ -37,9 +40,9 @@ def test_invalid_course(client, create_test_class, create_test_admin):
     )
 
     response_content = json.loads(response.content)
-    response_content["errors"]["non_field_errors"][0] = response_content["errors"][
-        "non_field_errors"
-    ][0].replace("-", "")
+    response_content["errors"]["non_field_errors"][0] = response_content[
+        "errors"
+    ]["non_field_errors"][0].replace("-", "")
 
     # assert
     assert response_content == non_field_error(no_class_found(data["_class_"]))
@@ -92,7 +95,9 @@ def test_invalid_time(
     )
 
     # assert
-    assert json.loads(response.content) == non_field_error(INVALID_TIME_MESSAGE)
+    assert json.loads(response.content) == non_field_error(
+        INVALID_TIME_MESSAGE
+    )
 
 
 def test_create_timetable(client, create_test_class, create_test_admin):
@@ -109,4 +114,6 @@ def test_create_timetable(client, create_test_class, create_test_admin):
     )
 
     # assert
-    assert json.loads(response.content) == {"msg": TIMETABLE_REGISTER_SUCCESS_MESSAGE}
+    assert json.loads(response.content) == {
+        "msg": TIMETABLE_REGISTER_SUCCESS_MESSAGE
+    }

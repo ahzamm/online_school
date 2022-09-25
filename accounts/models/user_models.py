@@ -43,11 +43,15 @@ class User(AbstractBaseUser):
         ADMIN = "ADMIN", "Admin"
         SUPER = "SUPER", "Super"
 
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False, unique=True)
+    id = models.UUIDField(
+        primary_key=True, default=uuid4, editable=False, unique=True
+    )
 
     type = models.CharField(_("Type"), max_length=50, choices=Type.choices)
 
-    email = models.EmailField(verbose_name="Email", max_length=255, unique=True)
+    email = models.EmailField(
+        verbose_name="Email", max_length=255, unique=True
+    )
 
     name = models.CharField(max_length=200)
     is_active = models.BooleanField(default=True)

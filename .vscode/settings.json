@@ -22,5 +22,8 @@
   "gitlens.currentLine.format": "${author, }${agoOrDate}${' via 'pullRequest}${ • message|50?}",
   "gitlens.codeLens.enabled": false,
   "gitlens.hovers.enabled": false,
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+
+  "python.formatting.provider": "black",
+  "python.formatting.blackArgs": ["--line-length", "79"]
 }

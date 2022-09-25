@@ -11,7 +11,9 @@ class Course(models.Model):
         THREE = 3
         FOUR = 4
 
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False, unique=True)
+    id = models.UUIDField(
+        primary_key=True, default=uuid4, editable=False, unique=True
+    )
     name = models.CharField(max_length=50, null=False, unique=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     course_code = models.CharField(max_length=50, null=False, unique=True)
@@ -37,12 +39,16 @@ class Classes(models.Model):
         B = "B"
         C = "C"
 
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False, unique=True)
+    id = models.UUIDField(
+        primary_key=True, default=uuid4, editable=False, unique=True
+    )
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     teacher = models.ForeignKey(
         Teacher, null=True, on_delete=models.CASCADE, related_name="teacher"
     )
-    student = models.ManyToManyField(Student, blank=True, related_name="student")
+    student = models.ManyToManyField(
+        Student, blank=True, related_name="student"
+    )
     enrollment_start_date = models.DateField()
     enrollment_end_date = models.DateField()
     section = models.CharField(max_length=1, choices=SECTION.choices)
@@ -59,7 +65,9 @@ class Attendence(models.Model):
         PRESENT = "P"
         ABSENT = "A"
 
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False, unique=True)
+    id = models.UUIDField(
+        primary_key=True, default=uuid4, editable=False, unique=True
+    )
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
