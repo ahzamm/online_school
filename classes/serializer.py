@@ -122,10 +122,11 @@ class ListAllClassesSerializer(serializers.ModelSerializer):
         view_name="course:ClassDetail",
         lookup_field="slug",
     )
+    course_name = serializers.CharField(source="course.name")
 
     class Meta:
         model = Classes
-        fields = ["course", "section", "class_detail"]
+        fields = ["course_name", "section", "class_detail"]
 
 
 class ListOneClasseSerializer(serializers.ModelSerializer):
