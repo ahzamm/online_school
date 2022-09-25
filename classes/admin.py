@@ -13,6 +13,7 @@ class ClassesAdmin(admin.ModelAdmin):
     list_display = (
         "course",
         "teacher",
+        "slug",
         "enrollment_start_date",
         "enrollment_end_date",
         "section",

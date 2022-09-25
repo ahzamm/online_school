@@ -117,3 +117,8 @@ class ListAllClassesView(APIView):
         json_data = json.dumps(serializer.data, cls=UUIDEncoder)
         json_without_slash = json.loads(json_data)
         return Response({"data": json_without_slash}, status=200)
+
+
+class ListOneCourseView(APIView):
+    def get(self, request):
+        ...

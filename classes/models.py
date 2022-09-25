@@ -61,6 +61,7 @@ class Classes(models.Model):
         on_delete=models.CASCADE,
         related_name="teacher",
     )
+    slug = models.SlugField(max_length=100, null=True, blank=True)
     student = models.ManyToManyField(
         Student,
         blank=True,
@@ -79,6 +80,13 @@ class Classes(models.Model):
     final_exammination_date = models.DateField(
         null=True,
     )
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.course.name)
+        super(Classes, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return f"/{self.slug}"
 
     def __str__(self):
         return str(self.course)
