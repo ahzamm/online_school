@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from accounts.custom_permissions import IsAdmin, IsTeacher
-from classes.models import Course
+from classes.models import Course, Classes
 
 from .helper import UUIDEncoder
 from .messages import (
@@ -19,13 +19,14 @@ from .messages import (
 from .serializer import (
     ClassSerializer,
     CourseSerializer,
+    ListAllClassesSerializer,
     ListAllCourseSerializer,
     ListOneCourseSerializer,
     TimeTableSerializer,
 )
 
 
-class AdminCreateCourse(APIView):
+class AdminCreateCourseView(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
     def post(self, request):
@@ -56,7 +57,7 @@ class TeacherCreateClassView(APIView):
         )
 
 
-class AdminCreateTimeTable(APIView):
+class AdminCreateTimeTableView(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
     def post(self, request):
@@ -77,11 +78,6 @@ class AdminCreateTimeTable(APIView):
 # Teacher can create and insert Attendence
 
 
-# TODO
-# list all courses
-# list all classes
-
-
 class ListAllCoursesView(APIView):
     def get(self, request):
         data = Course.objects.all()
@@ -97,7 +93,7 @@ class ListAllCoursesView(APIView):
         )
 
 
-class ListOneCourse(APIView):
+class ListOneCourseView(APIView):
     def get(self, request, slug):
         course = Course.objects.filter(slug=slug)
         serializer = ListOneCourseSerializer(
@@ -111,6 +107,13 @@ class ListOneCourse(APIView):
         return Response(json_without_slash, status=200)
 
 
-# create page pagination for ListAllCourse
-# create fields eg. cs, se
-# students pagination
+# student can see all classes
+
+
+class ListAllClassesView(APIView):
+    def get(self, request):
+        data = Classes.objects.all()
+        serializer = ListAllClassesSerializer(data, many=True)
+        json_data = json.dumps(serializer.data, cls=UUIDEncoder)
+        json_without_slash = json.loads(json_data)
+        return Response({"data": json_without_slash}, status=200)

@@ -73,7 +73,6 @@ class ClassSerializer(serializers.ModelSerializer):
         section = data.get("section")
 
         if not Course.objects.filter(course_code=course_code).exists():
-
             raise serializers.ValidationError(NO_COURSE_ERROR_MESSAGE)
 
         course_id = Course.objects.get(course_code=course_code).id
@@ -116,3 +115,9 @@ class ListOneCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ["name", "course_code", "ch", "pre_req_courses"]
+
+
+class ListAllClassesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Classes
+        fields = "__all__"
