@@ -1,4 +1,5 @@
 import pytest
+
 from accounts.models import Student
 
 pytestmark = pytest.mark.django_db

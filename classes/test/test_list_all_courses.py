@@ -1,8 +1,9 @@
 import json
 
 import pytest
-from classes.models import Course
 from django.urls import reverse
+
+from classes.models import Course
 
 url = reverse("ListAllCourse")
 pytestmark = pytest.mark.django_db

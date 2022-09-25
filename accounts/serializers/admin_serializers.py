@@ -1,10 +1,9 @@
-from accounts.messages import (
-    NO_STUDENT_TEACHER_WITH_EMAIL,
-    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
-    WRONG_OLD_PASSWORD,
-)
-from accounts.models import Admin, User
 from rest_framework import serializers
+
+from accounts.messages import (NO_STUDENT_TEACHER_WITH_EMAIL,
+                               PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+                               WRONG_OLD_PASSWORD)
+from accounts.models import Admin, User
 
 
 class AdminRegisterationSerializer(serializers.ModelSerializer):

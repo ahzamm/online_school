@@ -1,28 +1,22 @@
 import json
 
-from accounts.custom_permissions import IsAdmin, IsTeacher
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from accounts.custom_permissions import IsAdmin, IsTeacher
 from classes.models import Course
 
 from .helper import UUIDEncoder
-from .messages import (
-    CLASS_CREATE_SUCCESS_MESSAGE,
-    CLASS_CREATE_SUCCESS_STATUS,
-    COURSE_REGISTER_SUCCESS_MESSAGE,
-    COURSE_REGISTER_SUCCESS_STATUS,
-    TIMETABLE_REGISTER_SUCCESS_MESSAGE,
-    TIMETABLE_REGISTER_SUCCESS_STATUS,
-)
-from .serializer import (
-    ClassSerializer,
-    CourseSerializer,
-    ListAllCourseSerializer,
-    ListOneCourseSerializer,
-    TimeTableSerializer,
-)
+from .messages import (CLASS_CREATE_SUCCESS_MESSAGE,
+                       CLASS_CREATE_SUCCESS_STATUS,
+                       COURSE_REGISTER_SUCCESS_MESSAGE,
+                       COURSE_REGISTER_SUCCESS_STATUS,
+                       TIMETABLE_REGISTER_SUCCESS_MESSAGE,
+                       TIMETABLE_REGISTER_SUCCESS_STATUS)
+from .serializer import (ClassSerializer, CourseSerializer,
+                         ListAllCourseSerializer, ListOneCourseSerializer,
+                         TimeTableSerializer)
 
 
 class AdminCreateCourse(APIView):

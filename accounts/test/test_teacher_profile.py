@@ -4,6 +4,7 @@ from copy import deepcopy
 import jwt
 import pytest
 from django.urls import reverse
+
 from school import settings
 
 url = reverse("Teacher_Profile")

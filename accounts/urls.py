@@ -1,22 +1,14 @@
 from django.urls import path
 
-from accounts.views import (
-    AdminChangePasswordView,
-    AdminChangeTeacherStudentPasswordView,
-    AdminLoginView,
-    AdminProfileView,
-    AdminRegisterationView,
-    SendPasswordResetEmailView,
-    StudentChangePasswordView,
-    StudentLoginView,
-    StudentProfileView,
-    StudentRegisterationView,
-    TeacherChangePasswordView,
-    TeacherLoginView,
-    TeacherProfileView,
-    TeacherRegisterationView,
-    UserPasswordResetView,
-)
+from accounts.views import (AdminChangePasswordView,
+                            AdminChangeTeacherStudentPasswordView,
+                            AdminLoginView, AdminProfileView,
+                            AdminRegisterationView, SendPasswordResetEmailView,
+                            StudentChangePasswordView, StudentLoginView,
+                            StudentProfileView, StudentRegisterationView,
+                            TeacherChangePasswordView, TeacherLoginView,
+                            TeacherProfileView, TeacherRegisterationView,
+                            UserPasswordResetView)
 
 urlpatterns = [
     path("admin-register/", AdminRegisterationView.as_view(), name="Admin_Register"),

@@ -2,9 +2,10 @@ import json
 from unittest.mock import patch
 
 import pytest
+from django.urls import reverse
+
 from accounts.messages import EMAIL_PASSWORD_NOT_VALID_MESSAGE
 from accounts.models import Student
-from django.urls import reverse
 
 from .extra import DUMMY_TOKEN, non_field_error
 

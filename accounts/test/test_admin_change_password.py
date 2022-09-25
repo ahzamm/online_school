@@ -3,14 +3,12 @@ from copy import deepcopy
 from unittest.mock import patch
 
 import pytest
-from accounts.messages import (
-    LOGIN_SUCCESS_MESSAGE,
-    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
-    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH_STATUS,
-    WRONG_OLD_PASSWORD,
-    WRONG_OLD_PASSWORD_STATUS,
-)
 from django.urls import reverse
+
+from accounts.messages import (LOGIN_SUCCESS_MESSAGE,
+                               PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+                               PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH_STATUS,
+                               WRONG_OLD_PASSWORD, WRONG_OLD_PASSWORD_STATUS)
 
 from .extra import DUMMY_TOKEN, non_field_error
 

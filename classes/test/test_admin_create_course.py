@@ -2,9 +2,10 @@ import json
 from copy import deepcopy
 
 import pytest
+from django.urls import reverse
+
 from classes.messages import COURSE_REGISTER_SUCCESS_MESSAGE
 from classes.models import Course
-from django.urls import reverse
 
 url = reverse("CourseRegisteration")
 pytestmark = pytest.mark.django_db

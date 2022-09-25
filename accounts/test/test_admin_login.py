@@ -2,9 +2,11 @@ import json
 from unittest.mock import patch
 
 import pytest
-from accounts.messages import EMAIL_PASSWORD_NOT_VALID_MESSAGE, LOGIN_SUCCESS_MESSAGE
-from accounts.models import Admin
 from django.urls import reverse
+
+from accounts.messages import (EMAIL_PASSWORD_NOT_VALID_MESSAGE,
+                               LOGIN_SUCCESS_MESSAGE)
+from accounts.models import Admin
 
 from .extra import DUMMY_TOKEN, non_field_error
 

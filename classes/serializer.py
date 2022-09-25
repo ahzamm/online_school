@@ -1,12 +1,8 @@
 from rest_framework import serializers
 
-from .messages import (
-    CLASS_ALREADY_REGISTERED,
-    INVALID_TIME_MESSAGE,
-    NO_COURSE_ERROR_MESSAGE,
-    no_class_found,
-    timetable_clash_message,
-)
+from .messages import (CLASS_ALREADY_REGISTERED, INVALID_TIME_MESSAGE,
+                       NO_COURSE_ERROR_MESSAGE, no_class_found,
+                       timetable_clash_message)
 from .models import Classes, Course, TimeTable
 
 

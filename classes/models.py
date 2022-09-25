@@ -1,8 +1,9 @@
 from uuid import uuid4
 
-from accounts.models import Student, Teacher
 from django.db import models
 from django.utils.text import slugify
+
+from accounts.models import Student, Teacher
 
 
 class Course(models.Model):

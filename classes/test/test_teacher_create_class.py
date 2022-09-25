@@ -2,12 +2,11 @@ import json
 from copy import deepcopy
 
 import pytest
-from classes.messages import (
-    CLASS_ALREADY_REGISTERED,
-    CLASS_CREATE_SUCCESS_MESSAGE,
-    NO_COURSE_ERROR_MESSAGE,
-)
 from django.urls import reverse
+
+from classes.messages import (CLASS_ALREADY_REGISTERED,
+                              CLASS_CREATE_SUCCESS_MESSAGE,
+                              NO_COURSE_ERROR_MESSAGE)
 
 from .extra import non_field_error
 
