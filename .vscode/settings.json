@@ -24,12 +24,12 @@
   "gitlens.hovers.enabled": false,
   "editor.formatOnSave": true,
 
+  "python.formatting.provider": "black",
   "[python]": {
-    "editor.formatOnSave": true
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": false
+    }
   },
 
-  "python.formatting.provider": "black",
-
-  "python.formatting.blackPath": "/home/ahzam/Downloads/BackendDevelopement/backendenv/bin/python3",
   "python.formatting.blackArgs": ["-l 100"]
 }

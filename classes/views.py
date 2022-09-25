@@ -6,7 +6,6 @@ from rest_framework.views import APIView
 
 from accounts.custom_permissions import IsAdmin, IsTeacher
 from classes.models import Course
-from helper import ListAllCoursePagination
 
 from .helper import UUIDEncoder
 from .messages import (CLASS_CREATE_SUCCESS_MESSAGE,
@@ -77,7 +76,6 @@ class AdminCreateTimeTable(APIView):
 
 
 class ListAllCoursesView(APIView):
-    pagination_class = ListAllCoursePagination
 
     def get(self, request):
         data = Course.objects.all()
@@ -87,7 +85,7 @@ class ListAllCoursesView(APIView):
             many=True,
         )
 
-        return Response({"data": serializer.data}, status=200)
+        return Response(serializer.data, status=200)
 
 
 class ListOneCourse(APIView):
@@ -101,7 +99,7 @@ class ListOneCourse(APIView):
         json_data = json.dumps(serializer.data, cls=UUIDEncoder)
         json_without_slash = json.loads(json_data)
 
-        return Response({"data": json_without_slash}, status=200)
+        return Response(json_without_slash, status=200)
 
 
 # create page pagination for ListAllCourse
