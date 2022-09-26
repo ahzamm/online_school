@@ -9,6 +9,7 @@ from classes.models import Classes, Course
 
 from .helper import UUIDEncoder
 from .messages import (
+    ALREADY_ENROLLED_MESSAGE,
     CLASS_CREATE_SUCCESS_MESSAGE,
     CLASS_CREATE_SUCCESS_STATUS,
     COURSE_REGISTER_SUCCESS_MESSAGE,
@@ -133,7 +134,10 @@ class ListOneClassView(APIView):
         return Response({"data": json_without_slash}, status=200)
 
 
-# student can not enrolled in two class of same course
+# [ x ] student can not enrolled in two class of same course DONE
+# [   ] Now course pre req logic
+
+
 class StudentEnrollClassView(APIView):
     permission_classes = [IsAuthenticated, IsStudent]
 
@@ -142,11 +146,11 @@ class StudentEnrollClassView(APIView):
         student = request.user
         if Classes.objects.filter(slug=slug, student=student):
             return Response(
-                {"data": "You are already Enrolled in this class.."},
+                {"data": "You are already Enrolled in this course.."},
                 status=200,
             )
 
         _class = Classes.objects.get(slug=slug)
         _class.student.add(student)
         _class.save()
-        return Response({"data": "Successfully Enrolled.."}, status=200)
+        return Response({"data": ALREADY_ENROLLED_MESSAGE}, status=200)

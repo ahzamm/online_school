@@ -25,3 +25,5 @@ CLASS_CREATE_SUCCESS_STATUS = 200
 CLASS_ALREADY_REGISTERED = "Class with this course and section already exists"
 
 NO_COURSE_ERROR_MESSAGE = "No course with this course code present"
+
+ALREADY_ENROLLED_MESSAGE = "You are already enrolled in this course"
