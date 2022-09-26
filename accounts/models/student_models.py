@@ -7,7 +7,13 @@ from .user_models import User
 
 class StudentManager(BaseUserManager):
     def get_queryset(self, *args, **kwargs):
-        return super().get_queryset(*args, **kwargs).filter(type=User.Type.STUDENT)
+        return (
+            super()
+            .get_queryset(*args, **kwargs)
+            .filter(
+                type=User.Type.STUDENT,
+            )
+        )
 
     def create_user(self, email=None, name=None, password=None, **kwargs):
 
@@ -34,7 +40,7 @@ class StudentMore(models.Model):
         FOURE = "Foure"
         FIVE = "Five"
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField("Student", on_delete=models.CASCADE)
     grade = models.CharField(_("Grade"), max_length=50, choices=Grade.choices)
     cleared_course = models.ManyToManyField("classes.Course", blank=True)
 
