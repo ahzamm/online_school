@@ -6,6 +6,7 @@ from .views import (
     ListAllClassesView,
     ListAllCoursesView,
     ListOneCourseView,
+    StudentEnrollClassView,
     TeacherCreateClassView,
     ListOneClassView,
 )
@@ -45,5 +46,10 @@ urlpatterns = [
         "classes/<slug>/",
         ListOneClassView.as_view(),
         name="ClassDetail",
+    ),
+    path(
+        "classes/<slug>/enroll/",
+        StudentEnrollClassView.as_view(),
+        name="ClassEnrollment",
     ),
 ]

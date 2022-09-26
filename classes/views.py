@@ -1,11 +1,11 @@
 import json
-
+from accounts.models import Student
+from accounts.custom_permissions import IsAdmin, IsStudent, IsTeacher
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from accounts.custom_permissions import IsAdmin, IsTeacher
-from classes.models import Course, Classes
+from classes.models import Classes, Course
 
 from .helper import UUIDEncoder
 from .messages import (
@@ -131,3 +131,22 @@ class ListOneClassView(APIView):
         json_data = json.dumps(serializer.data, cls=UUIDEncoder)
         json_without_slash = json.loads(json_data)
         return Response({"data": json_without_slash}, status=200)
+
+
+# student can not enrolled in two class of same course
+class StudentEnrollClassView(APIView):
+    permission_classes = [IsAuthenticated, IsStudent]
+
+    def post(self, request, slug):
+        request.user.__class__ = Student
+        student = request.user
+        if Classes.objects.filter(slug=slug, student=student):
+            return Response(
+                {"data": "You are already Enrolled in this class.."},
+                status=200,
+            )
+
+        _class = Classes.objects.get(slug=slug)
+        _class.student.add(student)
+        _class.save()
+        return Response({"data": "Successfully Enrolled.."}, status=200)
