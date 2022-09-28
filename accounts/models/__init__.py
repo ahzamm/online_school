@@ -1,4 +1,4 @@
 from .admin_models import Admin
-from .student_models import Student
-from .teacher_models import Teacher
+from .student_models import Student, StudentMore
+from .teacher_models import Teacher, TeacherMore
 from .user_models import User
