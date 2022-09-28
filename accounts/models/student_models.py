@@ -41,6 +41,7 @@ class StudentMore(models.Model):
         FIVE = "Five"
 
     user = models.OneToOneField("Student", on_delete=models.CASCADE)
+    roll_no = models.CharField(max_length=20, unique=True)
     grade = models.CharField(_("Grade"), max_length=50, choices=Grade.choices)
     cleared_course = models.ManyToManyField("classes.Course", blank=True)
 

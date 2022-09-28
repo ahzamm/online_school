@@ -1,8 +1,3 @@
-from django.contrib.auth import authenticate
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
 from accounts.custom_permissions import IsAdmin, IsStudent
 from accounts.generate_tokens import get_tokens_for_user
 from accounts.messages import (
@@ -15,12 +10,17 @@ from accounts.messages import (
     REGISTERATION_SUCCESS_STATUS,
     STUDENT_REGISTERATION_SUCCESS_MESSAGE,
 )
+from accounts.models import StudentMore
 from accounts.serializers import (
     StudentChangePasswordSerializer,
     StudentLoginSerializer,
     StudentProfileSerializer,
     StudentRegisterationSerializer,
 )
+from django.contrib.auth import authenticate
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 class StudentRegisterationView(APIView):

@@ -5,6 +5,7 @@ from accounts.messages import (
     WRONG_OLD_PASSWORD,
 )
 from accounts.models import Student
+from accounts.models import StudentMore
 
 
 class StudentRegisterationSerializer(serializers.ModelSerializer):
@@ -12,10 +13,11 @@ class StudentRegisterationSerializer(serializers.ModelSerializer):
         style={"input_type": "password"},
         write_only=True,
     )
+    roll_no = serializers.CharField(max_length=20)
 
     class Meta:
         model = Student
-        fields = ["email", "name", "password", "password2"]
+        fields = ["email", "name", "roll_no", "password", "password2"]
         extra_kwargs = {"password": {"write_only": True}}
 
     def validate(self, data):
@@ -30,7 +32,12 @@ class StudentRegisterationSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        return Student.objects.create_user(**validated_data)
+        roll_no = validated_data.get("roll_no")
+        student = Student.objects.create_user(**validated_data)
+        student.save()
+        StudentMore.objects.create(user=student, roll_no=roll_no)
+
+        return validated_data
 
 
 class StudentLoginSerializer(serializers.ModelSerializer):
