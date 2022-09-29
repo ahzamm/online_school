@@ -2,6 +2,7 @@
 [flake8]
 
 exclude =
+    dummy_data.py
     __init__.py,
     migrations,
     __pycache__,

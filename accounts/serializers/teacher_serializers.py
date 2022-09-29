@@ -22,12 +22,12 @@ class TeacherRegisterationSerializer(serializers.ModelSerializer):
         password = data.get("password")
         password2 = data.get("password2")
 
-        if password != password2:
-            raise serializers.ValidationError(
-                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
-            )
+        if password == password2:
+            return data
 
-        return data
+        raise serializers.ValidationError(
+            PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+        )
 
     def create(self, validated_data):
         return Teacher.objects.create_user(**validated_data)

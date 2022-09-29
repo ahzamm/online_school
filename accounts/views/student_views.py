@@ -10,7 +10,7 @@ from accounts.messages import (
     REGISTERATION_SUCCESS_STATUS,
     STUDENT_REGISTERATION_SUCCESS_MESSAGE,
 )
-from accounts.models import StudentMore
+from accounts.models.student_models import StudentMore
 from accounts.serializers import (
     StudentChangePasswordSerializer,
     StudentLoginSerializer,
@@ -31,6 +31,11 @@ class StudentRegisterationView(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         token = get_tokens_for_user(user)
+
+        StudentMore.objects.create(
+            user=user,
+            roll_no=request.data.get("roll_no"),
+        )
 
         return Response(
             {"msg": STUDENT_REGISTERATION_SUCCESS_MESSAGE, "token": token},

@@ -1,35 +1,18 @@
-import subprocess
-
-# subprocess.run(["export", "DJANGO_SETTINGS_MODULE=school.settings"])
-
-from secrets import choice
 import django
 
-
 django.setup()
-from accounts.models.student_models import StudentMore
-from accounts.models import Student, Admin, User, Teacher
-from classes.models import Course, Classes
 import datetime
-
 import random
+
+from accounts.models import Admin, Student, Teacher, User
+from accounts.models.student_models import StudentMore
+from classes.models import Classes, Course
 
 User.objects.all().delete()
 Course.objects.all().delete()
 Classes.objects.all().delete()
 
 print("============== DATA DELETED ==============")
-
-
-c1 = "echo"
-c2 = "User.objects.create_superuser(email='superuser@test.com',name='ahzam',password='1234')"
-c3 = "|"
-c4 = "python3"
-c5 = "manage.py"
-c6 = "shell_plus"
-# subprocess.run([c1, c2, c3, c4, c5])
-
-print("============== SUPER USER CREATED ==============")
 
 
 for i in range(10):

@@ -19,9 +19,11 @@ pytestmark = pytest.mark.django_db
 _DATA = {
     "email": "ahzamahmed6@gmail.com",
     "name": "Student",
+    "roll_no": "roll_no_1",
     "password": "1234",
     "password2": "1234",
 }
+
 EMAIL = {"email": "ahzamahmed6@gmail.com"}
 
 
