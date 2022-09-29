@@ -1,5 +1,3 @@
-import json
-
 from accounts.custom_permissions import IsAdmin, IsStudent, IsTeacher
 from accounts.models import Student
 from rest_framework.generics import ListAPIView
@@ -10,7 +8,6 @@ from rest_framework.views import APIView
 from classes.models import Classes, Course
 from helper import ListAllCoursesPagination
 
-from .helper import UUIDEncoder
 from .messages import (
     ALREADY_ENROLLED_MESSAGE,
     CLASS_CREATE_SUCCESS_MESSAGE,
