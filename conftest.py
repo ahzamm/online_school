@@ -47,6 +47,7 @@ def create_test_student(client, create_test_admin):
     data = {
         "email": "student@test.com",
         "name": "Student",
+        "roll_no": "roll_no_1",
         "password": "1234",
         "password2": "1234",
     }

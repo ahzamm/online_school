@@ -1,7 +1,6 @@
 import json
 from copy import deepcopy
 from unittest.mock import patch
-
 import pytest
 from django.urls import reverse
 
@@ -11,7 +10,7 @@ from accounts.messages import (
 )
 from accounts.models import Student
 
-from .extra import DUMMY_TOKEN, FIELD_REQUIRED_MESSAGE, non_field_error
+from .extra import DUMMY_TOKEN, STUDENT_FIELD_REQUIRED_MESSAGE, non_field_error
 
 url = reverse("Student_Register")
 pytestmark = pytest.mark.django_db
@@ -19,6 +18,7 @@ pytestmark = pytest.mark.django_db
 
 _DATA = {
     "name": "Student",
+    "roll_no": "roll_no_1",
     "email": "student@test.com",
     "password": "1234",
     "password2": "1234",
@@ -37,7 +37,7 @@ def test_get_zero_content(client, create_test_admin):
 
     # assert
     assert response.status_code == 400
-    assert json.loads(response.content) == FIELD_REQUIRED_MESSAGE
+    assert json.loads(response.content) == STUDENT_FIELD_REQUIRED_MESSAGE
 
 
 def test_wrong_confirm_password(client, create_test_admin):
