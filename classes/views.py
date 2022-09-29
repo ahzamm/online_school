@@ -1,11 +1,14 @@
 import json
-from accounts.models import Student
+
 from accounts.custom_permissions import IsAdmin, IsStudent, IsTeacher
+from accounts.models import Student
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from classes.models import Classes, Course
+from helper import ListAllCoursesPagination
 
 from .helper import UUIDEncoder
 from .messages import (
@@ -82,58 +85,37 @@ class AdminCreateTimeTableView(APIView):
 # Teacher can create and insert Attendence
 
 
-class ListAllCoursesView(APIView):
-    def get(self, request):
-        data = Course.objects.all()
-        serializer = ListAllCourseSerializer(
-            data,
-            context={"request": request},
-            many=True,
-        )
-
-        return Response(
-            {"data": serializer.data},
-            status=200,
-        )
+class ListAllCoursesView(ListAPIView):
+    queryset = Course.objects.all()
+    serializer_class = ListAllCourseSerializer
+    pagination_class = ListAllCoursesPagination
 
 
-class ListOneCourseView(APIView):
-    def get(self, request, slug):
-        course = Course.objects.filter(slug=slug)
-        serializer = ListOneCourseSerializer(
-            course,
-            context={"request": request},
-            many=True,
-        )
-        json_data = json.dumps(serializer.data, cls=UUIDEncoder)
-        json_without_slash = json.loads(json_data)
+class ListOneCourseView(ListAPIView):
+    serializer_class = ListOneCourseSerializer
+    lookup_url_kwarg = "slug"
 
-        return Response(json_without_slash, status=200)
+    def get_queryset(self):
+        slug = self.kwargs.get(self.lookup_url_kwarg)
+        return Course.objects.filter(slug=slug)
 
 
 # student can see all classes
 
 
-class ListAllClassesView(APIView):
-    def get(self, request):
-        data = Classes.objects.all()
-        serializer = ListAllClassesSerializer(
-            data,
-            many=True,
-            context={"request": request},
-        )
-        json_data = json.dumps(serializer.data, cls=UUIDEncoder)
-        json_without_slash = json.loads(json_data)
-        return Response({"data": json_without_slash}, status=200)
+class ListAllClassesView(ListAPIView):
+    queryset = Classes.objects.all()
+    serializer_class = ListAllClassesSerializer
+    pagination_class = ListAllCoursesPagination
 
 
-class ListOneClassView(APIView):
-    def get(self, request, slug):
-        data = Classes.objects.filter(slug=slug)
-        serializer = ListOneClasseSerializer(data, many=True)
-        json_data = json.dumps(serializer.data, cls=UUIDEncoder)
-        json_without_slash = json.loads(json_data)
-        return Response({"data": json_without_slash}, status=200)
+class ListOneClassView(ListAPIView):
+    serializer_class = ListOneClasseSerializer
+    lookup_url_kwarg = "slug"
+
+    def get_queryset(self):
+        slug = self.kwargs.get(self.lookup_url_kwarg)
+        return Classes.objects.filter(slug=slug)
 
 
 # [ x ] student can not enrolled in two class of same course DONE

@@ -32,12 +32,7 @@ class StudentRegisterationSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        roll_no = validated_data.get("roll_no")
-        student = Student.objects.create_user(**validated_data)
-        student.save()
-        StudentMore.objects.create(user=student, roll_no=roll_no)
-
-        return validated_data
+        return Student.objects.create_user(**validated_data)
 
 
 class StudentLoginSerializer(serializers.ModelSerializer):
