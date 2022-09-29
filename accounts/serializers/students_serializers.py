@@ -1,11 +1,9 @@
-from rest_framework import serializers
-
 from accounts.messages import (
     PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
     WRONG_OLD_PASSWORD,
 )
 from accounts.models import Student
-from accounts.models import StudentMore
+from rest_framework import serializers
 
 
 class StudentRegisterationSerializer(serializers.ModelSerializer):
@@ -32,12 +30,7 @@ class StudentRegisterationSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        roll_no = validated_data.get("roll_no")
-        student = Student.objects.create_user(**validated_data)
-        student.save()
-        StudentMore.objects.create(user=student, roll_no=roll_no)
-
-        return validated_data
+        return Student.objects.create_user(**validated_data)
 
 
 class StudentLoginSerializer(serializers.ModelSerializer):

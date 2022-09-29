@@ -1,9 +1,5 @@
-import json
-
 import pytest
 from django.urls import reverse
-
-from classes.models import Course
 
 url = reverse("course:ListAllCourse")
 pytestmark = pytest.mark.django_db
@@ -14,24 +10,18 @@ def test_list_no_courses(client):
 
     response = client.get(url)  # act
 
-    assert response.content.decode("utf-8") == '{"data": []}'
+    assert (
+        response.content.decode("utf-8")
+        == '{"count": 0, "next": null, "previous": null, "results": []}'
+    )
 
 
 def test_list_one_courses(client, create_test_course):
     """check if one course is present in our database"""
-    # arrange
-    course = Course.objects.first()
-    message = {
-        "data": [
-            {
-                "name": str(course.name),
-                "course_detail": (
-                    f"http://testserver/api/classes/courses/{course.slug}/"
-                ),
-            },
-        ],
-    }
-
     response = client.get(url)  # act
 
-    assert response.content.decode("utf-8") == json.dumps(message)
+    assert response.content.decode("utf-8") == (
+        '{"count": 1, "next": null, "previous": null, "results":'
+        ' [{"name": "Test Course", "course_detail": '
+        '"http://testserver/api/classes/courses/test-course/"}]}'
+    )
