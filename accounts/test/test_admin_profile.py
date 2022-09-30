@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from school import settings
 
-url = reverse("Admin_Profile")
+url = reverse("student:Admin_Profile")
 pytestmark = pytest.mark.django_db
 
 _DATA = {

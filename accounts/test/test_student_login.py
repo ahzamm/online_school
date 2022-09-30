@@ -9,7 +9,7 @@ from accounts.models import Student
 
 from .extra import DUMMY_TOKEN, non_field_error
 
-url = reverse("Student_Login")
+url = reverse("student:Student_Login")
 pytestmark = pytest.mark.django_db
 
 

@@ -12,7 +12,7 @@ from accounts.models import Admin
 
 from .extra import DUMMY_TOKEN, non_field_error
 
-url = reverse("Admin_Login")
+url = reverse("student:Admin_Login")
 pytestmark = pytest.mark.django_db
 
 data = {"email": "admin@test.com", "password": "1234"}

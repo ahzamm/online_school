@@ -1,5 +1,6 @@
 from django.contrib.auth.models import BaseUserManager
 from django.db import models
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
 from .user_models import User
@@ -40,10 +41,22 @@ class StudentMore(models.Model):
         FOURE = "Foure"
         FIVE = "Five"
 
-    user = models.OneToOneField("Student", on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        "Student",
+        related_name="more_info",
+        on_delete=models.CASCADE,
+    )
     roll_no = models.CharField(max_length=20, unique=True)
     grade = models.CharField(_("Grade"), max_length=50, choices=Grade.choices)
     cleared_course = models.ManyToManyField("classes.Course", blank=True)
+    slug = models.SlugField(max_length=50, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.roll_no)
+        super(StudentMore, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return f"/{self.slug}"
 
 
 class Student(User):

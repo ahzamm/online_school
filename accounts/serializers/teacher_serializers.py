@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from accounts.messages import (
-    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+    PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
     WRONG_OLD_PASSWORD,
 )
 from accounts.models import Teacher
@@ -26,7 +26,7 @@ class TeacherRegisterationSerializer(serializers.ModelSerializer):
             return data
 
         raise serializers.ValidationError(
-            PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+            PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
         )
 
     def create(self, validated_data):
@@ -70,7 +70,7 @@ class TeacherChangePasswordSerializer(serializers.Serializer):
 
         if password != password2:
             raise serializers.ValidationError(
-                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+                PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
             )
 
         user = self.context.get("user")

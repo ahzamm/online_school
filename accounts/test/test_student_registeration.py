@@ -5,14 +5,14 @@ import pytest
 from django.urls import reverse
 
 from accounts.messages import (
-    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+    PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
     REGISTERATION_SUCCESS_MESSAGE,
 )
 from accounts.models import Student
 
 from .extra import DUMMY_TOKEN, STUDENT_FIELD_REQUIRED_MESSAGE, non_field_error
 
-url = reverse("Student_Register")
+url = reverse("student:Student_Register")
 pytestmark = pytest.mark.django_db
 
 
@@ -56,7 +56,7 @@ def test_wrong_confirm_password(client, create_test_admin):
     # assert
     assert response.status_code == 400
     assert json.loads(response.content) == non_field_error(
-        PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+        PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
     )
 
 

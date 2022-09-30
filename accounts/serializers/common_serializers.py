@@ -8,7 +8,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import serializers
 
 from accounts.messages import (
-    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+    PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
     PASSWORD_RESET_EMAIL_BODY,
     PASSWORD_RESET_EMAIL_SUBJECT,
     USER_WITH_EMAIL_DOESNT_EXIST,
@@ -66,7 +66,7 @@ class UserPasswordResetSerializer(serializers.Serializer):
 
             if password != password2:
                 raise serializers.ValidationError(
-                    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+                    PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
                 )
 
             _id = smart_str(urlsafe_base64_decode(uid))

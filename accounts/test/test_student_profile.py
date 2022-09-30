@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from school import settings
 
-url = reverse("Student_Profile")
+url = reverse("student:Student_Profile")
 pytestmark = pytest.mark.django_db
 
 _DATA = {"id": "user_id", "email": "student@test.com", "name": "Student"}

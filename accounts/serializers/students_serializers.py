@@ -1,8 +1,9 @@
 from accounts.messages import (
-    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+    PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
     WRONG_OLD_PASSWORD,
 )
-from accounts.models import Student
+from accounts.models import Student, StudentMore
+from classes.serializer import ListAllCourseSerializer
 from rest_framework import serializers
 
 
@@ -24,7 +25,7 @@ class StudentRegisterationSerializer(serializers.ModelSerializer):
 
         if password != password2:
             raise serializers.ValidationError(
-                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+                PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
             )
 
         return data
@@ -70,7 +71,7 @@ class StudentChangePasswordSerializer(serializers.Serializer):
 
         if password != password2:
             raise serializers.ValidationError(
-                PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+                PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
             )
 
         user = self.context.get("user")
@@ -82,3 +83,29 @@ class StudentChangePasswordSerializer(serializers.Serializer):
         user.save()
 
         return data
+
+
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = ["email", "name"]
+
+
+class ListOneStudentSerializer(serializers.ModelSerializer):
+    user = StudentSerializer(read_only=True)
+    cleared_course = ListAllCourseSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = StudentMore
+        fields = ["user", "roll_no", "grade", "cleared_course"]
+
+
+class ListAllStudentSerializer(serializers.ModelSerializer):
+    student_detail = serializers.HyperlinkedIdentityField(
+        view_name="student:StudentDetail",
+        lookup_field="slug",
+    )
+
+    class Meta:
+        model = StudentMore
+        fields = ["roll_no", "student_detail"]

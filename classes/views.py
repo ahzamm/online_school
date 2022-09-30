@@ -1,12 +1,12 @@
 from accounts.custom_permissions import IsAdmin, IsStudent, IsTeacher
 from accounts.models import Student
+from utils import ListAllCoursesPagination
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from classes.models import Classes, Course
-from helper import ListAllCoursesPagination
 
 from .messages import (
     ALREADY_ENROLLED_MESSAGE,

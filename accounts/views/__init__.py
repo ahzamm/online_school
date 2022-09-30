@@ -14,6 +14,7 @@ from accounts.views.student_views import (
     StudentLoginView,
     StudentProfileView,
     StudentRegisterationView,
+    ListAllStudentView,
 )
 from accounts.views.teacher_views import (
     TeacherChangePasswordView,

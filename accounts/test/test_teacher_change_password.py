@@ -7,13 +7,13 @@ from django.urls import reverse
 
 from accounts.messages import (
     LOGIN_SUCCESS_MESSAGE,
-    PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+    PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
     WRONG_OLD_PASSWORD,
 )
 
 from .extra import DUMMY_TOKEN, non_field_error
 
-url = reverse("Teacher_Change_Password")
+url = reverse("student:Teacher_Change_Password")
 pytestmark = pytest.mark.django_db
 
 _DATA = {
@@ -59,7 +59,7 @@ def test_wrong_confirm_password(client, create_test_teacher):
     # assert
     assert response.status_code == 400
     assert json.loads(response.content) == non_field_error(
-        PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH,
+        PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
     )
 
 

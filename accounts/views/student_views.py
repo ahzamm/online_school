@@ -17,10 +17,18 @@ from accounts.serializers import (
     StudentProfileSerializer,
     StudentRegisterationSerializer,
 )
+from accounts.serializers.students_serializers import (
+    ListAllStudentSerializer,
+    ListOneStudentSerializer,
+)
 from django.contrib.auth import authenticate
+from utils import flatten_dict
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from utils.custom_paginations import ListAllStudentPagination
 
 
 class StudentRegisterationView(APIView):
@@ -92,3 +100,23 @@ class StudentChangePasswordView(APIView):
             {"msg": PASSWORD_CHANGE_SUCCESS_MESSAGE},
             status=PASSWORD_CHANGE_SUCCESS_STATUS,
         )
+
+
+class ListOneStudentView(ListAPIView):
+    serializer_class = ListOneStudentSerializer
+    lookup_url_kwarg = "slug"
+
+    def get_queryset(self):
+        slug = self.kwargs.get(self.lookup_url_kwarg)
+        return StudentMore.objects.filter(slug=slug)
+
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        response.data = flatten_dict(response.data[0])
+        return response
+
+
+class ListAllStudentView(ListAPIView):
+    queryset = StudentMore.objects.all()
+    serializer_class = ListAllStudentSerializer
+    pagination_class = ListAllStudentPagination

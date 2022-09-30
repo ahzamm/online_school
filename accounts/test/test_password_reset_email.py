@@ -51,7 +51,7 @@ def test_ending_emails(mailoutbox):
 
 def test_reset_password_with_wrong_email(client):
     response = client.post(  # act
-        reverse("Admin_Reset_Password"),
+        reverse("student:Admin_Reset_Password"),
         data=EMAIL,
     )
 
@@ -67,7 +67,7 @@ def create_test_student_with_legit_email(client, create_test_admin):
     token = create_test_admin
 
     response = client.post(
-        reverse("Student_Register"),
+        reverse("student:Student_Register"),
         data,
         **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
@@ -79,7 +79,7 @@ def create_test_student_with_legit_email(client, create_test_admin):
 def test_reset_password_response(client, create_test_student_with_legit_email):
 
     response = client.post(  # act
-        reverse("Admin_Reset_Password"),
+        reverse("student:Admin_Reset_Password"),
         data=EMAIL,
     )
 
@@ -109,7 +109,7 @@ def test_reset_password_mail(
     make_token.return_value = "thisispatchtoken"
 
     client.post(  # act
-        reverse("Admin_Reset_Password"),
+        reverse("student:Admin_Reset_Password"),
         data={"email": "ahzamahmed6@gmail.com"},
     )
 
@@ -137,7 +137,7 @@ def test_reset_password(
         password="changed_password",
     )
     response = client.post(
-        reverse("Admin_Reset_Password"),
+        reverse("student:Admin_Reset_Password"),
         EMAIL,
     )
     mail_message = mailoutbox[0]
