@@ -1,21 +1,21 @@
-from accounts.serializers.admin_serializers import (
+from .admin_serializers import (
     AdminChangePasswordSerializer,
     AdminChangeTeacherStudentPasswordSerializer,
     AdminLoginSerializer,
     AdminProfileSerializer,
     AdminRegisterationSerializer,
 )
-from accounts.serializers.common_serializers import (
+from .common_serializers import (
     SendPasswordResetEmailSerializer,
     UserPasswordResetSerializer,
 )
-from accounts.serializers.students_serializers import (
+from .students_serializers import (
     StudentChangePasswordSerializer,
     StudentLoginSerializer,
     StudentProfileSerializer,
     StudentRegisterationSerializer,
 )
-from accounts.serializers.teacher_serializers import (
+from .teacher_serializers import (
     TeacherChangePasswordSerializer,
     TeacherLoginSerializer,
     TeacherProfileSerializer,
