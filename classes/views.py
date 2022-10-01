@@ -1,11 +1,13 @@
 from accounts.custom_permissions import IsAdmin, IsStudent, IsTeacher
 from accounts.models import Student
 from accounts.models.student_models import StudentMore
-from utils import ListAllCoursesPagination
+from accounts.serializers import ListAllStudentSerializer
+from rest_framework import serializers
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from utils import ListAllCoursesPagination
 
 from classes.models import Classes, Course
 
@@ -106,11 +108,6 @@ class ListAllClassesView(ListAPIView):
     pagination_class = ListAllCoursesPagination
 
 
-from rest_framework import serializers
-from accounts.serializers import ListAllStudentSerializer
-from .serializer import ListAllCourseSerializer
-
-
 class ListOneClasseSerializer(serializers.ModelSerializer):
 
     course = ListAllCourseSerializer(read_only=True)
@@ -122,20 +119,22 @@ class ListOneClasseSerializer(serializers.ModelSerializer):
         fields = [
             "course",
             "teacher_name",
-            "student",
             "enrollment_start_date",
             "enrollment_end_date",
             "section",
             "mid_exammination_date",
             "final_exammination_date",
+            "student",
         ]
 
     def get_student(self, obj):
-        print("=======>", obj.student.all())
-        # student_query = StudentMore.objects.get(user=obj.student.all())
-        student_query = StudentMore.objects.all().filter(user__id__in=obj.student.all())
+        student_query = StudentMore.objects.all().filter(
+            user__id__in=obj.student.all(),
+        )
         serializer = ListAllStudentSerializer(
-            student_query, many=True, context={"request": self.context.get("request")}
+            student_query,
+            many=True,
+            context={"request": self.context.get("request")},
         )
 
         return serializer.data
