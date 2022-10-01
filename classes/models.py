@@ -63,9 +63,9 @@ class Classes(models.Model):
     )
     slug = models.SlugField(max_length=100, null=True, blank=True)
     student = models.ManyToManyField(
-        Student,
+        "accounts.Student",
         blank=True,
-        related_name="student",
+        # related_name="student",
     )
     enrollment_start_date = models.DateField()
     enrollment_end_date = models.DateField()

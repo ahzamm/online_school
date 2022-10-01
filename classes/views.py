@@ -1,5 +1,6 @@
 from accounts.custom_permissions import IsAdmin, IsStudent, IsTeacher
 from accounts.models import Student
+from accounts.models.student_models import StudentMore
 from utils import ListAllCoursesPagination
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -24,7 +25,6 @@ from .serializer import (
     CourseSerializer,
     ListAllClassesSerializer,
     ListAllCourseSerializer,
-    ListOneClasseSerializer,
     ListOneCourseSerializer,
     TimeTableSerializer,
 )
@@ -106,6 +106,39 @@ class ListAllClassesView(ListAPIView):
     pagination_class = ListAllCoursesPagination
 
 
+from rest_framework import serializers
+from accounts.serializers import ListAllStudentSerializer
+from .serializer import ListAllCourseSerializer
+
+
+class ListOneClasseSerializer(serializers.ModelSerializer):
+
+    course = ListAllCourseSerializer(read_only=True)
+    teacher_name = serializers.CharField(source="teacher.name")
+    student = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Classes
+        fields = [
+            "course",
+            "teacher_name",
+            "student",
+            "enrollment_start_date",
+            "enrollment_end_date",
+            "section",
+            "mid_exammination_date",
+            "final_exammination_date",
+        ]
+
+    def get_student(self, obj):
+        student_query = StudentMore.objects.all().filter(user__id__in=obj.student.all())
+        serializer = ListAllStudentSerializer(
+            student_query, many=True, context={"request": self.context.get("request")}
+        )
+
+        return serializer.data
+
+
 class ListOneClassView(ListAPIView):
     serializer_class = ListOneClasseSerializer
     lookup_url_kwarg = "slug"
@@ -113,6 +146,11 @@ class ListOneClassView(ListAPIView):
     def get_queryset(self):
         slug = self.kwargs.get(self.lookup_url_kwarg)
         return Classes.objects.filter(slug=slug)
+
+    def get_serializer_context(self):
+        context = super(ListOneClassView, self).get_serializer_context()
+        context.update({"classes": self.get_queryset()})
+        return context
 
 
 # [ x ] student can not enrolled in two class of same course DONE
