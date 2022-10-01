@@ -17,7 +17,7 @@ from accounts.serializers import (
     StudentProfileSerializer,
     StudentRegisterationSerializer,
 )
-from accounts.serializers.students_serializers import (
+from accounts.serializers import (
     ListAllStudentSerializer,
     ListOneStudentSerializer,
 )

@@ -14,6 +14,8 @@ from .students_serializers import (
     StudentLoginSerializer,
     StudentProfileSerializer,
     StudentRegisterationSerializer,
+    ListAllStudentSerializer,
+    ListOneStudentSerializer,
 )
 from .teacher_serializers import (
     TeacherChangePasswordSerializer,
