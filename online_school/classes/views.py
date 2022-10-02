@@ -76,14 +76,6 @@ class AdminCreateTimeTableView(APIView):
         )
 
 
-# TODO
-# courses should have other pre req courses
-# Student can see all availabel classes
-# student can enroll themself in a class of a course they are eligable of(they
-# have already cleared pre req classes of that course)
-# Teacher can create and insert Attendence
-
-
 class ListAllCoursesView(ListAPIView):
     queryset = Course.objects.all()
     serializer_class = ListAllCourseSerializer
@@ -108,6 +100,7 @@ class ListAllClassesView(ListAPIView):
     pagination_class = ListAllCoursesPagination
 
 
+# This serializer is here because of the problem of circular imports
 class ListOneClasseSerializer(serializers.ModelSerializer):
 
     course = ListAllCourseSerializer(read_only=True)
@@ -154,12 +147,6 @@ class ListOneClassView(ListAPIView):
         return context
 
 
-# [ x ] student can not enrolled in two class of same course DONE
-# [   ] Now course pre req logic
-# as soon as a student is created, StudentMore for that Student should bhe
-# created
-
-
 class StudentEnrollClassView(APIView):
     permission_classes = [IsAuthenticated, IsStudent]
 
@@ -182,3 +169,6 @@ class StudentEnrollClassView(APIView):
         _class.student.add(student)
         _class.save()
         return Response({"data": ENROLLED_SUCCESS_MESSAGE}, status=200)
+
+
+# create all tests

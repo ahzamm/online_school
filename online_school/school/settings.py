@@ -62,7 +62,7 @@ WSGI_APPLICATION = "school.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": BASE_DIR / "online_school" / "db.sqlite3",
     }
 }
 
@@ -107,8 +107,6 @@ REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": [
         "accounts.renderers.UserRender",
     ],
-    # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    # "PAGE_SIZE": 5,
 }
 
 

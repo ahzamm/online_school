@@ -82,7 +82,7 @@ class Classes(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.course.name)
+        self.slug = slugify(f"{self.course.name}_{self.section}")
         super(Classes, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
