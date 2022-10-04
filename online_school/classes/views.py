@@ -31,6 +31,7 @@ from .serializer import (
     TimeTableSerializer,
 )
 
+
 # DONE
 class AdminCreateCourseView(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]

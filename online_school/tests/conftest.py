@@ -2,9 +2,8 @@ import json
 from unittest.mock import patch
 
 import pytest
-from django.urls import reverse
-
 from classes.models import Classes
+from django.urls import reverse
 
 pytestmark = pytest.mark.django_db
 
@@ -179,3 +178,27 @@ def create_test_timetable(client, create_test_class, create_test_admin):
         **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
     return json.loads(response.content)
+
+
+@pytest.fixture()
+def create_test_course_with_kwargs(client, create_test_admin, **kwargs):
+    def _create_test_course(client, **kwargs):
+        token = create_test_admin
+        name = kwargs.pop("name")
+        course_code = kwargs.pop("course_code")
+        ch = kwargs.pop("ch")
+        pre_req_courses = kwargs.pop("pre_req_courses")
+        data = {
+            "name": name,
+            "course_code": course_code,
+            "ch": ch,
+            "pre_req_courses": pre_req_courses,
+        }
+
+        return client.post(
+            reverse("course:CourseRegisteration"),
+            data,
+            **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
+        )
+
+    return _create_test_course
