@@ -31,7 +31,7 @@ from .serializer import (
     TimeTableSerializer,
 )
 
-
+# DONE
 class AdminCreateCourseView(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
@@ -46,6 +46,7 @@ class AdminCreateCourseView(APIView):
         )
 
 
+# DONE
 class TeacherCreateClassView(APIView):
     permission_classes = [IsAuthenticated, IsTeacher]
 
@@ -63,6 +64,7 @@ class TeacherCreateClassView(APIView):
         )
 
 
+# DONE
 class AdminCreateTimeTableView(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
@@ -76,6 +78,7 @@ class AdminCreateTimeTableView(APIView):
         )
 
 
+# DONE
 class ListAllCoursesView(ListAPIView):
     queryset = Course.objects.all()
     serializer_class = ListAllCourseSerializer
