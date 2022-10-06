@@ -14,8 +14,8 @@ def test_list_no_classes(client):
         response.content.decode("utf-8")
         == '{"count": 0, "next": null, "previous": null, "results": []}'
     )
-    
-    
+
+
 def test_list_one_classes(client, create_test_class):
     """check if one course is present in our database"""
     response = client.get(url)  # act
