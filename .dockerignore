@@ -1,6 +1,6 @@
 # Git
-.git
-.gitignore
+# .git
+# .gitignore
 
 # Docker
 .docker
@@ -16,4 +16,4 @@ venv/
 
 .pytest_cache/
 .mypy_cache/
-.vscode/
+# .vscode/

@@ -86,6 +86,7 @@ class ListAllCoursesView(ListAPIView):
     pagination_class = ListAllCoursesPagination
 
 
+# Done
 class ListOneCourseView(ListAPIView):
     serializer_class = ListOneCourseSerializer
     lookup_url_kwarg = "slug"
@@ -176,3 +177,4 @@ class StudentEnrollClassView(APIView):
 
 
 # create all tests
+# yesss
