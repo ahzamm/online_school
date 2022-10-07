@@ -96,9 +96,7 @@ class ListOneCourseView(ListAPIView):
         return Course.objects.filter(slug=slug)
 
 
-# student can see all classes
-
-
+# Done
 class ListAllClassesView(ListAPIView):
     queryset = Classes.objects.all()
     serializer_class = ListAllClassesSerializer
@@ -138,6 +136,7 @@ class ListOneClasseSerializer(serializers.ModelSerializer):
         return serializer.data
 
 
+# Done
 class ListOneClassView(ListAPIView):
     serializer_class = ListOneClasseSerializer
     lookup_url_kwarg = "slug"
@@ -167,7 +166,7 @@ class StudentEnrollClassView(APIView):
         course = Classes.objects.get(slug=slug).course
         pre_req_course = course.pre_req_courses.all()
         for course in pre_req_course:
-            if course not in student.more.cleared_course.all():
+            if course not in StudentMore.objects.get(user=student).cleared_course.all():
                 return Response({"data": NOT_ELIGIBLE_MESSAGE}, status=200)
 
         _class = Classes.objects.get(slug=slug)

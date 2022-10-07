@@ -45,8 +45,6 @@ def test_lvl_1_class_detail(
         ),
     )  # act
 
-    print("==========>", json.loads(response.content))
-
     assert json.loads(response.content) == [
         {
             "course": {
