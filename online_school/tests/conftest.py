@@ -202,3 +202,28 @@ def create_test_course_with_kwargs(client, create_test_admin, **kwargs):
         )
 
     return _create_test_course
+
+
+@pytest.fixture()
+def create_test_class_with_kwargs(client, create_test_teacher, **kwargs):
+    def _create_test_class(client, **kwargs):
+        token = create_test_teacher
+
+        course_code = kwargs.pop("course_code")
+        enrollment_start_date = kwargs.pop("enrollment_start_date")
+        enrollment_end_date = kwargs.pop("enrollment_end_date")
+        section = kwargs.pop("section")
+        data = {
+            "course_code": course_code,
+            "enrollment_start_date": enrollment_start_date,
+            "enrollment_end_date": enrollment_end_date,
+            "section": section,
+        }
+
+        return client.post(
+            reverse("course:ClassRegister"),
+            data,
+            **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
+        )
+
+    return _create_test_class
