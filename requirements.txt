@@ -13,3 +13,4 @@ pytest-django
 pytest-cov
 flake8
 django_extensions
+drf_yasg
