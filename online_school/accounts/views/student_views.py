@@ -12,26 +12,22 @@ from accounts.messages import (
 )
 from accounts.models.student_models import StudentMore
 from accounts.serializers import (
+    ListAllStudentSerializer,
+    ListOneStudentSerializer,
     StudentChangePasswordSerializer,
     StudentLoginSerializer,
     StudentProfileSerializer,
     StudentRegisterationSerializer,
 )
-from accounts.serializers import (
-    ListAllStudentSerializer,
-    ListOneStudentSerializer,
-)
 from django.contrib.auth import authenticate
-from utils import flatten_dict
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
-
+from utils.flatten_dict import flatten_dict
 from utils.custom_paginations import ListAllStudentPagination
 
 
-class StudentRegisterationView(APIView):
+class StudentRegisterationView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
     def post(self, request):
@@ -51,7 +47,7 @@ class StudentRegisterationView(APIView):
         )
 
 
-class StudentLoginView(APIView):
+class StudentLoginView(GenericAPIView):
     def post(self, request):
         serializer = StudentLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -77,7 +73,7 @@ class StudentLoginView(APIView):
         )
 
 
-class StudentProfileView(APIView):
+class StudentProfileView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsStudent]
 
     def get(self, request):
@@ -86,7 +82,7 @@ class StudentProfileView(APIView):
         return Response(serializer.data, status=200)
 
 
-class StudentChangePasswordView(APIView):
+class StudentChangePasswordView(GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):

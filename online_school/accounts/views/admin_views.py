@@ -1,8 +1,3 @@
-from django.contrib.auth import authenticate
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
 from accounts.custom_permissions import IsAdmin
 from accounts.generate_tokens import get_tokens_for_user
 from accounts.messages import (
@@ -22,9 +17,13 @@ from accounts.serializers import (
     AdminProfileSerializer,
     AdminRegisterationSerializer,
 )
+from django.contrib.auth import authenticate
+from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 
-class AdminRegisterationView(APIView):
+class AdminRegisterationView(GenericAPIView):
     def post(self, request):
         serializer = AdminRegisterationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -37,7 +36,9 @@ class AdminRegisterationView(APIView):
         )
 
 
-class AdminLoginView(APIView):
+class AdminLoginView(GenericAPIView):
+    serializer_class = AdminLoginSerializer
+
     def post(self, request):
         serializer = AdminLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -63,7 +64,7 @@ class AdminLoginView(APIView):
         )
 
 
-class AdminProfileView(APIView):
+class AdminProfileView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
     def get(self, request):
@@ -72,7 +73,7 @@ class AdminProfileView(APIView):
         return Response(serializer.data, status=200)
 
 
-class AdminChangeTeacherStudentPasswordView(APIView):
+class AdminChangeTeacherStudentPasswordView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
     def post(self, request):
@@ -87,7 +88,7 @@ class AdminChangeTeacherStudentPasswordView(APIView):
         )
 
 
-class AdminChangePasswordView(APIView):
+class AdminChangePasswordView(GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):

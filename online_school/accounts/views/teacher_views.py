@@ -17,12 +17,12 @@ from accounts.serializers import (
     TeacherRegisterationSerializer,
 )
 from django.contrib.auth import authenticate
+from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 
-class TeacherRegisterationView(APIView):
+class TeacherRegisterationView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
     def post(self, request):
@@ -40,7 +40,7 @@ class TeacherRegisterationView(APIView):
         )
 
 
-class TeacherLoginView(APIView):
+class TeacherLoginView(GenericAPIView):
     def post(self, request):
         serializer = TeacherLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -66,7 +66,7 @@ class TeacherLoginView(APIView):
         )
 
 
-class TeacherProfileView(APIView):
+class TeacherProfileView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsTeacher]
 
     def get(self, request):
@@ -75,7 +75,7 @@ class TeacherProfileView(APIView):
         return Response(serializer.data, status=200)
 
 
-class TeacherChangePasswordView(APIView):
+class TeacherChangePasswordView(GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):

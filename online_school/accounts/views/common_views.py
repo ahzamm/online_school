@@ -1,6 +1,3 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
 from accounts.messages import (
     PASSWORD_RESET_EMAIL_MESSAGE,
     PASSWORD_RESET_EMAIL_STATUS,
@@ -11,9 +8,11 @@ from accounts.serializers import (
     SendPasswordResetEmailSerializer,
     UserPasswordResetSerializer,
 )
+from rest_framework.generics import GenericAPIView
+from rest_framework.response import Response
 
 
-class SendPasswordResetEmailView(APIView):
+class SendPasswordResetEmailView(GenericAPIView):
     def post(self, request):
         serializer = SendPasswordResetEmailSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -24,7 +23,7 @@ class SendPasswordResetEmailView(APIView):
         )
 
 
-class UserPasswordResetView(APIView):
+class UserPasswordResetView(GenericAPIView):
     def post(self, request, uid, token, format=None):
         serializer = UserPasswordResetSerializer(
             data=request.data,

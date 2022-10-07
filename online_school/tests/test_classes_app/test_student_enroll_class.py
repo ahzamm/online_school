@@ -21,10 +21,11 @@ def test_non_student_enroll(client, create_test_teacher, create_test_class):
         url,
         **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
+
     assert json.loads(response.content) == {
         "errors": {
             "detail": "You do not have permission to perform this action.",
-        }
+        },
     }
 
 
@@ -38,7 +39,6 @@ def test_student_already_enrolled(
     """
 
     token = create_test_student
-
     client.post(
         url,
         **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
@@ -50,7 +50,7 @@ def test_student_already_enrolled(
     )
 
     assert json.loads(response.content) == {
-        "data": "You are already enrolled in this course"
+        "data": "You are already enrolled in this course",
     }
 
 
@@ -72,7 +72,6 @@ def test_pre_req_not_cleared(
         pre_req_courses=[],
     )
     course1 = Course.objects.first()
-
     create_test_course_with_kwargs(
         client=client,
         name="Test Course 2",
@@ -82,7 +81,6 @@ def test_pre_req_not_cleared(
     )
     course2 = Course.objects.get(course_code="TC 2")
     course2.pre_req_courses.add(course1)
-
     create_test_class_with_kwargs(
         client=client,
         course_code="TC 2",
@@ -90,13 +88,13 @@ def test_pre_req_not_cleared(
         enrollment_end_date=datetime.date.today(),
         section="A",
     )
-
     token = create_test_student
-    response = client.post(
+
+    response = client.post(  # act
         reverse("course:ClassEnrollment", kwargs={"slug": "test-course-2_a"}),
         **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
     )
 
     assert json.loads(response.content) == {
-        "data": "You are not eligible for this class yet..."
+        "data": "You are not eligible for this class yet...",
     }

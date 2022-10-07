@@ -19,7 +19,9 @@ def test_no_course_detail(client):
 
 
 def test_lvl_1_class_detail(
-    client, create_test_course_with_kwargs, create_test_class_with_kwargs
+    client,
+    create_test_course_with_kwargs,
+    create_test_class_with_kwargs,
 ):
     """Check the response if there is one level 1 coure present in our DB"""
 
@@ -58,5 +60,5 @@ def test_lvl_1_class_detail(
             "mid_exammination_date": None,
             "final_exammination_date": None,
             "student": [],
-        }
+        },
     ]

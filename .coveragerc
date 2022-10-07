@@ -2,7 +2,7 @@
 [run]
 source = .
 omit =
-    */test/*
+    */tests/*
    *manage.py
    *apps.py
    *migrations/*
@@ -10,6 +10,7 @@ omit =
    *wsgi.py
    */school/*
    conftest.py
+   dummy_data.py
 
    *__init__*
    */__pycache__/*

@@ -3,10 +3,9 @@ from accounts.models import Student
 from accounts.models.student_models import StudentMore
 from accounts.serializers import ListAllStudentSerializer
 from rest_framework import serializers
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from utils import ListAllCoursesPagination
 
 from classes.models import Classes, Course
@@ -33,7 +32,7 @@ from .serializer import (
 
 
 # DONE
-class AdminCreateCourseView(APIView):
+class AdminCreateCourseView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
     def post(self, request):
@@ -48,7 +47,7 @@ class AdminCreateCourseView(APIView):
 
 
 # DONE
-class TeacherCreateClassView(APIView):
+class TeacherCreateClassView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsTeacher]
 
     def post(self, request):
@@ -66,7 +65,7 @@ class TeacherCreateClassView(APIView):
 
 
 # DONE
-class AdminCreateTimeTableView(APIView):
+class AdminCreateTimeTableView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
     def post(self, request):
@@ -151,7 +150,8 @@ class ListOneClassView(ListAPIView):
         return context
 
 
-class StudentEnrollClassView(APIView):
+# Done
+class StudentEnrollClassView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsStudent]
 
     def post(self, request, slug):
@@ -177,7 +177,3 @@ class StudentEnrollClassView(APIView):
         _class.student.add(student)
         _class.save()
         return Response({"data": ENROLLED_SUCCESS_MESSAGE}, status=200)
-
-
-# create all tests
-# yesss
