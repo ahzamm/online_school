@@ -165,8 +165,12 @@ class StudentEnrollClassView(APIView):
 
         course = Classes.objects.get(slug=slug).course
         pre_req_course = course.pre_req_courses.all()
+        cleared_courses = StudentMore.objects.get(
+            user=student,
+        ).cleared_course.all()
         for course in pre_req_course:
-            if course not in StudentMore.objects.get(user=student).cleared_course.all():
+
+            if course not in cleared_courses:
                 return Response({"data": NOT_ELIGIBLE_MESSAGE}, status=200)
 
         _class = Classes.objects.get(slug=slug)
