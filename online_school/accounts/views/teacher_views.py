@@ -24,6 +24,7 @@ from rest_framework.response import Response
 
 class TeacherRegisterationView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdmin]
+    serializer_class = TeacherRegisterationSerializer
 
     def post(self, request):
         serializer = TeacherRegisterationSerializer(data=request.data)
@@ -41,6 +42,8 @@ class TeacherRegisterationView(GenericAPIView):
 
 
 class TeacherLoginView(GenericAPIView):
+    serializer_class = TeacherLoginSerializer
+
     def post(self, request):
         serializer = TeacherLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -68,6 +71,7 @@ class TeacherLoginView(GenericAPIView):
 
 class TeacherProfileView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsTeacher]
+    serializer_class = TeacherProfileSerializer
 
     def get(self, request):
         serializer = TeacherProfileSerializer(request.user)
@@ -77,6 +81,7 @@ class TeacherProfileView(GenericAPIView):
 
 class TeacherChangePasswordView(GenericAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = TeacherChangePasswordSerializer
 
     def post(self, request):
         seriaizer = TeacherChangePasswordSerializer(

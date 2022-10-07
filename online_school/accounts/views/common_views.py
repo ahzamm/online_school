@@ -13,6 +13,8 @@ from rest_framework.response import Response
 
 
 class SendPasswordResetEmailView(GenericAPIView):
+    serializer_class = SendPasswordResetEmailSerializer
+
     def post(self, request):
         serializer = SendPasswordResetEmailSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -24,6 +26,8 @@ class SendPasswordResetEmailView(GenericAPIView):
 
 
 class UserPasswordResetView(GenericAPIView):
+    serializer_class = UserPasswordResetSerializer
+
     def post(self, request, uid, token, format=None):
         serializer = UserPasswordResetSerializer(
             data=request.data,

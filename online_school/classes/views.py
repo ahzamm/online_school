@@ -34,6 +34,7 @@ from .serializer import (
 # DONE
 class AdminCreateCourseView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdmin]
+    serializer_class = CourseSerializer
 
     def post(self, request):
         serializer = CourseSerializer(data=request.data)
@@ -49,6 +50,7 @@ class AdminCreateCourseView(GenericAPIView):
 # DONE
 class TeacherCreateClassView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsTeacher]
+    serializer_class = ClassSerializer
 
     def post(self, request):
         teacher = request.user
@@ -67,6 +69,7 @@ class TeacherCreateClassView(GenericAPIView):
 # DONE
 class AdminCreateTimeTableView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdmin]
+    serializer_class = TimeTableSerializer
 
     def post(self, request):
         serializer = TimeTableSerializer(data=request.data)
@@ -153,6 +156,7 @@ class ListOneClassView(ListAPIView):
 # Done
 class StudentEnrollClassView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsStudent]
+    serializer_class = ...
 
     def post(self, request, slug):
         request.user.__class__ = Student

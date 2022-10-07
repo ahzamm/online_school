@@ -29,6 +29,7 @@ from utils.custom_paginations import ListAllStudentPagination
 
 class StudentRegisterationView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdmin]
+    serializer_class = StudentRegisterationSerializer
 
     def post(self, request):
         serializer = StudentRegisterationSerializer(data=request.data)
@@ -48,6 +49,8 @@ class StudentRegisterationView(GenericAPIView):
 
 
 class StudentLoginView(GenericAPIView):
+    serializer_class = StudentLoginSerializer
+
     def post(self, request):
         serializer = StudentLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -75,6 +78,7 @@ class StudentLoginView(GenericAPIView):
 
 class StudentProfileView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsStudent]
+    serializer_class = StudentProfileSerializer
 
     def get(self, request):
         serializer = StudentProfileSerializer(request.user)
@@ -84,6 +88,7 @@ class StudentProfileView(GenericAPIView):
 
 class StudentChangePasswordView(GenericAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = StudentChangePasswordSerializer
 
     def post(self, request):
         seriaizer = StudentChangePasswordSerializer(
