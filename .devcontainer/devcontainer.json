@@ -20,13 +20,13 @@
   ],
   "settings": {
     "git.path": "/usr/bin/git"
-  }
+  },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  // "forwardPorts": [],
+  "forwardPorts": [8000],
 
   // Uncomment the next line to run commands after the container is created - for example installing curl.
-  // "postCreateCommand": "apt-get update && apt-get install -y curl",
+  "postCreateCommand": "apk add --update git && git config --global --add safe.directory /workspaces/online_school && git config --global user.email 'ahzamahmed6@gmail.com' && git config --global user.name 'Ahzam Ahmed'"
 
   // Uncomment when using a ptrace-based debugger like C++, Go, and Rust
   // "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],

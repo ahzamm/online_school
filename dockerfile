@@ -4,4 +4,3 @@ WORKDIR /online_school_project
 COPY . .
 COPY .git .
 RUN pip install -r requirements.txt && rm requirements.txt
-RUN apk add --update git

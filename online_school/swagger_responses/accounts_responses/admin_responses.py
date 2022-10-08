@@ -31,7 +31,11 @@ admin_register_response = {
         description="When Password and Confirm Password Doesn't Match",
         examples={
             "application/json": {
-                "error": PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
+                "errors": {
+                    "non_field_errors": [
+                        PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
+                    ],
+                }
             }
         },
     ),
@@ -90,7 +94,11 @@ admin_change_ts_password_response = {
         description="When Password and Confirm Password Doesn't Match",
         examples={
             "application/json": {
-                "error": NO_STUDENT_TEACHER_WITH_EMAIL,
+                "errors": {
+                    "non_field_errors": [
+                        NO_STUDENT_TEACHER_WITH_EMAIL,
+                    ],
+                }
             }
         },
     ),
@@ -110,7 +118,11 @@ admin_change_password_response = {
         description="When Password and Confirm Password Doesn't Match",
         examples={
             "application/json": {
-                "error": PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
+                "errors": {
+                    "non_field_errors": [
+                        PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
+                    ],
+                }
             }
         },
     ),
@@ -118,7 +130,11 @@ admin_change_password_response = {
         description="When Password and Confirm Password Doesn't Match",
         examples={
             "application/json": {
-                "error": WRONG_OLD_PASSWORD,
+                "errors": {
+                    "non_field_errors": [
+                        WRONG_OLD_PASSWORD,
+                    ],
+                }
             }
         },
     ),

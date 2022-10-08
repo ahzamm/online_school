@@ -35,5 +35,12 @@
   },
 
   "python.formatting.blackArgs": ["-l", "79"],
-  "python.analysis.logLevel": "Trace"
+  "python.analysis.logLevel": "Trace",
+  "grammarly.selectors": [
+    {
+      "language": "python",
+      "scheme": "file",
+      "pattern": "online_school/swagger_responses/accounts_responses/common_responses.py"
+    }
+  ]
 }
