@@ -41,7 +41,7 @@ password_reset_response = {
             }
         },
     ),
-    "400": openapi.Response(
+    "1: 400": openapi.Response(
         description="When Password and Confirm Password Doesn't Match",
         examples={
             "application/json": {
@@ -53,7 +53,7 @@ password_reset_response = {
             }
         },
     ),
-    "400": openapi.Response(
+    "2: 400": openapi.Response(
         description="When Password Reset Email Expires",
         examples={
             "application/json": {

@@ -114,7 +114,7 @@ admin_change_password_response = {
             },
         },
     ),
-    "400": openapi.Response(
+    "1: 400": openapi.Response(
         description="When Password and Confirm Password Doesn't Match",
         examples={
             "application/json": {
@@ -126,7 +126,7 @@ admin_change_password_response = {
             }
         },
     ),
-    "400": openapi.Response(
+    "2: 400": openapi.Response(
         description="When Password and Confirm Password Doesn't Match",
         examples={
             "application/json": {

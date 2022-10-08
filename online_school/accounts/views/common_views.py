@@ -18,7 +18,9 @@ from swagger_responses.accounts_responses.common_responses import (
 
 
 class SendPasswordResetEmailView(GenericAPIView):
-    """## For User to recieve **`password reset email` to the provided email**"""
+    """
+    ## For User to recieve **`password reset email` to the provided email**
+    """
 
     serializer_class = SendPasswordResetEmailSerializer
 
