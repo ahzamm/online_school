@@ -11,7 +11,7 @@ from accounts.messages import (
 
 send_password_reset_email_response = {
     str(PASSWORD_RESET_EMAIL_STATUS): openapi.Response(
-        description="Admin Registeration Successfull",
+        description="When Reset Password Email Sent Successfully",
         examples={
             "application/json": {
                 "msg": PASSWORD_RESET_EMAIL_MESSAGE,
@@ -19,7 +19,7 @@ send_password_reset_email_response = {
         },
     ),
     "400": openapi.Response(
-        description="When Password and Confirm Password Doesn't Match",
+        description="When User account with the provided email not found",
         examples={
             "application/json": {
                 "errors": {
@@ -34,7 +34,7 @@ send_password_reset_email_response = {
 
 password_reset_response = {
     str(PASSWORD_RESET_SUCCESS_STATUS): openapi.Response(
-        description="When Password Reset Email Successfully Sent",
+        description="When Password Reset Successfully",
         examples={
             "application/json": {
                 "msg": PASSWORD_RESET_SUCCESS_MESSAGE,

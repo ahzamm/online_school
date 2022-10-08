@@ -20,7 +20,7 @@ ACCESS_TOKEN = "eyJ0eXAiOiJKV..."
 
 admin_register_response = {
     str(REGISTERATION_SUCCESS_STATUS): openapi.Response(
-        description="Admin Registeration Successfull",
+        description="When Admin Registeration Successfull",
         examples={
             "application/json": {
                 "msg": ADMIN_REGISTERATION_SUCCESS_MESSAGE,
@@ -43,7 +43,7 @@ admin_register_response = {
 
 admin_login_response = {
     str(LOGIN_SUCCESS_STATUS): openapi.Response(
-        description="When Login Successfully",
+        description="When Admin Loged in Successfully",
         examples={
             "application/json": {
                 "msg": LOGIN_SUCCESS_MESSAGE,
@@ -55,7 +55,7 @@ admin_login_response = {
         },
     ),
     str(EMAIL_PASSWORD_NOT_VALID_STATUS): openapi.Response(
-        description="When Password and Confirm Password Doesn't Match",
+        description="When Email and Password is not valid",
         examples={
             "application/json": {
                 "errors": {
@@ -70,7 +70,7 @@ admin_login_response = {
 
 admin_profile_response = {
     str(REGISTERATION_SUCCESS_STATUS): openapi.Response(
-        description="Admin Registeration Successfull",
+        description="When Admin Visit his/her profile ",
         examples={
             "application/json": {
                 "id": "9d814dc2-aa1b-479b-93a9-6f9415721e0b",
@@ -91,7 +91,7 @@ admin_change_ts_password_response = {
         },
     ),
     "400": openapi.Response(
-        description="When Password and Confirm Password Doesn't Match",
+        description="When No account for provided email found",
         examples={
             "application/json": {
                 "errors": {
@@ -107,7 +107,7 @@ admin_change_ts_password_response = {
 
 admin_change_password_response = {
     str(PASSWORD_CHANGE_SUCCESS_STATUS): openapi.Response(
-        description="Admin Change password of a Teacher or Student account",
+        description="Admin Change password of his own account",
         examples={
             "application/json": {
                 "msg": PASSWORD_CHANGE_SUCCESS_MESSAGE,
@@ -127,7 +127,7 @@ admin_change_password_response = {
         },
     ),
     "2: 400": openapi.Response(
-        description="When Password and Confirm Password Doesn't Match",
+        description="When Wrong old password provided",
         examples={
             "application/json": {
                 "errors": {
