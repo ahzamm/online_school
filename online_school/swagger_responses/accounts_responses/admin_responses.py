@@ -4,8 +4,12 @@ from accounts.messages import (
     EMAIL_PASSWORD_NOT_VALID_STATUS,
     LOGIN_SUCCESS_MESSAGE,
     LOGIN_SUCCESS_STATUS,
-    PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
+    PASSWORD_CHANGE_SUCCESS_MESSAGE,
+    PASSWORD_CHANGE_SUCCESS_STATUS,
     REGISTERATION_SUCCESS_STATUS,
+    PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
+    NO_STUDENT_TEACHER_WITH_EMAIL,
+    WRONG_OLD_PASSWORD,
 )
 from drf_yasg import openapi
 
@@ -60,7 +64,6 @@ admin_login_response = {
     ),
 }
 
-
 admin_profile_response = {
     str(REGISTERATION_SUCCESS_STATUS): openapi.Response(
         description="Admin Registeration Successfull",
@@ -69,6 +72,53 @@ admin_profile_response = {
                 "id": "9d814dc2-aa1b-479b-93a9-6f9415721e0b",
                 "email": "admin1@test.com",
                 "name": "Admin 1",
+            }
+        },
+    ),
+}
+
+admin_change_ts_password_response = {
+    str(PASSWORD_CHANGE_SUCCESS_STATUS): openapi.Response(
+        description="Admin Change password of a Teacher or Student account",
+        examples={
+            "application/json": {
+                "msg": PASSWORD_CHANGE_SUCCESS_MESSAGE,
+            },
+        },
+    ),
+    "400": openapi.Response(
+        description="When Password and Confirm Password Doesn't Match",
+        examples={
+            "application/json": {
+                "error": NO_STUDENT_TEACHER_WITH_EMAIL,
+            }
+        },
+    ),
+}
+
+
+admin_change_password_response = {
+    str(PASSWORD_CHANGE_SUCCESS_STATUS): openapi.Response(
+        description="Admin Change password of a Teacher or Student account",
+        examples={
+            "application/json": {
+                "msg": PASSWORD_CHANGE_SUCCESS_MESSAGE,
+            },
+        },
+    ),
+    "400": openapi.Response(
+        description="When Password and Confirm Password Doesn't Match",
+        examples={
+            "application/json": {
+                "error": PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
+            }
+        },
+    ),
+    "400": openapi.Response(
+        description="When Password and Confirm Password Doesn't Match",
+        examples={
+            "application/json": {
+                "error": WRONG_OLD_PASSWORD,
             }
         },
     ),

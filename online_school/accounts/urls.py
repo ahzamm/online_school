@@ -82,7 +82,7 @@ urlpatterns = [
         name="Student_Change_Password",
     ),
     path(
-        "admin-change-teacher-password/",
+        "admin-change-teacher-student-password/",
         AdminChangeTeacherStudentPasswordView.as_view(),
         name="Admin_Change_TeaStu_Password",
     ),

@@ -23,13 +23,17 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from swagger_responses.accounts_responses.admin_responses import (
-    admin_register_response,
+    admin_change_password_response,
+    admin_change_ts_password_response,
     admin_login_response,
     admin_profile_response,
+    admin_register_response,
 )
 
 
 class AdminRegisterationView(GenericAPIView):
+    """## For Admin **`Registeration`**"""
+
     serializer_class = AdminRegisterationSerializer
 
     @swagger_auto_schema(responses=admin_register_response)
@@ -46,6 +50,8 @@ class AdminRegisterationView(GenericAPIView):
 
 
 class AdminLoginView(GenericAPIView):
+    """## For Admin **`Login`**"""
+
     serializer_class = AdminLoginSerializer
 
     @swagger_auto_schema(responses=admin_login_response)
@@ -75,6 +81,8 @@ class AdminLoginView(GenericAPIView):
 
 
 class AdminProfileView(GenericAPIView):
+    """## For Admin to view his/her **`Profile`**"""
+
     permission_classes = [IsAuthenticated, IsAdmin]
     serializer_class = AdminProfileSerializer
 
@@ -86,9 +94,12 @@ class AdminProfileView(GenericAPIView):
 
 
 class AdminChangeTeacherStudentPasswordView(GenericAPIView):
+    """## For Admin to change Teacher's/Student's account's **`password`**"""
+
     permission_classes = [IsAuthenticated, IsAdmin]
     serializer_class = AdminChangeTeacherStudentPasswordSerializer
 
+    @swagger_auto_schema(responses=admin_change_ts_password_response)
     def post(self, request):
         serializer = AdminChangeTeacherStudentPasswordSerializer(
             data=request.data,
@@ -102,9 +113,12 @@ class AdminChangeTeacherStudentPasswordView(GenericAPIView):
 
 
 class AdminChangePasswordView(GenericAPIView):
+    """## For Admin to change his/her account's **`password`**"""
+
     permission_classes = [IsAuthenticated]
     serializer_class = AdminChangePasswordSerializer
 
+    @swagger_auto_schema(responses=admin_change_password_response)
     def post(self, request):
         seriaizer = AdminChangePasswordSerializer(
             data=request.data,
@@ -118,3 +132,7 @@ class AdminChangePasswordView(GenericAPIView):
             {"msg": PASSWORD_CHANGE_SUCCESS_MESSAGE},
             status=PASSWORD_CHANGE_SUCCESS_STATUS,
         )
+
+
+# Add feature of User not found for that email in
+# AdminChangeTeacherStudentPasswordView
