@@ -18,14 +18,21 @@ from accounts.serializers import (
     AdminRegisterationSerializer,
 )
 from django.contrib.auth import authenticate
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from swagger_responses.accounts_responses.admin_responses import (
+    admin_register_response,
+    admin_login_response,
+    admin_profile_response,
+)
 
 
 class AdminRegisterationView(GenericAPIView):
     serializer_class = AdminRegisterationSerializer
 
+    @swagger_auto_schema(responses=admin_register_response)
     def post(self, request):
         serializer = AdminRegisterationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -41,6 +48,7 @@ class AdminRegisterationView(GenericAPIView):
 class AdminLoginView(GenericAPIView):
     serializer_class = AdminLoginSerializer
 
+    @swagger_auto_schema(responses=admin_login_response)
     def post(self, request):
         serializer = AdminLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -70,6 +78,7 @@ class AdminProfileView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdmin]
     serializer_class = AdminProfileSerializer
 
+    @swagger_auto_schema(responses=admin_profile_response)
     def get(self, request):
         serializer = AdminProfileSerializer(request.user)
 

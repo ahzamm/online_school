@@ -2,10 +2,13 @@ from accounts.custom_permissions import IsAdmin, IsStudent, IsTeacher
 from accounts.models import Student
 from accounts.models.student_models import StudentMore
 from accounts.serializers import ListAllStudentSerializer
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import serializers
 from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from utils import ListAllCoursesPagination
 
 from classes.models import Classes, Course
@@ -30,12 +33,33 @@ from .serializer import (
     TimeTableSerializer,
 )
 
+response_schema_dict = {
+    "200": openapi.Response(
+        description="custom 200 description",
+        examples={
+            "application/json": {
+                "200_key1": "200_value_1",
+                "200_key2": "200_value_2",
+            }
+        },
+    ),
+    "205": openapi.Response(
+        description="custom 205 description",
+        examples={
+            "application/json": {
+                "205_key1": "205_value_1",
+                "205_key2": "205_value_2",
+            }
+        },
+    ),
+}
 
-# DONE
+
 class AdminCreateCourseView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdmin]
     serializer_class = CourseSerializer
 
+    @swagger_auto_schema(responses=response_schema_dict)
     def post(self, request):
         serializer = CourseSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -154,7 +178,7 @@ class ListOneClassView(ListAPIView):
 
 
 # Done
-class StudentEnrollClassView(GenericAPIView):
+class StudentEnrollClassView(APIView):
     permission_classes = [IsAuthenticated, IsStudent]
     serializer_class = ...
 
