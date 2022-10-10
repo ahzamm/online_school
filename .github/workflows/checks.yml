@@ -13,6 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Test
-        run: docker-compose run --rm my_awsome_app sh -c "cd online_school && pytest"
+        run: docker exec -it online_school_cont pytest online_school/tests
       - name: Lint
-        run: docker-compose run --rm my_awsome_app sh -c "flake8 --per-file-ignores='__init__.py:F401, test_list_one_course.py:E501, test_list_one_class.py:E501' ."
+        run: docker exec -it online_school_cont "flake8 --per-file-ignores='__init__.py:F401, test_list_one_course.py:E501, test_list_one_class.py:E501' ."
