@@ -20,17 +20,29 @@ from accounts.serializers import (
     StudentRegisterationSerializer,
 )
 from django.contrib.auth import authenticate
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from utils.flatten_dict import flatten_dict
+from swagger_responses.accounts_responses.student_responses import (
+    List_all_student_response,
+    List_one_student_response,
+    student_change_ts_password_response,
+    student_login_response,
+    student_profile_response,
+    student_register_response,
+)
 from utils.custom_paginations import ListAllStudentPagination
+from utils.flatten_dict import flatten_dict
 
 
 class StudentRegisterationView(GenericAPIView):
+    """## For Student **`Registeration`**"""
+
     permission_classes = [IsAuthenticated, IsAdmin]
     serializer_class = StudentRegisterationSerializer
 
+    @swagger_auto_schema(responses=student_register_response)
     def post(self, request):
         serializer = StudentRegisterationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -49,8 +61,11 @@ class StudentRegisterationView(GenericAPIView):
 
 
 class StudentLoginView(GenericAPIView):
+    """## For Student **`Login`**"""
+
     serializer_class = StudentLoginSerializer
 
+    @swagger_auto_schema(responses=student_login_response)
     def post(self, request):
         serializer = StudentLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -77,9 +92,12 @@ class StudentLoginView(GenericAPIView):
 
 
 class StudentProfileView(GenericAPIView):
+    """## For Student to view his/her **`Profile`**"""
+
     permission_classes = [IsAuthenticated, IsStudent]
     serializer_class = StudentProfileSerializer
 
+    @swagger_auto_schema(responses=student_profile_response)
     def get(self, request):
         serializer = StudentProfileSerializer(request.user)
 
@@ -87,9 +105,12 @@ class StudentProfileView(GenericAPIView):
 
 
 class StudentChangePasswordView(GenericAPIView):
+    """## For Student to change Teacher's/Student's account's **`password`**"""
+
     permission_classes = [IsAuthenticated]
     serializer_class = StudentChangePasswordSerializer
 
+    @swagger_auto_schema(responses=student_change_ts_password_response)
     def post(self, request):
         seriaizer = StudentChangePasswordSerializer(
             data=request.data,
@@ -104,9 +125,12 @@ class StudentChangePasswordView(GenericAPIView):
 
 
 class ListOneStudentView(ListAPIView):
+    """## For See details of a **`Student`**"""
+
     serializer_class = ListOneStudentSerializer
     lookup_url_kwarg = "slug"
 
+    @swagger_auto_schema(responses=List_one_student_response)
     def get_queryset(self):
         slug = self.kwargs.get(self.lookup_url_kwarg)
         return StudentMore.objects.filter(slug=slug)
@@ -117,7 +141,10 @@ class ListOneStudentView(ListAPIView):
         return response
 
 
+@swagger_auto_schema(responses=List_all_student_response)
 class ListAllStudentView(ListAPIView):
+    """### To see all **`Students`**"""
+
     queryset = StudentMore.objects.all()
     serializer_class = ListAllStudentSerializer
     pagination_class = ListAllStudentPagination
