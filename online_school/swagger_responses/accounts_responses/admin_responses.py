@@ -24,7 +24,7 @@ admin_register_response = {
         examples={
             "application/json": {
                 "msg": ADMIN_REGISTERATION_SUCCESS_MESSAGE,
-            }
+            },
         },
     ),
     "400": openapi.Response(
@@ -35,8 +35,8 @@ admin_register_response = {
                     "non_field_errors": [
                         PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
                     ],
-                }
-            }
+                },
+            },
         },
     ),
 }
@@ -76,7 +76,7 @@ admin_profile_response = {
                 "id": "9d814dc2-aa1b-479b-93a9-6f9415721e0b",
                 "email": "admin1@test.com",
                 "name": "Admin 1",
-            }
+            },
         },
     ),
 }
@@ -98,8 +98,8 @@ admin_change_ts_password_response = {
                     "non_field_errors": [
                         NO_STUDENT_TEACHER_WITH_EMAIL,
                     ],
-                }
-            }
+                },
+            },
         },
     ),
 }
@@ -122,8 +122,8 @@ admin_change_password_response = {
                     "non_field_errors": [
                         PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
                     ],
-                }
-            }
+                },
+            },
         },
     ),
     "2: 400": openapi.Response(
@@ -134,8 +134,8 @@ admin_change_password_response = {
                     "non_field_errors": [
                         WRONG_OLD_PASSWORD,
                     ],
-                }
-            }
+                },
+            },
         },
     ),
 }

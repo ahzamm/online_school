@@ -15,7 +15,7 @@ send_password_reset_email_response = {
         examples={
             "application/json": {
                 "msg": PASSWORD_RESET_EMAIL_MESSAGE,
-            }
+            },
         },
     ),
     "400": openapi.Response(
@@ -26,8 +26,8 @@ send_password_reset_email_response = {
                     "non_field_errors": [
                         USER_WITH_EMAIL_DOESNT_EXIST,
                     ],
-                }
-            }
+                },
+            },
         },
     ),
 }
@@ -38,7 +38,7 @@ password_reset_response = {
         examples={
             "application/json": {
                 "msg": PASSWORD_RESET_SUCCESS_MESSAGE,
-            }
+            },
         },
     ),
     "1: 400": openapi.Response(
@@ -49,8 +49,8 @@ password_reset_response = {
                     "non_field_errors": [
                         PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
                     ],
-                }
-            }
+                },
+            },
         },
     ),
     "2: 400": openapi.Response(
@@ -61,8 +61,8 @@ password_reset_response = {
                     "non_field_errors": [
                         "Token is not Valid or Expired",
                     ],
-                }
-            }
+                },
+            },
         },
     ),
 }

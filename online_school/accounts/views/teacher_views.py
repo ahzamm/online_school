@@ -10,6 +10,7 @@ from accounts.messages import (
     REGISTERATION_SUCCESS_STATUS,
     TEACHER_REGISTERATION_SUCCESS_MESSAGE,
 )
+from drf_yasg.utils import swagger_auto_schema
 from accounts.serializers import (
     TeacherChangePasswordSerializer,
     TeacherLoginSerializer,
@@ -20,12 +21,21 @@ from django.contrib.auth import authenticate
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from swagger_responses.accounts_responses.teacher_responses import (
+    teacher_register_response,
+    teacher_login_response,
+    teacher_profile_response,
+    teacher_change_password_response,
+)
 
 
 class TeacherRegisterationView(GenericAPIView):
+    """## For Teacher **`Registeration`**"""
+
     permission_classes = [IsAuthenticated, IsAdmin]
     serializer_class = TeacherRegisterationSerializer
 
+    @swagger_auto_schema(responses=teacher_register_response)
     def post(self, request):
         serializer = TeacherRegisterationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -42,8 +52,11 @@ class TeacherRegisterationView(GenericAPIView):
 
 
 class TeacherLoginView(GenericAPIView):
+    """## For Teacher **`Login`**"""
+
     serializer_class = TeacherLoginSerializer
 
+    @swagger_auto_schema(responses=teacher_login_response)
     def post(self, request):
         serializer = TeacherLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -70,9 +83,12 @@ class TeacherLoginView(GenericAPIView):
 
 
 class TeacherProfileView(GenericAPIView):
+    """## For Teacher to view his/her **`Profile`**"""
+
     permission_classes = [IsAuthenticated, IsTeacher]
     serializer_class = TeacherProfileSerializer
 
+    @swagger_auto_schema(responses=teacher_profile_response)
     def get(self, request):
         serializer = TeacherProfileSerializer(request.user)
 
@@ -80,9 +96,12 @@ class TeacherProfileView(GenericAPIView):
 
 
 class TeacherChangePasswordView(GenericAPIView):
+    """## For Teacher to his/her account's **`password`**"""
+
     permission_classes = [IsAuthenticated]
     serializer_class = TeacherChangePasswordSerializer
 
+    @swagger_auto_schema(responses=teacher_change_password_response)
     def post(self, request):
         seriaizer = TeacherChangePasswordSerializer(
             data=request.data,

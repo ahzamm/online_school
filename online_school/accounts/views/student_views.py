@@ -105,7 +105,7 @@ class StudentProfileView(GenericAPIView):
 
 
 class StudentChangePasswordView(GenericAPIView):
-    """## For Student to change Teacher's/Student's account's **`password`**"""
+    """## For Student to change his/her account's **`password`**"""
 
     permission_classes = [IsAuthenticated]
     serializer_class = StudentChangePasswordSerializer
