@@ -2,13 +2,22 @@ from accounts.custom_permissions import IsAdmin, IsStudent, IsTeacher
 from accounts.models import Student
 from accounts.models.student_models import StudentMore
 from accounts.serializers import ListAllStudentSerializer
-from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import serializers
 from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from swagger_responses.classes_responses.classes_responses import (
+    class_enrollment,
+    class_register_response,
+    course_register_response,
+    list_all_class_response,
+    list_all_course_response,
+    list_one_class_response,
+    list_one_course_response,
+    timetable_register_response,
+)
 from utils import ListAllCoursesPagination
 
 from classes.models import Classes, Course
@@ -33,33 +42,14 @@ from .serializer import (
     TimeTableSerializer,
 )
 
-response_schema_dict = {
-    "200": openapi.Response(
-        description="custom 200 description",
-        examples={
-            "application/json": {
-                "200_key1": "200_value_1",
-                "200_key2": "200_value_2",
-            },
-        },
-    ),
-    "205": openapi.Response(
-        description="custom 205 description",
-        examples={
-            "application/json": {
-                "205_key1": "205_value_1",
-                "205_key2": "205_value_2",
-            },
-        },
-    ),
-}
-
 
 class AdminCreateCourseView(GenericAPIView):
+    """### For Admin to add new Course"""
+
     permission_classes = [IsAuthenticated, IsAdmin]
     serializer_class = CourseSerializer
 
-    @swagger_auto_schema(responses=response_schema_dict)
+    @swagger_auto_schema(responses=course_register_response)
     def post(self, request):
         serializer = CourseSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -73,9 +63,12 @@ class AdminCreateCourseView(GenericAPIView):
 
 # DONE
 class TeacherCreateClassView(GenericAPIView):
+    """### For Teacher to add new Class"""
+
     permission_classes = [IsAuthenticated, IsTeacher]
     serializer_class = ClassSerializer
 
+    @swagger_auto_schema(responses=class_register_response)
     def post(self, request):
         teacher = request.user
         serializer = ClassSerializer(
@@ -92,9 +85,12 @@ class TeacherCreateClassView(GenericAPIView):
 
 # DONE
 class AdminCreateTimeTableView(GenericAPIView):
+    """### For Admin to create new Timetable"""
+
     permission_classes = [IsAuthenticated, IsAdmin]
     serializer_class = TimeTableSerializer
 
+    @swagger_auto_schema(responses=timetable_register_response)
     def post(self, request):
         serializer = TimeTableSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -106,14 +102,20 @@ class AdminCreateTimeTableView(GenericAPIView):
 
 
 # DONE
+@swagger_auto_schema(responses=list_all_course_response)
 class ListAllCoursesView(ListAPIView):
+    """### To see all available courses Course"""
+
     queryset = Course.objects.all()
     serializer_class = ListAllCourseSerializer
     pagination_class = ListAllCoursesPagination
 
 
 # Done
+@swagger_auto_schema(responses=list_one_course_response)
 class ListOneCourseView(ListAPIView):
+    """### To see course detail"""
+
     serializer_class = ListOneCourseSerializer
     lookup_url_kwarg = "slug"
 
@@ -123,7 +125,10 @@ class ListOneCourseView(ListAPIView):
 
 
 # Done
+@swagger_auto_schema(responses=list_all_class_response)
 class ListAllClassesView(ListAPIView):
+    """### To see all available classes"""
+
     queryset = Classes.objects.all()
     serializer_class = ListAllClassesSerializer
     pagination_class = ListAllCoursesPagination
@@ -163,7 +168,10 @@ class ListOneClasseSerializer(serializers.ModelSerializer):
 
 
 # Done
+@swagger_auto_schema(responses=list_one_class_response)
 class ListOneClassView(ListAPIView):
+    """### To see Class details"""
+
     serializer_class = ListOneClasseSerializer
     lookup_url_kwarg = "slug"
 
@@ -179,9 +187,12 @@ class ListOneClassView(ListAPIView):
 
 # Done
 class StudentEnrollClassView(APIView):
+    """### For Student to enroll in a class"""
+
     permission_classes = [IsAuthenticated, IsStudent]
     serializer_class = ...
 
+    @swagger_auto_schema(responses=class_enrollment)
     def post(self, request, slug):
         request.user.__class__ = Student
         student = request.user

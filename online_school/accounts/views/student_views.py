@@ -124,13 +124,13 @@ class StudentChangePasswordView(GenericAPIView):
         )
 
 
+@swagger_auto_schema(responses=List_one_student_response)
 class ListOneStudentView(ListAPIView):
     """## For See details of a **`Student`**"""
 
     serializer_class = ListOneStudentSerializer
     lookup_url_kwarg = "slug"
 
-    @swagger_auto_schema(responses=List_one_student_response)
     def get_queryset(self):
         slug = self.kwargs.get(self.lookup_url_kwarg)
         return StudentMore.objects.filter(slug=slug)
