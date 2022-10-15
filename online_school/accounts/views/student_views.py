@@ -16,7 +16,6 @@ from accounts.serializers import (
     ListOneStudentSerializer,
     StudentChangePasswordSerializer,
     StudentLoginSerializer,
-    StudentProfileSerializer,
     StudentRegisterationSerializer,
 )
 from django.contrib.auth import authenticate
@@ -89,19 +88,6 @@ class StudentLoginView(GenericAPIView):
             {"msg": LOGIN_SUCCESS_MESSAGE, "token": get_tokens_for_user(user)},
             status=LOGIN_SUCCESS_STATUS,
         )
-
-
-class StudentProfileView(GenericAPIView):
-    """## For Student to view his/her **`Profile`**"""
-
-    permission_classes = [IsAuthenticated, IsStudent]
-    serializer_class = StudentProfileSerializer
-
-    @swagger_auto_schema(responses=student_profile_response)
-    def get(self, request):
-        serializer = StudentProfileSerializer(request.user)
-
-        return Response(serializer.data, status=200)
 
 
 class StudentChangePasswordView(GenericAPIView):

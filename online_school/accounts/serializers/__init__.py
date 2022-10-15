@@ -12,7 +12,6 @@ from .common_serializers import (
 from .students_serializers import (
     StudentChangePasswordSerializer,
     StudentLoginSerializer,
-    StudentProfileSerializer,
     StudentRegisterationSerializer,
     ListAllStudentSerializer,
     ListOneStudentSerializer,
