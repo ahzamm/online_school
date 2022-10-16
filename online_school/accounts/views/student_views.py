@@ -1,4 +1,4 @@
-from accounts.custom_permissions import IsAdmin, IsStudent
+from accounts.custom_permissions import IsAdmin
 from accounts.generate_tokens import get_tokens_for_user
 from accounts.messages import (
     EMAIL_PASSWORD_NOT_VALID_MESSAGE,
@@ -28,7 +28,6 @@ from swagger_responses.accounts_responses.student_responses import (
     List_one_student_response,
     student_change_ts_password_response,
     student_login_response,
-    student_profile_response,
     student_register_response,
 )
 from utils.custom_paginations import ListAllStudentPagination
