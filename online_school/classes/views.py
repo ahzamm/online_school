@@ -167,7 +167,11 @@ class ListOneClasseSerializer(serializers.ModelSerializer):
         return serializer.data
 
 
-# Done
+# Class       ->  Student
+# |
+# roll_no
+# |
+# StudentMore ->  Student
 @swagger_auto_schema(responses=list_one_class_response)
 class ListOneClassView(ListAPIView):
     """### To see Class details"""

@@ -12,7 +12,6 @@ from accounts.views.common_views import (
 from accounts.views.student_views import (
     StudentChangePasswordView,
     StudentLoginView,
-    StudentProfileView,
     StudentRegisterationView,
     ListAllStudentView,
 )

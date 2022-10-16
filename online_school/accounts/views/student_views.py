@@ -1,4 +1,4 @@
-from accounts.custom_permissions import IsAdmin, IsStudent
+from accounts.custom_permissions import IsAdmin
 from accounts.generate_tokens import get_tokens_for_user
 from accounts.messages import (
     EMAIL_PASSWORD_NOT_VALID_MESSAGE,
@@ -16,7 +16,6 @@ from accounts.serializers import (
     ListOneStudentSerializer,
     StudentChangePasswordSerializer,
     StudentLoginSerializer,
-    StudentProfileSerializer,
     StudentRegisterationSerializer,
 )
 from django.contrib.auth import authenticate
@@ -29,7 +28,6 @@ from swagger_responses.accounts_responses.student_responses import (
     List_one_student_response,
     student_change_ts_password_response,
     student_login_response,
-    student_profile_response,
     student_register_response,
 )
 from utils.custom_paginations import ListAllStudentPagination
@@ -89,19 +87,6 @@ class StudentLoginView(GenericAPIView):
             {"msg": LOGIN_SUCCESS_MESSAGE, "token": get_tokens_for_user(user)},
             status=LOGIN_SUCCESS_STATUS,
         )
-
-
-class StudentProfileView(GenericAPIView):
-    """## For Student to view his/her **`Profile`**"""
-
-    permission_classes = [IsAuthenticated, IsStudent]
-    serializer_class = StudentProfileSerializer
-
-    @swagger_auto_schema(responses=student_profile_response)
-    def get(self, request):
-        serializer = StudentProfileSerializer(request.user)
-
-        return Response(serializer.data, status=200)
 
 
 class StudentChangePasswordView(GenericAPIView):

@@ -41,5 +41,5 @@
       "pattern": "online_school/swagger_responses/accounts_responses/common_responses.py"
     }
   ],
-  "python.analysis.typeCheckingMode": "basic"
+  "python.analysis.typeCheckingMode": "off"
 }

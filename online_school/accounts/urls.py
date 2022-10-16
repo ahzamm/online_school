@@ -9,7 +9,6 @@ from accounts.views import (
     SendPasswordResetEmailView,
     StudentChangePasswordView,
     StudentLoginView,
-    StudentProfileView,
     StudentRegisterationView,
     TeacherChangePasswordView,
     TeacherLoginView,
@@ -60,11 +59,6 @@ urlpatterns = [
         "teacher-profile/",
         TeacherProfileView.as_view(),
         name="Teacher_Profile",
-    ),
-    path(
-        "student-profile/",
-        StudentProfileView.as_view(),
-        name="Student_Profile",
     ),
     path(
         "admin-change-password/",

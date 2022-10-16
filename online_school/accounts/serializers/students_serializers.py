@@ -3,8 +3,10 @@ from accounts.messages import (
     WRONG_OLD_PASSWORD,
 )
 from accounts.models import Student, StudentMore
-from classes.serializer import ListAllCourseSerializer
+from classes.serializer import ListAllClassesSerializer, ListAllCourseSerializer
 from rest_framework import serializers
+
+from classes.models import Classes
 
 
 class StudentRegisterationSerializer(serializers.ModelSerializer):
@@ -40,12 +42,6 @@ class StudentLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ["email", "password"]
-
-
-class StudentProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Student
-        fields = ["id", "email", "name"]
 
 
 class StudentChangePasswordSerializer(serializers.Serializer):
@@ -91,13 +87,33 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = ["email", "name"]
 
 
+# Class -> Student
+
+
 class ListOneStudentSerializer(serializers.ModelSerializer):
     user = StudentSerializer(read_only=True)
     cleared_course = ListAllCourseSerializer(read_only=True, many=True)
+    enrolled_classes = serializers.SerializerMethodField()
 
     class Meta:
         model = StudentMore
-        fields = ["user", "roll_no", "grade", "cleared_course"]
+        fields = [
+            "user",
+            "roll_no",
+            "grade",
+            "cleared_course",
+            "enrolled_classes",
+        ]
+
+    def get_enrolled_classes(self, obj):
+        classes_query = Classes.objects.all().filter(student=obj.user)
+        serializer = ListAllClassesSerializer(
+            classes_query,
+            many=True,
+            context={"request": self.context.get("request")},
+        )
+
+        return serializer.data
 
 
 class ListAllStudentSerializer(serializers.ModelSerializer):
