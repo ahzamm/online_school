@@ -122,8 +122,11 @@ class ListOneStudentView(ListAPIView):
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
-        response.data = flatten_dict(response.data[0])
-        return response
+        try:
+            response.data = flatten_dict(response.data[0])
+            return response
+        except Exception:
+            return response
 
 
 @swagger_auto_schema(responses=List_all_student_response)
