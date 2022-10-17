@@ -77,10 +77,7 @@ class ClassSerializer(serializers.ModelSerializer):
 
         course_id = Course.objects.get(course_code=course_code).id
 
-        if Classes.objects.filter(
-            course_id=course_id,
-            section=section,
-        ).exists():
+        if Classes.objects.filter(course_id=course_id, section=section).exists():
 
             raise serializers.ValidationError(CLASS_ALREADY_REGISTERED)
 

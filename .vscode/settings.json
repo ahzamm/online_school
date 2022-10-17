@@ -13,7 +13,7 @@
     "exclude __init__.py",
     "--ignore=E402,F841,F403,F405"
   ],
-  "editor.rulers": [79],
+  "editor.rulers": [95],
   "workbench.colorCustomizations": {
     "editorRuler.foreground": "#3a4dbd"
     // "titleBar.activeBackground": "#0a426c"

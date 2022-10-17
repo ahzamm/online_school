@@ -9,69 +9,117 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='User',
+            name="User",
             fields=[
-                ('password', models.CharField(max_length=128, verbose_name='password')),
-                ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('type', models.CharField(choices=[('STUDENT', 'Student'), ('TEACHER', 'Teacher'), ('ADMIN', 'Admin'), ('SUPER', 'Super')], max_length=50, verbose_name='Type')),
-                ('email', models.EmailField(max_length=255, unique=True, verbose_name='Email')),
-                ('name', models.CharField(max_length=200)),
-                ('is_active', models.BooleanField(default=True)),
-                ('is_admin', models.BooleanField(default=False)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                ("password", models.CharField(max_length=128, verbose_name="password")),
+                (
+                    "last_login",
+                    models.DateTimeField(blank=True, null=True, verbose_name="last login"),
+                ),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "type",
+                    models.CharField(
+                        choices=[
+                            ("STUDENT", "Student"),
+                            ("TEACHER", "Teacher"),
+                            ("ADMIN", "Admin"),
+                            ("SUPER", "Super"),
+                        ],
+                        max_length=50,
+                        verbose_name="Type",
+                    ),
+                ),
+                (
+                    "email",
+                    models.EmailField(max_length=255, unique=True, verbose_name="Email"),
+                ),
+                ("name", models.CharField(max_length=200)),
+                ("is_active", models.BooleanField(default=True)),
+                ("is_admin", models.BooleanField(default=False)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Admin',
-            fields=[
-            ],
+            name="Admin",
+            fields=[],
             options={
-                'proxy': True,
-                'indexes': [],
-                'constraints': [],
+                "proxy": True,
+                "indexes": [],
+                "constraints": [],
             },
-            bases=('accounts.user',),
+            bases=("accounts.user",),
         ),
         migrations.CreateModel(
-            name='Student',
-            fields=[
-            ],
+            name="Student",
+            fields=[],
             options={
-                'proxy': True,
-                'indexes': [],
-                'constraints': [],
+                "proxy": True,
+                "indexes": [],
+                "constraints": [],
             },
-            bases=('accounts.user',),
+            bases=("accounts.user",),
         ),
         migrations.CreateModel(
-            name='Teacher',
-            fields=[
-            ],
+            name="Teacher",
+            fields=[],
             options={
-                'proxy': True,
-                'indexes': [],
-                'constraints': [],
+                "proxy": True,
+                "indexes": [],
+                "constraints": [],
             },
-            bases=('accounts.user',),
+            bases=("accounts.user",),
         ),
         migrations.CreateModel(
-            name='StudentMore',
+            name="StudentMore",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('roll_no', models.CharField(max_length=20, unique=True)),
-                ('grade', models.CharField(choices=[('One', 'One'), ('Two', 'Two'), ('Three', 'Three'), ('Foure', 'Foure'), ('Five', 'Five')], max_length=50, verbose_name='Grade')),
-                ('slug', models.SlugField(blank=True, null=True)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='more_info', to='accounts.student')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("roll_no", models.CharField(max_length=20, unique=True)),
+                (
+                    "grade",
+                    models.CharField(
+                        choices=[
+                            ("One", "One"),
+                            ("Two", "Two"),
+                            ("Three", "Three"),
+                            ("Foure", "Foure"),
+                            ("Five", "Five"),
+                        ],
+                        max_length=50,
+                        verbose_name="Grade",
+                    ),
+                ),
+                ("slug", models.SlugField(blank=True, null=True)),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="more_info",
+                        to="accounts.student",
+                    ),
+                ),
             ],
         ),
     ]

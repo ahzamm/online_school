@@ -401,8 +401,7 @@ class_enrollment = {
     ),
     "1: 400": openapi.Response(
         description=(
-            "When Student didnot cleared the Pre Requsite Courses "
-            "Required for that class"
+            "When Student didnot cleared the Pre Requsite Courses Required for that class"
         ),
         examples={
             "application/json": {"data": NOT_ELIGIBLE_MESSAGE},

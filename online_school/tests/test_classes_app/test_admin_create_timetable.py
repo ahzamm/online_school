@@ -40,9 +40,9 @@ def test_invalid_course(client, create_test_class, create_test_admin):
     )
 
     response_content = json.loads(response.content)
-    response_content["errors"]["non_field_errors"][0] = response_content[
-        "errors"
-    ]["non_field_errors"][0].replace("-", "")
+    response_content["errors"]["non_field_errors"][0] = response_content["errors"][
+        "non_field_errors"
+    ][0].replace("-", "")
 
     # assert
     assert response_content == non_field_error(no_class_found(data["_class_"]))
