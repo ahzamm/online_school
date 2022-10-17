@@ -232,3 +232,30 @@ def create_test_class_with_kwargs(client, create_test_teacher, **kwargs):
         )
 
     return _create_test_class
+
+
+@pytest.fixture()
+def create_test_student_with_kwargs(client, create_test_admin, **kwargs):
+    def _create_test_student(client, **kwargs):
+        token = create_test_admin
+
+        email = kwargs.pop("email")
+        name = kwargs.pop("name")
+        roll_no = kwargs.pop("roll_no")
+        password = kwargs.pop("password")
+        password2 = kwargs.pop("password2")
+        data = {
+            "email": email,
+            "name": name,
+            "roll_no": roll_no,
+            "password": password,
+            "password2": password2,
+        }
+
+        return client.post(
+            reverse("student:Student_Register"),
+            data,
+            **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
+        )
+
+    return _create_test_student
