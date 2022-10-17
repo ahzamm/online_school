@@ -125,7 +125,7 @@ class ListOneStudentView(ListAPIView):
         try:
             response.data = flatten_dict(response.data[0])
             return response
-        except:
+        except Exception:
             return response
 
 
