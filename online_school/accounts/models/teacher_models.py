@@ -6,13 +6,7 @@ from django.utils.text import slugify
 
 class TeacherManager(BaseUserManager):
     def get_queryset(self, *args, **kwargs):
-        return (
-            super()
-            .get_queryset(*args, **kwargs)
-            .filter(
-                type=User.Type.TEACHER,
-            )
-        )
+        return super().get_queryset(*args, **kwargs).filter(type=User.Type.TEACHER)
 
     def create_user(self, email=None, name=None, password=None, **kwargs):
 
@@ -39,9 +33,9 @@ class TeacherMore(models.Model):
         on_delete=models.CASCADE,
     )
     tea_id = models.CharField(max_length=20, unique=True)
-    salary = models.IntegerField()
-    contact_number = models.IntegerField()
-    degree = models.CharField(max_length=20)
+    salary = models.IntegerField(null=True)
+    contact_number = models.IntegerField(null=True)
+    degree = models.CharField(max_length=20, null=True)
     slug = models.SlugField(max_length=50, null=True, blank=True)
 
     def save(self, *args, **kwargs):

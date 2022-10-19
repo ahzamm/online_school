@@ -8,7 +8,7 @@ from django.urls import reverse
 from accounts.messages import PASSWORD_CONFIRM_PASSWORD_NOT_MATCH
 from accounts.models import Teacher
 
-from .extra import FIELD_REQUIRED_MESSAGE, non_field_error
+from .extra import non_field_error
 
 url = reverse("student:Teacher_Register")
 pytestmark = pytest.mark.django_db
@@ -17,6 +17,7 @@ pytestmark = pytest.mark.django_db
 _DATA = {
     "name": "Admin",
     "email": "teacher@test.com",
+    "tea_id": "Teacher_No_10",
     "password": "1234",
     "password2": "1234",
 }
@@ -34,7 +35,23 @@ def test_get_zero_content(client, create_test_admin):
 
     # assert
     assert response.status_code == 400
-    assert json.loads(response.content) == FIELD_REQUIRED_MESSAGE
+    assert json.loads(response.content) == {
+        "errors": {
+            "email": [
+                "This field is required.",
+            ],
+            "name": [
+                "This field is required.",
+            ],
+            "password": [
+                "This field is required.",
+            ],
+            "password2": [
+                "This field is required.",
+            ],
+            "tea_id": ["This field is required."],
+        },
+    }
 
 
 def test_wrong_confirm_password(client, create_test_admin):

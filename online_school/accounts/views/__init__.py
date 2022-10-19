@@ -20,6 +20,6 @@ from accounts.views.teacher_views import (
     ListOneTeacherView,
     TeacherChangePasswordView,
     TeacherLoginView,
-    TeacherProfileView,
+    ListOneTeacherView,
     TeacherRegisterationView,
 )
