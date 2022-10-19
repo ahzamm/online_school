@@ -1,10 +1,9 @@
-from rest_framework import serializers
-
-from accounts.messages import (
-    PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
-    WRONG_OLD_PASSWORD,
-)
+from accounts.messages import PASSWORD_CONFIRM_PASSWORD_NOT_MATCH, WRONG_OLD_PASSWORD
 from accounts.models import Teacher
+from accounts.models.teacher_models import TeacherMore
+from classes.models import Classes
+from classes.serializer import ListAllClassesSerializer
+from rest_framework import serializers
 
 
 class TeacherRegisterationSerializer(serializers.ModelSerializer):
@@ -82,3 +81,31 @@ class TeacherChangePasswordSerializer(serializers.Serializer):
         user.save()
 
         return data
+
+
+class TeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = ["email", "name"]
+
+
+class ListOneTeacherSerializer(serializers.ModelSerializer):
+    user = TeacherSerializer(read_only=True)
+    currently_teaching = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TeacherMore
+        fields = [
+            "user",
+            "currently_teaching",
+        ]
+
+    def get_currently_teaching(self, obj):
+        classes_query = Classes.objects.all().filter(teacher=obj.user)
+        serializer = ListAllClassesSerializer(
+            classes_query,
+            many=True,
+            context={"request": self.context.get("request")},
+        )
+
+        return serializer.data

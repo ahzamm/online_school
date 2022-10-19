@@ -6,6 +6,7 @@ from accounts.views import (
     AdminLoginView,
     AdminProfileView,
     AdminRegisterationView,
+    ListAllStudentView,
     SendPasswordResetEmailView,
     StudentChangePasswordView,
     StudentLoginView,
@@ -15,9 +16,9 @@ from accounts.views import (
     TeacherProfileView,
     TeacherRegisterationView,
     UserPasswordResetView,
-    ListAllStudentView,
+    ListOneStudentView,
+    ListOneTeacherView,
 )
-from accounts.views.student_views import ListOneStudentView
 
 urlpatterns = [
     path(
@@ -89,6 +90,11 @@ urlpatterns = [
         "reset/<uid>/<token>/",
         UserPasswordResetView.as_view(),
         name="reset-password",
+    ),
+    path(
+        "teachers/<slug>/",
+        ListOneTeacherView.as_view(),
+        name="TeacherDetail",
     ),
     path(
         "students/<slug>/",
