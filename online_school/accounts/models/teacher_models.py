@@ -1,6 +1,7 @@
 from django.contrib.auth.models import BaseUserManager
-
+from django.db import models
 from .user_models import User
+from django.utils.text import slugify
 
 
 class TeacherManager(BaseUserManager):
@@ -30,6 +31,27 @@ class TeacherManager(BaseUserManager):
         return user
 
 
+class TeacherMore(models.Model):
+
+    user = models.OneToOneField(
+        "Teacher",
+        related_name="teacher_more_info",
+        on_delete=models.CASCADE,
+    )
+    tea_id = models.CharField(max_length=20, unique=True)
+    salary = models.IntegerField()
+    contact_number = models.IntegerField()
+    degree = models.CharField(max_length=20)
+    slug = models.SlugField(max_length=50, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.tea_id)
+        super(TeacherMore, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return f"/{self.slug}"
+
+
 class Teacher(User):
     """Model for our Teachers."""
 
@@ -44,3 +66,7 @@ class Teacher(User):
             self.type = User.Type.TEACHER
 
         return super().save(*args, **kwargs)
+
+    @property
+    def more(self):
+        return self.teachermore
