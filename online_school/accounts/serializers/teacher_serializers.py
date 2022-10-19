@@ -1,21 +1,18 @@
-from rest_framework import serializers
-
-from accounts.messages import (
-    PASSWORD_CONFIRM_PASSWORD_NOT_MATCH,
-    WRONG_OLD_PASSWORD,
-)
+from accounts.messages import PASSWORD_CONFIRM_PASSWORD_NOT_MATCH, WRONG_OLD_PASSWORD
 from accounts.models import Teacher
+from accounts.models.teacher_models import TeacherMore
+from classes.models import Classes
+from classes.serializer import ListAllClassesSerializer
+from rest_framework import serializers
 
 
 class TeacherRegisterationSerializer(serializers.ModelSerializer):
-    password2 = serializers.CharField(
-        style={"input_type": "password"},
-        write_only=True,
-    )
+    password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)
+    tea_id = serializers.CharField(max_length=20)
 
     class Meta:
         model = Teacher
-        fields = ["email", "name", "password", "password2"]
+        fields = ["email", "name", "tea_id", "password", "password2"]
         extra_kwargs = {"password": {"write_only": True}}
 
     def validate(self, data):
@@ -43,8 +40,8 @@ class TeacherLoginSerializer(serializers.ModelSerializer):
 
 class TeacherProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Teacher
-        fields = ["id", "email", "name"]
+        model = TeacherMore
+        fields = ["tea_id", "email", "name"]
 
 
 class TeacherChangePasswordSerializer(serializers.Serializer):
@@ -82,3 +79,32 @@ class TeacherChangePasswordSerializer(serializers.Serializer):
         user.save()
 
         return data
+
+
+class TeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = ["email", "name"]
+
+
+class ListOneTeacherSerializer(serializers.ModelSerializer):
+    user = TeacherSerializer(read_only=True)
+    currently_teaching = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TeacherMore
+        fields = [
+            "user",
+            "tea_id",
+            "currently_teaching",
+        ]
+
+    def get_currently_teaching(self, obj):
+        classes_query = Classes.objects.all().filter(teacher=obj.user)
+        serializer = ListAllClassesSerializer(
+            classes_query,
+            many=True,
+            context={"request": self.context.get("request")},
+        )
+
+        return serializer.data

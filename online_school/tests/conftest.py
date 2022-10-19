@@ -29,6 +29,7 @@ def create_test_teacher(client, create_test_admin):
     data = {
         "email": "teacher@test.com",
         "name": "Teacher",
+        "tea_id": "Teacher_No_10",
         "password": "1234",
         "password2": "1234",
     }
@@ -259,3 +260,30 @@ def create_test_student_with_kwargs(client, create_test_admin, **kwargs):
         )
 
     return _create_test_student
+
+
+@pytest.fixture()
+def create_test_teacher_with_kwargs(client, create_test_admin, **kwargs):
+    def _create_test_teacher(client, **kwargs):
+        token = create_test_admin
+
+        email = kwargs.pop("email")
+        name = kwargs.pop("name")
+        tea_id = kwargs.pop("tea_id")
+        password = kwargs.pop("password")
+        password2 = kwargs.pop("password2")
+        data = {
+            "email": email,
+            "name": name,
+            "tea_id": tea_id,
+            "password": password,
+            "password2": password2,
+        }
+
+        return client.post(
+            reverse("student:Teacher_Register"),
+            data,
+            **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
+        )
+
+    return _create_test_teacher

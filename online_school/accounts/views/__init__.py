@@ -10,14 +10,16 @@ from accounts.views.common_views import (
     UserPasswordResetView,
 )
 from accounts.views.student_views import (
+    ListAllStudentView,
+    ListOneStudentView,
     StudentChangePasswordView,
     StudentLoginView,
     StudentRegisterationView,
-    ListAllStudentView,
 )
 from accounts.views.teacher_views import (
+    ListOneTeacherView,
     TeacherChangePasswordView,
     TeacherLoginView,
-    TeacherProfileView,
+    ListOneTeacherView,
     TeacherRegisterationView,
 )
