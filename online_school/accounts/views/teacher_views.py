@@ -12,11 +12,12 @@ from accounts.messages import (
 )
 from accounts.models import TeacherMore
 from accounts.serializers import (
+    ListAllTeacherSerializer,
+    ListOneTeacherSerializer,
     TeacherChangePasswordSerializer,
     TeacherLoginSerializer,
     TeacherRegisterationSerializer,
 )
-from accounts.serializers.teacher_serializers import ListOneTeacherSerializer
 from django.contrib.auth import authenticate
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import GenericAPIView, ListAPIView
@@ -27,6 +28,7 @@ from swagger_responses.accounts_responses.teacher_responses import (
     teacher_login_response,
     teacher_register_response,
 )
+from utils.custom_paginations import ListAllTeacherPagination
 from utils.flatten_dict import flatten_dict
 
 
@@ -114,7 +116,7 @@ class TeacherChangePasswordView(GenericAPIView):
 
 # @swagger_auto_schema(responses=List_one_student_response)
 class ListOneTeacherView(ListAPIView):
-    """## For See details of a **`Student`**"""
+    """## To See details of a **`Teacher`**"""
 
     serializer_class = ListOneTeacherSerializer
     lookup_url_kwarg = "slug"
@@ -130,3 +132,11 @@ class ListOneTeacherView(ListAPIView):
             return response
         except Exception:
             return response
+
+
+class ListAllTeacherView(ListAPIView):
+    """### To see all **`Teachers`**"""
+
+    queryset = TeacherMore.objects.all()
+    serializer_class = ListAllTeacherSerializer
+    pagination_class = ListAllTeacherPagination

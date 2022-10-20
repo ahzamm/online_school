@@ -7,3 +7,7 @@ class ListAllCoursesPagination(PageNumberPagination):
 
 class ListAllStudentPagination(PageNumberPagination):
     page_size = 10
+
+
+class ListAllTeacherPagination(PageNumberPagination):
+    page_size = 10

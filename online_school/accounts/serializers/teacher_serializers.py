@@ -108,3 +108,14 @@ class ListOneTeacherSerializer(serializers.ModelSerializer):
         )
 
         return serializer.data
+
+
+class ListAllTeacherSerializer(serializers.ModelSerializer):
+    teacher_detail = serializers.HyperlinkedIdentityField(
+        view_name="student:TeacherDetail",
+        lookup_field="slug",
+    )
+
+    class Meta:
+        model = TeacherMore
+        fields = ["tea_id", "teacher_detail"]
