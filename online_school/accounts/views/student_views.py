@@ -19,7 +19,9 @@ from accounts.serializers import (
     StudentRegisterationSerializer,
 )
 from django.contrib.auth import authenticate
+from django.db import IntegrityError
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework import serializers
 from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -47,10 +49,15 @@ class StudentRegisterationView(GenericAPIView):
         user = serializer.save()
         token = get_tokens_for_user(user)
 
-        StudentMore.objects.create(
-            user=user,
-            roll_no=request.data.get("roll_no"),
-        )
+        try:
+            StudentMore.objects.create(user=user, roll_no=request.data.get("roll_no"))
+
+        except IntegrityError:
+            # If the Roll Number validation failed, then saved student must be deleted
+            user.delete()
+            raise serializers.ValidationError(
+                "Student With this Roll Number already Exists",
+            )
 
         return Response(
             {"msg": STUDENT_REGISTERATION_SUCCESS_MESSAGE, "token": token},

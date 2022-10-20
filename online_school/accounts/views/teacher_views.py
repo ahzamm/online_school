@@ -19,7 +19,9 @@ from accounts.serializers import (
     TeacherRegisterationSerializer,
 )
 from django.contrib.auth import authenticate
+from django.db import IntegrityError
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework import serializers
 from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -46,15 +48,12 @@ class TeacherRegisterationView(GenericAPIView):
         token = get_tokens_for_user(user)
 
         try:
-            TeacherMore.objects.create(
-                user=user,
-                tea_id=request.data.get("tea_id"),
-            )
-        except Exception:
-            from rest_framework import serializers
-
+            TeacherMore.objects.create(user=user, tea_id=request.data.get("tea_id"))
+        except IntegrityError:
+            # If the Roll Number validation failed, then saved student must be deleted
+            user.delete()
             raise serializers.ValidationError(
-                "User with This Teacher ID Already Present"
+                "Teacher With this Teacher ID Number already Exists",
             )
 
         return Response(
