@@ -10,13 +10,15 @@ from .common_serializers import (
     UserPasswordResetSerializer,
 )
 from .students_serializers import (
+    ListAllStudentSerializer,
+    ListOneStudentSerializer,
     StudentChangePasswordSerializer,
     StudentLoginSerializer,
     StudentRegisterationSerializer,
-    ListAllStudentSerializer,
-    ListOneStudentSerializer,
 )
 from .teacher_serializers import (
+    ListAllTeacherSerializer,
+    ListOneTeacherSerializer,
     TeacherChangePasswordSerializer,
     TeacherLoginSerializer,
     TeacherProfileSerializer,

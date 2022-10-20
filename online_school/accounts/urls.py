@@ -17,6 +17,7 @@ from accounts.views import (
     TeacherLoginView,
     TeacherRegisterationView,
     UserPasswordResetView,
+    ListAllTeacherView,
 )
 
 urlpatterns = [
@@ -89,6 +90,11 @@ urlpatterns = [
         "teachers/<slug>/",
         ListOneTeacherView.as_view(),
         name="TeacherDetail",
+    ),
+    path(
+        "teachers/",
+        ListAllTeacherView.as_view(),
+        name="ListAllTeacher",
     ),
     path(
         "students/<slug>/",
