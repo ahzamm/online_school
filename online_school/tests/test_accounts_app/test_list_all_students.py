@@ -32,7 +32,6 @@ def test_list_all_student(client, create_test_student_with_kwargs):
         password="password1234",
         password2="password1234",
     )
-
     create_test_student_with_kwargs(
         client=client,
         email="test2@example.com",

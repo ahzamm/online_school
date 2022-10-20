@@ -149,7 +149,7 @@ course_detail = [
                 "course_detail": "http://localhost:8000/api/classes/courses/test-course-54/",
             },
         ],
-    }
+    },
 ]
 
 
