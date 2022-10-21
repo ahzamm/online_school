@@ -8,11 +8,12 @@ url = reverse("student:TeacherDetail", kwargs={"slug": "teacher_no_10"})
 pytestmark = pytest.mark.django_db
 
 
-def test_list_no_teacher_detail(client):
+def test_list_no_teacher_detail(client, create_test_admin):
     """
     Check the response when no teacher is present in out database / wrong slug
     """
-    response = client.get(url)  # act
+    token = create_test_admin
+    response = client.get(url, **{"HTTP_AUTHORIZATION": f"Bearer {token}"})  # act
 
     assert response.status_code == 404
     assert json.loads(response.content) == {"errors": {"detail": "Not found."}}

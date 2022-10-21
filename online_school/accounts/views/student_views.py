@@ -1,4 +1,11 @@
-from accounts.custom_permissions import IsAdmin
+from accounts.custom_permissions import (
+    IsAdmin,
+    IsAdminStudent,
+    IsAdminTeacher,
+    IsAdminTeacherStudent,
+    IsStudent,
+    IsTeacher,
+)
 from accounts.generate_tokens import get_tokens_for_user
 from accounts.messages import (
     EMAIL_PASSWORD_NOT_VALID_MESSAGE,
@@ -100,7 +107,7 @@ class StudentLoginView(GenericAPIView):
 class StudentChangePasswordView(GenericAPIView):
     """## For Student to change his/her account's **`password`**"""
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsStudent]
     serializer_class = StudentChangePasswordSerializer
 
     @swagger_auto_schema(responses=student_change_ts_password_response)
@@ -123,6 +130,7 @@ class ListOneStudentView(ListAPIView):
 
     serializer_class = ListOneStudentSerializer
     lookup_url_kwarg = "slug"
+    permission_classes = [IsAuthenticated, IsAdminStudent]
 
     def get_queryset(self):
         slug = self.kwargs.get(self.lookup_url_kwarg)
@@ -148,3 +156,4 @@ class ListAllStudentView(ListAPIView):
     queryset = StudentMore.objects.all()
     serializer_class = ListAllStudentSerializer
     pagination_class = ListAllStudentPagination
+    permission_classes = [IsAuthenticated, IsAdminTeacher]

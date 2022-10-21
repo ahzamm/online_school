@@ -1,4 +1,4 @@
-from accounts.custom_permissions import IsAdmin
+from accounts.custom_permissions import IsAdmin, IsAdminTeacher
 from accounts.generate_tokens import get_tokens_for_user
 from accounts.messages import (
     ADMIN_REGISTERATION_SUCCESS_MESSAGE,
@@ -117,7 +117,7 @@ class AdminChangeTeacherStudentPasswordView(GenericAPIView):
 class AdminChangePasswordView(GenericAPIView):
     """## For Admin to change his/her account's **`password`**"""
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAdmin]
     serializer_class = AdminChangePasswordSerializer
 
     @swagger_auto_schema(responses=admin_change_password_response)
@@ -138,6 +138,7 @@ class AdminChangePasswordView(GenericAPIView):
 
 class AdminDeleteStudent(GenericAPIView):
     lookup_url_kwarg = "slug"
+    permission_classes = [IsAuthenticated, IsAdmin]
 
     def delete(self, request, slug):
         slug = self.kwargs.get(self.lookup_url_kwarg)
@@ -151,6 +152,7 @@ class AdminDeleteStudent(GenericAPIView):
 
 class AdminDeleteTeacher(GenericAPIView):
     lookup_url_kwarg = "slug"
+    permission_classes = [IsAuthenticated, IsAdmin]
 
     def delete(self, request, slug):
         slug = self.kwargs.get(self.lookup_url_kwarg)
@@ -164,6 +166,7 @@ class AdminDeleteTeacher(GenericAPIView):
 
 class AdminDeleteCourse(GenericAPIView):
     lookup_url_kwarg = "slug"
+    permission_classes = [IsAuthenticated, IsAdmin]
 
     def delete(self, request, slug):
         slug = self.kwargs.get(self.lookup_url_kwarg)
@@ -175,6 +178,7 @@ class AdminDeleteCourse(GenericAPIView):
 
 class AdminDeleteClass(GenericAPIView):
     lookup_url_kwarg = "slug"
+    permission_classes = [IsAuthenticated, IsAdminTeacher]
 
     def delete(self, request, slug):
         slug = self.kwargs.get(self.lookup_url_kwarg)
