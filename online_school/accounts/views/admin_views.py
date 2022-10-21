@@ -18,6 +18,7 @@ from accounts.serializers import (
     AdminProfileSerializer,
     AdminRegisterationSerializer,
 )
+from classes.models import Classes
 from django.contrib.auth import authenticate
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import GenericAPIView
@@ -159,3 +160,14 @@ class AdminDeleteTeacher(GenericAPIView):
             teacher_more.delete()
             return Response({"msg": "Teacher deleted successfully"}, status=200)
         return Response({"msg": "Teacher not Found"}, status=404)
+
+
+class AdminDeleteClass(GenericAPIView):
+    lookup_url_kwarg = "slug"
+
+    def delete(self, request, slug):
+        slug = self.kwargs.get(self.lookup_url_kwarg)
+        if course := Classes.objects.filter(slug=slug):
+            course.delete()
+            return Response({"msg": "Class deleted successfully"}, status=200)
+        return Response({"msg": "Class not Found"}, status=404)
