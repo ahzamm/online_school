@@ -1,3 +1,4 @@
+from accounts.views import AdminDeleteCourse
 from django.urls import path
 
 from .views import (
@@ -5,10 +6,10 @@ from .views import (
     AdminCreateTimeTableView,
     ListAllClassesView,
     ListAllCoursesView,
+    ListOneClassView,
     ListOneCourseView,
     StudentEnrollClassView,
     TeacherCreateClassView,
-    ListOneClassView,
 )
 
 urlpatterns = [
@@ -36,6 +37,11 @@ urlpatterns = [
         "courses/<slug>/",
         ListOneCourseView.as_view(),
         name="CourseDetail",
+    ),
+    path(
+        "courses/<slug>/delete/",
+        AdminDeleteCourse.as_view(),
+        name="CourseDelete",
     ),
     path(
         "classes/",
