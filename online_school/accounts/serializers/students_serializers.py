@@ -87,9 +87,6 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = ["email", "name"]
 
 
-# Class -> Student
-
-
 class ListOneStudentSerializer(serializers.ModelSerializer):
     user = StudentSerializer(read_only=True)
     cleared_course = ListAllCourseSerializer(read_only=True, many=True)

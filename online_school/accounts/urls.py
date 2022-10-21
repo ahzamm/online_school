@@ -18,6 +18,8 @@ from accounts.views import (
     TeacherRegisterationView,
     UserPasswordResetView,
     ListAllTeacherView,
+    AdminDeleteStudent,
+    AdminDeleteTeacher,
 )
 
 urlpatterns = [
@@ -100,6 +102,16 @@ urlpatterns = [
         "students/<slug>/",
         ListOneStudentView.as_view(),
         name="StudentDetail",
+    ),
+    path(
+        "students/<slug>/delete/",
+        AdminDeleteStudent.as_view(),
+        name="StudentDelete",
+    ),
+    path(
+        "teachers/<slug>/delete/",
+        AdminDeleteTeacher.as_view(),
+        name="TeacherDelete",
     ),
     path(
         "students/",

@@ -10,6 +10,7 @@ from accounts.messages import (
     PASSWORD_CHANGE_SUCCESS_STATUS,
     REGISTERATION_SUCCESS_STATUS,
 )
+from accounts.models import Student, StudentMore, Teacher, TeacherMore
 from accounts.serializers import (
     AdminChangePasswordSerializer,
     AdminChangeTeacherStudentPasswordSerializer,
@@ -134,5 +135,27 @@ class AdminChangePasswordView(GenericAPIView):
         )
 
 
-# Add feature of User not found for that email in
-# AdminChangeTeacherStudentPasswordView
+class AdminDeleteStudent(GenericAPIView):
+    lookup_url_kwarg = "slug"
+
+    def delete(self, request, slug):
+        slug = self.kwargs.get(self.lookup_url_kwarg)
+        if student_more := StudentMore.objects.filter(slug=slug):
+            student: Student = student_more[0].user
+            student.delete()
+            student_more.delete()
+            return Response({"msg": "Student deleted successfully"}, status=200)
+        return Response({"msg": "Student not Found"}, status=404)
+
+
+class AdminDeleteTeacher(GenericAPIView):
+    lookup_url_kwarg = "slug"
+
+    def delete(self, request, slug):
+        slug = self.kwargs.get(self.lookup_url_kwarg)
+        if teacher_more := TeacherMore.objects.filter(slug=slug):
+            teacher: Teacher = teacher_more[0].user
+            teacher.delete()
+            teacher_more.delete()
+            return Response({"msg": "Teacher deleted successfully"}, status=200)
+        return Response({"msg": "Teacher not Found"}, status=404)
