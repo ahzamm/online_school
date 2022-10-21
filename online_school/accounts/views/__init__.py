@@ -1,6 +1,7 @@
 from accounts.views.admin_views import (
     AdminChangePasswordView,
     AdminChangeTeacherStudentPasswordView,
+    AdminDeleteClass,
     AdminDeleteCourse,
     AdminDeleteStudent,
     AdminDeleteTeacher,
