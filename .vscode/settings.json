@@ -42,5 +42,6 @@
     }
   ],
   "python.analysis.typeCheckingMode": "off",
-  "pythonEasyPrint.prints.printToNewLine": false
+  "pythonEasyPrint.prints.printToNewLine": false,
+  "search.quickOpen.includeHistory": false
 }

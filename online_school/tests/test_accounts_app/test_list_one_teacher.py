@@ -14,8 +14,8 @@ def test_list_no_teacher_detail(client):
     """
     response = client.get(url)  # act
 
-    assert response.status_code == 200
-    assert json.loads(response.content) == []
+    assert response.status_code == 404
+    assert json.loads(response.content) == {"errors": {"detail": "Not found."}}
 
 
 @pytest.mark.xfail()

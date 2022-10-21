@@ -4,6 +4,7 @@ from accounts.models.student_models import StudentMore
 from accounts.serializers import ListAllStudentSerializer
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import serializers
+from rest_framework.exceptions import NotFound
 from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -121,7 +122,11 @@ class ListOneCourseView(ListAPIView):
 
     def get_queryset(self):
         slug = self.kwargs.get(self.lookup_url_kwarg)
-        return Course.objects.filter(slug=slug)
+        queryset = Course.objects.filter(slug=slug)
+        if queryset:
+            return queryset
+        else:
+            raise NotFound()
 
 
 # Done
@@ -167,11 +172,6 @@ class ListOneClasseSerializer(serializers.ModelSerializer):
         return serializer.data
 
 
-# Class       ->  Student
-# |
-# roll_no
-# |
-# StudentMore ->  Student
 @swagger_auto_schema(responses=list_one_class_response)
 class ListOneClassView(ListAPIView):
     """### To see Class details"""
@@ -181,7 +181,11 @@ class ListOneClassView(ListAPIView):
 
     def get_queryset(self):
         slug = self.kwargs.get(self.lookup_url_kwarg)
-        return Classes.objects.filter(slug=slug)
+        queryset = Classes.objects.filter(slug=slug)
+        if queryset:
+            return queryset
+        else:
+            raise NotFound()
 
     def get_serializer_context(self):
         context = super(ListOneClassView, self).get_serializer_context()

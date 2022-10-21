@@ -14,8 +14,8 @@ def test_no_course_detail(client):
     """
     response = client.get(url)  # act
 
-    assert response.status_code == 200
-    assert json.loads(response.content) == []
+    assert response.status_code == 404
+    assert json.loads(response.content) == {"errors": {"detail": "Not found."}}
 
 
 def test_lvl_1_course_detail(client, create_test_course_with_kwargs):
