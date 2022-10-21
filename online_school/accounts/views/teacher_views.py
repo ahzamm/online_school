@@ -22,6 +22,7 @@ from django.contrib.auth import authenticate
 from django.db import IntegrityError
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import serializers
+from rest_framework.exceptions import NotFound
 from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -122,7 +123,11 @@ class ListOneTeacherView(ListAPIView):
 
     def get_queryset(self):
         slug = self.kwargs.get(self.lookup_url_kwarg)
-        return TeacherMore.objects.filter(slug=slug)
+        queryset = TeacherMore.objects.filter(slug=slug)
+        if queryset:
+            return queryset
+        else:
+            raise NotFound()
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
