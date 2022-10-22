@@ -13,6 +13,7 @@ def test_list_no_teacher_detail(client, create_test_admin):
     Check the response when no teacher is present in out database / wrong slug
     """
     token = create_test_admin
+
     response = client.get(url, **{"HTTP_AUTHORIZATION": f"Bearer {token}"})  # act
 
     assert response.status_code == 404

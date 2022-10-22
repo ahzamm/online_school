@@ -13,7 +13,6 @@ def test_no_class_detail(client, create_test_student):
     Check the response if no course is present in our database / wrong slug
     """
     token = create_test_student
-    print("➡ token :", token)
 
     response = client.get(url, **{"HTTP_AUTHORIZATION": f"Bearer {token}"})  # act
 

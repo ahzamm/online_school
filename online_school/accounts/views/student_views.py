@@ -2,9 +2,7 @@ from accounts.custom_permissions import (
     IsAdmin,
     IsAdminStudent,
     IsAdminTeacher,
-    IsAdminTeacherStudent,
     IsStudent,
-    IsTeacher,
 )
 from accounts.generate_tokens import get_tokens_for_user
 from accounts.messages import (
