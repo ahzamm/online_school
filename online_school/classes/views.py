@@ -1,4 +1,9 @@
-from accounts.custom_permissions import IsAdmin, IsStudent, IsTeacher
+from accounts.custom_permissions import (
+    IsAdmin,
+    IsAdminTeacherStudent,
+    IsStudent,
+    IsTeacher,
+)
 from accounts.models import Student
 from accounts.models.student_models import StudentMore
 from accounts.serializers import ListAllStudentSerializer
@@ -122,8 +127,7 @@ class ListOneCourseView(ListAPIView):
 
     def get_queryset(self):
         slug = self.kwargs.get(self.lookup_url_kwarg)
-        queryset = Course.objects.filter(slug=slug)
-        if queryset:
+        if queryset := Course.objects.filter(slug=slug):
             return queryset
         else:
             raise NotFound()
@@ -137,6 +141,7 @@ class ListAllClassesView(ListAPIView):
     queryset = Classes.objects.all()
     serializer_class = ListAllClassesSerializer
     pagination_class = ListAllCoursesPagination
+    permission_classes = [IsAuthenticated, IsAdminTeacherStudent]
 
 
 # This serializer is here because of the problem of circular imports
@@ -176,13 +181,13 @@ class ListOneClasseSerializer(serializers.ModelSerializer):
 class ListOneClassView(ListAPIView):
     """### To see Class details"""
 
+    permission_classes = [IsAuthenticated, IsAdminTeacherStudent]
     serializer_class = ListOneClasseSerializer
     lookup_url_kwarg = "slug"
 
     def get_queryset(self):
         slug = self.kwargs.get(self.lookup_url_kwarg)
-        queryset = Classes.objects.filter(slug=slug)
-        if queryset:
+        if queryset := Classes.objects.filter(slug=slug):
             return queryset
         else:
             raise NotFound()

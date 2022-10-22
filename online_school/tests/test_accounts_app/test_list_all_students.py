@@ -7,11 +7,13 @@ url = reverse("student:ListAllStudent")
 pytestmark = pytest.mark.django_db
 
 
-def test_list_no_student_detail(client):
+def test_list_no_student_detail(client, create_test_admin):
     """
     Check the response when no student is present in out database
     """
-    response = client.get(url)  # act
+    token = create_test_admin
+
+    response = client.get(url, **{"HTTP_AUTHORIZATION": f"Bearer {token}"})  # act
 
     assert response.status_code == 200
     assert json.loads(response.content) == {
