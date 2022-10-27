@@ -140,11 +140,22 @@ class ListOneStudentView(ListAPIView):
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
-        try:
-            response.data = flatten_dict(response.data[0])
-            return response
-        except Exception:
-            return response
+        access = False
+
+        if request.user.type == "STUDENT":
+            student_email = flatten_dict(response.data[0]).get("email")
+            if request.user.email == student_email:
+                access = True
+        elif request.user.type == "ADMIN":
+            access = True
+
+        if access:
+            try:
+                response.data = flatten_dict(response.data[0])
+                return response
+            except Exception:
+                return response
+        return Response({"msg": "You do not have permission"}, status=404)
 
 
 @swagger_auto_schema(responses=List_all_student_response)
