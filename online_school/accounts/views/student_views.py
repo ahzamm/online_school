@@ -155,7 +155,7 @@ class ListOneStudentView(ListAPIView):
                 return response
             except Exception:
                 return response
-        return Response({"msg": "You do not have permission"}, status=404)
+        return Response({"msg": "You do not have permission"}, status=400)
 
 
 @swagger_auto_schema(responses=List_all_student_response)
