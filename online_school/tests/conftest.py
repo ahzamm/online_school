@@ -29,7 +29,7 @@ def create_test_teacher(client, create_test_admin):
     data = {
         "email": "teacher@test.com",
         "name": "Teacher",
-        "tea_id": "Teacher_No_10",
+        "tea_id": "Teacher_No_1",
         "password": "1234",
         "password2": "1234",
     }
