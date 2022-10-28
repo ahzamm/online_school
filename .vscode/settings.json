@@ -44,5 +44,6 @@
   "python.analysis.typeCheckingMode": "off",
   "pythonEasyPrint.prints.printToNewLine": false,
   "search.quickOpen.includeHistory": false,
-  "flake8.args": ["--max-line-length=95"]
+  "flake8.args": ["--max-line-length=95"],
+  "workbench.editor.enablePreview": false
 }

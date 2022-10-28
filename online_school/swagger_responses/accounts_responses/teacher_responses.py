@@ -112,3 +112,52 @@ teacher_change_password_response = {
         },
     ),
 }
+
+
+teacher_detail = {
+    "email": "teacher10@test.com",
+    "name": "Teacher 10",
+    "tea_id": "teacher_no_10",
+    "currently_teaching": [
+        {
+            "course_name": "Test Course 17",
+            "section": "C",
+            "class_detail": "http://localhost:8000/api/classes/classes/test-course-17_c/",
+        },
+    ],
+}
+
+List_one_teacher_response = {
+    "200": openapi.Response(
+        description="List the detail of one teacher",
+        examples={
+            "application/json": teacher_detail,
+        },
+    ),
+}
+
+
+teacher_list = {
+    "count": 32,
+    "next": "http://localhost:8000/api/account/teachers/?page=2",
+    "previous": "null",
+    "results": [
+        {
+            "tea_id": "teacher_no_0",
+            "teacher_detail": "http://localhost:8000/api/account/teachers/teacher_no_0/",
+        },
+        {
+            "tea_id": "teacher_no_1",
+            "teacher_detail": "http://localhost:8000/api/account/teachers/teacher_no_1/",
+        },
+    ],
+}
+
+list_all_teacher_response = {
+    "200": openapi.Response(
+        description="List all the teacher",
+        examples={
+            "application/json": teacher_list,
+        },
+    ),
+}

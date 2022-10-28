@@ -35,6 +35,8 @@ from swagger_responses.accounts_responses.teacher_responses import (
     teacher_change_password_response,
     teacher_login_response,
     teacher_register_response,
+    List_one_teacher_response,
+    list_all_teacher_response,
 )
 from utils.custom_paginations import ListAllTeacherPagination
 from utils.flatten_dict import flatten_dict
@@ -119,7 +121,7 @@ class TeacherChangePasswordView(GenericAPIView):
         )
 
 
-# @swagger_auto_schema(responses=List_one_student_response)
+@swagger_auto_schema(responses=List_one_teacher_response)
 class ListOneTeacherView(ListAPIView):
     """## To See details of a **`Teacher`**"""
 
@@ -144,6 +146,7 @@ class ListOneTeacherView(ListAPIView):
             return response
 
 
+@swagger_auto_schema(responses=list_all_teacher_response)
 class ListAllTeacherView(ListAPIView):
     """### To see all **`Teachers`**"""
 
