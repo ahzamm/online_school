@@ -14,14 +14,20 @@ def test_list_no_teacher_detail(client, create_test_admin):
     """
     token = create_test_admin
 
-    response = client.get(url, **{"HTTP_AUTHORIZATION": f"Bearer {token}"})  # act
+    response = client.get(
+        url,
+        **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
+    )  # act
 
     assert response.status_code == 404
     assert json.loads(response.content) == {"errors": {"detail": "Not found."}}
 
 
-# @pytest.mark.xfail()
-def test_list_one_teacher(client, create_test_teacher_with_kwargs, create_test_admin):
+def test_list_one_teacher(
+    client,
+    create_test_teacher_with_kwargs,
+    create_test_admin,
+):
     token = create_test_admin
     create_test_teacher_with_kwargs(
         client=client,
@@ -32,7 +38,10 @@ def test_list_one_teacher(client, create_test_teacher_with_kwargs, create_test_a
         password2="password1234",
     )
 
-    response = client.get(url, **{"HTTP_AUTHORIZATION": f"Bearer {token}"})  # act
+    response = client.get(
+        url,
+        **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
+    )  # act
 
     assert response.status_code == 200
     assert json.loads(response.content) == {
@@ -59,7 +68,10 @@ def test_different_teacher(
         password2="password1234",
     )
 
-    response = client.get(url, **{"HTTP_AUTHORIZATION": f"Bearer {token}"})  # act
+    response = client.get(
+        url,
+        **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
+    )  # act
 
     # assert response.status_code == 400
     assert response.content == b'{"msg": "You do not have permission"}'
