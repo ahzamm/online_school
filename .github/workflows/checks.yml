@@ -13,6 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Test
-        run: docker-compose run --rm my_awsome_app pytest online_school/tests
+        run: docker-compose run --rm my_awsome_app pytest src/tests
       - name: Lint
         run: docker-compose run --rm my_awsome_app flake8 --per-file-ignores='__init__.py:F401' --max-line-length 95 .

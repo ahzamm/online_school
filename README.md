@@ -34,22 +34,26 @@ pip install -r requirements.txt
 - run following commands in the root directory of project.
 
 ```sh
-python3 online_school/manage.py makemigrations accounts
-python3 online_school/manage.py makemigrations classes
-python3 online_school/manage.py migrate
+python3 src/manage.py makemigrations accounts
+python3 src/manage.py makemigrations classes
+python3 src/manage.py migrate
 ```
 
 - uncomment [this line](https://github.com/AhzamAhmed6/online_school/blob/d8c6c25112b14ff88e39ad88256c50245a75c193/online_school/accounts/models/student_models.py#L51)
 
 ```sh
-python3 online_school/manage.py makemigrations accounts
-python3 online_school/manage.py migrate
+python3 src/manage.py makemigrations accounts
+python3 src/manage.py migrate
 ```
 
 - to runserver
 
 ```sh
-python3 online_school/manage.py runserver
+python3 src/manage.py runserver
 ```
 
 - for api documentation, visit url http://localhost:8000/swagger/
+
+## Models Overview
+
+![alt text](https://github.com/AhzamAhmed6/online_school/blob/actions/models.png?raw=true)
