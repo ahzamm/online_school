@@ -4,6 +4,10 @@
 
 [**code coverage**](https://ahzamahmed6.github.io/code_cov/)
 
+**You can simply download and run the official [docker image](https://hub.docker.com/repository/docker/ahzam6/online_school) of this project.**
+
+**OR if you wants to manually run the source code, then, follow the below guidelines.**
+
 ## Requirements
 
 - python >= 3.6
@@ -15,13 +19,13 @@ After cloning the project in to your local machine
 - create virtual environment using [virtualenv](https://pypi.org/project/virtualenv/) package
 
 ```sh
-virtualenv my_env
+virtualenv .venv
 ```
 
 - activate virtual environment
 
 ```sh
-source ./my_env/bin/activate
+source ./.venv/bin/activate
 ```
 
 - install dependencies
@@ -53,6 +57,8 @@ python3 src/manage.py runserver
 ```
 
 - for api documentation, visit url http://localhost:8000/swagger/
+
+
 
 ## Models Overview
 
