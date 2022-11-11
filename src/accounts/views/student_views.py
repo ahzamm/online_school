@@ -1,3 +1,5 @@
+import json
+
 from accounts.custom_permissions import (
     IsAdmin,
     IsAdminStudent,
@@ -23,6 +25,8 @@ from accounts.serializers import (
     StudentLoginSerializer,
     StudentRegisterationSerializer,
 )
+from classes.models import Classes, TimeTable
+from classes.serializer import PureTimeTableSerializer
 from django.contrib.auth import authenticate
 from django.db import IntegrityError
 from drf_yasg.utils import swagger_auto_schema
@@ -31,6 +35,7 @@ from rest_framework.exceptions import NotFound
 from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from swagger_responses.accounts_responses.student_responses import (
     List_all_student_response,
     List_one_student_response,
@@ -38,6 +43,7 @@ from swagger_responses.accounts_responses.student_responses import (
     student_login_response,
     student_register_response,
 )
+from utils import UUIDEncoder
 from utils.custom_paginations import ListAllStudentPagination
 from utils.flatten_dict import flatten_dict
 
@@ -56,7 +62,10 @@ class StudentRegisterationView(GenericAPIView):
         token = get_tokens_for_user(user)
 
         try:
-            StudentMore.objects.create(user=user, roll_no=request.data.get("roll_no"))
+            StudentMore.objects.create(
+                user=user,
+                roll_no=request.data.get("roll_no"),
+            )
 
         except IntegrityError:
             # If the Roll Number validation failed, then saved student must be deleted
@@ -166,3 +175,21 @@ class ListAllStudentView(ListAPIView):
     serializer_class = ListAllStudentSerializer
     pagination_class = ListAllStudentPagination
     permission_classes = [IsAuthenticated, IsAdminTeacher]
+
+
+class StudentTimeTableView(APIView):
+    permission_classes = [IsAuthenticated, IsStudent]
+
+    def get(self, request):
+        timetable = TimeTable.objects.filter(
+            _class__id__in=Classes.objects.filter(student=request.user),
+        )
+        serializer = PureTimeTableSerializer(
+            timetable,
+            many=True,
+            context={"request": request},
+        )
+
+        json_data = json.dumps(serializer.data, cls=UUIDEncoder)
+        json_without_slash = json.loads(json_data)
+        return Response({"data": json_without_slash}, status=200)

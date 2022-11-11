@@ -89,7 +89,7 @@ class Classes(models.Model):
         return f"/{self.slug}"
 
     def __str__(self):
-        return str(self.course)
+        return str(f"{self.course}....{self.section}")
 
 
 class Attendence(models.Model):

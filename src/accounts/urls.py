@@ -3,23 +3,24 @@ from django.urls import path
 from accounts.views import (
     AdminChangePasswordView,
     AdminChangeTeacherStudentPasswordView,
+    AdminDeleteStudent,
+    AdminDeleteTeacher,
     AdminLoginView,
     AdminProfileView,
     AdminRegisterationView,
     ListAllStudentView,
+    ListAllTeacherView,
     ListOneStudentView,
     ListOneTeacherView,
     SendPasswordResetEmailView,
     StudentChangePasswordView,
     StudentLoginView,
     StudentRegisterationView,
+    StudentTimeTableView,
     TeacherChangePasswordView,
     TeacherLoginView,
     TeacherRegisterationView,
     UserPasswordResetView,
-    ListAllTeacherView,
-    AdminDeleteStudent,
-    AdminDeleteTeacher,
 )
 
 urlpatterns = [
@@ -117,5 +118,10 @@ urlpatterns = [
         "students/",
         ListAllStudentView.as_view(),
         name="ListAllStudent",
+    ),
+    path(
+        "timetable/",
+        StudentTimeTableView.as_view(),
+        name="ListStudentTimeTable",
     ),
 ]

@@ -77,7 +77,10 @@ class ClassSerializer(serializers.ModelSerializer):
 
         course_id = Course.objects.get(course_code=course_code).id
 
-        if Classes.objects.filter(course_id=course_id, section=section).exists():
+        if Classes.objects.filter(
+            course_id=course_id,
+            section=section,
+        ).exists():
 
             raise serializers.ValidationError(CLASS_ALREADY_REGISTERED)
 
@@ -124,3 +127,11 @@ class ListAllClassesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Classes
         fields = ["course_name", "section", "class_detail"]
+
+
+class PureTimeTableSerializer(serializers.ModelSerializer):
+    _class = ListAllClassesSerializer(read_only=True)
+
+    class Meta:
+        model = TimeTable
+        exclude = ["id"]

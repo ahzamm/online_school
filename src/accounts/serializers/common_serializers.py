@@ -15,7 +15,7 @@ from accounts.messages import (
     password_reset_link,
 )
 from accounts.models import User
-from accounts.utils import Util
+from utils import Util
 
 
 class SendPasswordResetEmailSerializer(serializers.Serializer):
