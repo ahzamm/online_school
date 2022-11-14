@@ -1,5 +1,4 @@
 from accounts.custom_permissions import (
-    IsAdmin,
     IsAdminTeacherStudent,
     IsStudent,
     IsTeacher,
@@ -7,6 +6,7 @@ from accounts.custom_permissions import (
 from accounts.models import Student
 from accounts.models.student_models import StudentMore
 from accounts.serializers import ListAllStudentSerializer
+from classes.models import Classes
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import serializers
 from rest_framework.exceptions import NotFound
@@ -17,57 +17,25 @@ from rest_framework.views import APIView
 from swagger_responses.classes_responses.classes_responses import (
     class_enrollment,
     class_register_response,
-    course_register_response,
     list_all_class_response,
-    list_all_course_response,
     list_one_class_response,
-    list_one_course_response,
-    timetable_register_response,
 )
 from utils import ListAllCoursesPagination
 
-from classes.models import Classes, Course
-
-from .messages import (
+from ..messages import (
     ALREADY_ENROLLED_MESSAGE,
     CLASS_CREATE_SUCCESS_MESSAGE,
     CLASS_CREATE_SUCCESS_STATUS,
-    COURSE_REGISTER_SUCCESS_MESSAGE,
-    COURSE_REGISTER_SUCCESS_STATUS,
     ENROLLED_SUCCESS_MESSAGE,
     NOT_ELIGIBLE_MESSAGE,
-    TIMETABLE_REGISTER_SUCCESS_MESSAGE,
-    TIMETABLE_REGISTER_SUCCESS_STATUS,
 )
-from .serializer import (
+from ..serializer import (
     ClassSerializer,
-    CourseSerializer,
     ListAllClassesSerializer,
     ListAllCourseSerializer,
-    ListOneCourseSerializer,
-    TimeTableSerializer,
 )
 
 
-class AdminCreateCourseView(GenericAPIView):
-    """### For Admin to add new Course"""
-
-    permission_classes = [IsAuthenticated, IsAdmin]
-    serializer_class = CourseSerializer
-
-    @swagger_auto_schema(responses=course_register_response)
-    def post(self, request):
-        serializer = CourseSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(
-            {"msg": COURSE_REGISTER_SUCCESS_MESSAGE},
-            status=COURSE_REGISTER_SUCCESS_STATUS,
-        )
-
-
-# DONE
 class TeacherCreateClassView(GenericAPIView):
     """### For Teacher to add new Class"""
 
@@ -89,51 +57,6 @@ class TeacherCreateClassView(GenericAPIView):
         )
 
 
-# DONE
-class AdminCreateTimeTableView(GenericAPIView):
-    """### For Admin to create new Timetable"""
-
-    permission_classes = [IsAuthenticated, IsAdmin]
-    serializer_class = TimeTableSerializer
-
-    @swagger_auto_schema(responses=timetable_register_response)
-    def post(self, request):
-        serializer = TimeTableSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        return Response(
-            {"msg": TIMETABLE_REGISTER_SUCCESS_MESSAGE},
-            status=TIMETABLE_REGISTER_SUCCESS_STATUS,
-        )
-
-
-# DONE
-@swagger_auto_schema(responses=list_all_course_response)
-class ListAllCoursesView(ListAPIView):
-    """### To see all available courses Course"""
-
-    queryset = Course.objects.all()
-    serializer_class = ListAllCourseSerializer
-    pagination_class = ListAllCoursesPagination
-
-
-# Done
-@swagger_auto_schema(responses=list_one_course_response)
-class ListOneCourseView(ListAPIView):
-    """### To see course detail"""
-
-    serializer_class = ListOneCourseSerializer
-    lookup_url_kwarg = "slug"
-
-    def get_queryset(self):
-        slug = self.kwargs.get(self.lookup_url_kwarg)
-        if queryset := Course.objects.filter(slug=slug):
-            return queryset
-        else:
-            raise NotFound()
-
-
-# Done
 @swagger_auto_schema(responses=list_all_class_response)
 class ListAllClassesView(ListAPIView):
     """### To see all available classes"""
@@ -144,7 +67,6 @@ class ListAllClassesView(ListAPIView):
     permission_classes = [IsAuthenticated, IsAdminTeacherStudent]
 
 
-# This serializer is here because of the problem of circular imports
 class ListOneClasseSerializer(serializers.ModelSerializer):
 
     course = ListAllCourseSerializer(read_only=True)
@@ -198,7 +120,6 @@ class ListOneClassView(ListAPIView):
         return context
 
 
-# Done
 class StudentEnrollClassView(APIView):
     """### For Student to enroll in a class"""
 
